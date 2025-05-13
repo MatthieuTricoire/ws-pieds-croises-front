@@ -1,0 +1,29 @@
+
+name: Lint & Prettier Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-format:
+    name: Lint & Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📥 Installer les dépendances
+        run: npm ci
+
+      - name: 🧹 Linter avec ESLint
+        run: npm run lint
+
+      - name: 🎨 Vérifier le format avec Prettier
+        run: npm run format
