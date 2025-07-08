@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 
-
 @plugin "daisyui" {
   themes: corporate --default;
 }
 
+
 @plugin "daisyui/theme" {
   name: "fartown";
-  default: false;
+  default: true;
   prefersdark: true;
   color-scheme: "dark";
   --color-base-100: oklch(14% 0 0);
   --color-base-200: oklch(20% 0 0);
-  --color-base-300: oklch(26% 0 0);
+  --color-base-300: oklch(43% 0 0);
   --color-base-content: oklch(97% 0 0);
   --color-primary: oklch(70% 0.213 47.604);
   --color-primary-content: oklch(26% 0.079 36.259);

@@ -1,0 +1,20 @@
+@if (label()) {
+  <label class="label" [attr.for]="name()">
+    {{ label() }}
+  </label>
+}
+<input
+  (blur)="onTouched()"
+  (input)="onInputChange($event)"
+  [id]="name()"
+  [name]="name()"
+  [placeholder]="placeholder() ? placeholder() : ''"
+  [type]="type()"
+  [value]="value()"
+  class="input w-full"
+/>
+@if (errorMessage) {
+  <div>
+    {{ errorMessage }}
+  </div>
+}

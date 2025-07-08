@@ -1,0 +1,48 @@
+<script src="../design-system/input/input.component.ts"></script>
+<div class="card card-xl py-8 w-96 bg-base-200">
+  <div class="card-header">
+    <img alt="Logo Pieds Croisés" class="w-24 h-24 mx-auto" src="" />
+  </div>
+
+  <div class="card-body">
+    <fieldset class="fieldset">
+      <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <app-input
+          [formControl]="loginForm.controls.email"
+          [label]="'Email'"
+          [name]="'email'"
+          formControlName="email"
+        />
+
+        <!--        <label class="label" for="email">Email</label>-->
+        <!--        <input-->
+        <!--          [formControl]="loginForm.controls.email"-->
+        <!--          class="input w-full"-->
+        <!--          id="email"-->
+        <!--          name="email"-->
+        <!--          placeholder="Entrez votre email"-->
+        <!--          type="text"-->
+        <!--        />-->
+        <label class="label" for="password">Mot de passe</label>
+        <input
+          [formControl]="loginForm.controls.password"
+          class="input w-full"
+          id="password"
+          name="password"
+          placeholder="Entrez votre mot de passe"
+          type="password"
+        />
+      </form>
+    </fieldset>
+  </div>
+
+  <div class="card-actions text-center px-8">
+    <button [disabled]="loginForm.invalid" class="btn btn-primary w-full" type="submit">
+      Se connecter
+    </button>
+    <div class="text-xs flex flex-col justify-center items-center w-full gap-1 mt-4">
+      <a class="link w-full">Mot de passe oublié</a>
+      <a class="link w-full">Créer un compte</a>
+    </div>
+  </div>
+</div>
