@@ -1,4 +1,4 @@
-import { Component, forwardRef, input, Optional, Provider, Self, signal } from '@angular/core';
+import { Component, forwardRef, input, Optional, Provider, Self } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
+import { getFirstErrorMessage } from '../../../validators/validation-errors';
 
 export const CUSTOM_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -26,38 +27,24 @@ export class InputComponent implements ControlValueAccessor {
   type = input<'password' | 'text' | 'email'>('text');
   // error = input<string | null>(null);
   placeholder = input<string | null>(null);
-  value = signal<string>('');
-  isDisabled = signal<boolean>(false);
+  value = '';
+  isDisabled = false;
+  // control = signal<NgControl | undefined>(undefined);
+  // private injector = inject<Injector>(INJECTOR);
 
-  constructor(@Self() @Optional() public controlDir: NgControl) {}
-
-  get control() {
-    return this.controlDir;
+  constructor(@Self() @Optional() public controlDir: NgControl) {
+    if (this.controlDir) {
+      this.controlDir.valueAccessor = this;
+    }
   }
 
   get errorMessage(): string | null {
-    if (!(this.control.touched && this.control?.invalid)) {
-      return null;
-    }
-    const errors = this.control.errors;
-    if (!errors) {
+    const control = this.controlDir?.control;
+    if (!control || !control.touched || !control.invalid) {
       return null;
     }
 
-    const firstErrorKey = Object.keys(errors)[0];
-
-    switch (firstErrorKey) {
-      case 'required':
-        return `${this.label()} is required`;
-      case 'email':
-        return 'Please enter a valid email address';
-      case 'minlength':
-        return `Minimum length is ${errors['minlength'].requiredLength}`;
-      case 'maxlength':
-        return `Maximum length is ${errors['maxlength'].requiredLength}`;
-      default:
-        return 'Invalid input';
-    }
+    return getFirstErrorMessage(control);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -68,7 +55,7 @@ export class InputComponent implements ControlValueAccessor {
 
   onInputChange(event: Event) {
     const newValue = (event.target as HTMLInputElement).value;
-    this.value.set(newValue);
+    this.value = newValue;
     this.onChange(newValue);
     this.onTouched();
   }
@@ -82,11 +69,11 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   writeValue(value: string): void {
-    this.value.set(value);
+    this.value = value;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled.set(isDisabled);
+    this.isDisabled = isDisabled;
   }
 
   validate(): ValidationErrors | null {
