@@ -1,0 +1,21 @@
+@if (label()) {
+  <label class="label mb-1.5" [attr.for]="name()">
+    {{ label() }}
+  </label>
+}
+<input
+  (blur)="onTouched()"
+  (input)="onInputChange($event)"
+  [class.input-error]="errorMessage"
+  [id]="name()"
+  [name]="name()"
+  [placeholder]="placeholder() ? placeholder() : ''"
+  [type]="type()"
+  [value]="value"
+  class="input w-full"
+/>
+@if (errorMessage) {
+  <div class="validator-hint text-error">
+    {{ errorMessage }}
+  </div>
+}
