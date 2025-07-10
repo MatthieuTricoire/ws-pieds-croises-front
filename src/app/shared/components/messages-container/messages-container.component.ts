@@ -25,7 +25,6 @@ export class MessagesContainerComponent implements OnInit {
   ngOnInit(): void {
     this.#messageService.getActiveMessages().subscribe({
       next: (messages: Message[]) => {
-        console.log(messages);
         this.messages = messages;
       },
       error: (error) => {
