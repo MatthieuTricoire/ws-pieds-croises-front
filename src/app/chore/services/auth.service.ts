@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,15 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   private apiUrl = 'http://localhost:8080';
   #http = inject(HttpClient);
+  #router = inject(Router);
+
+  firstLogin(password: string, registrationToken: string): Observable<string> {
+    return this.#http.post(
+      `${this.apiUrl}/auth/register`,
+      { password, registrationToken },
+      { responseType: 'text' },
+    );
+  }
 
   login(email: string, password: string): Observable<string> {
     return this.#http
@@ -18,6 +28,11 @@ export class AuthService {
           this.saveToken(token);
         }),
       );
+  }
+
+  logout() {
+    this.clearToken();
+    this.#router.navigate(['/login']);
   }
 
   getToken(): string | null {

@@ -39,3 +39,32 @@ export function strictEmailValidator(control: AbstractControl): ValidationErrors
 
   return Object.keys(errors).length > 0 ? errors : null;
 }
+
+export function passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
+  const passwordControl = control.get('password');
+  const confirmPasswordControl = control.get('confirmPassword');
+
+  if (!passwordControl || !confirmPasswordControl) {
+    return null;
+  }
+
+  const password = passwordControl.value;
+  const confirmPassword = confirmPasswordControl.value;
+
+  if (password !== confirmPassword) {
+    confirmPasswordControl.setErrors({ passwordsMismatch: true });
+    return { passwordsMismatch: true };
+  } else {
+    if (confirmPasswordControl.errors && confirmPasswordControl.errors['passwordsMismatch']) {
+      const newErrors = { ...confirmPasswordControl.errors };
+      delete newErrors['passwordsMismatch'];
+
+      if (Object.keys(newErrors).length === 0) {
+        confirmPasswordControl.setErrors(null);
+      } else {
+        confirmPasswordControl.setErrors(newErrors);
+      }
+    }
+    return null;
+  }
+}

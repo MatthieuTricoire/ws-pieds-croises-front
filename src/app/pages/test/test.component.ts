@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../chore/services/auth.service';
 
 @Component({
   selector: 'app-test',
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './test.component.html',
   styleUrl: './test.component.css',
 })
-export class TestComponent {}
+export class TestComponent {
+  #authService = inject(AuthService);
+
+  logOut() {
+    this.#authService.logout();
+  }
+}

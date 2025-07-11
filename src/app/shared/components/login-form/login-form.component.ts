@@ -22,11 +22,7 @@ export class LoginFormComponent {
   #fb = inject(FormBuilder);
   loginForm = this.#fb.group<LoginForm>({
     email: this.#fb.nonNullable.control<string>('', [Validators.required, strictEmailValidator]),
-    password: this.#fb.nonNullable.control<string>('', [
-      Validators.required,
-      Validators.minLength(8),
-      // passwordValidator,
-    ]),
+    password: this.#fb.nonNullable.control<string>('', [Validators.required]),
   });
   #authService = inject(AuthService);
   #toastService = inject(ToastService);
@@ -42,13 +38,21 @@ export class LoginFormComponent {
           this.#toastService.show('success', 'Connexion réussi!', '', CircleCheck);
         },
         error: (error) => {
-          console.log(error);
-          this.#toastService.show(
-            'error',
-            "Quelque chose s'est mal passé",
-            'Erreur de connexion',
-            AlertCircle,
-          );
+          if (error.status === 401) {
+            this.#toastService.show(
+              'error',
+              'Email ou mot de passe incorrect.',
+              'Erreur de connexion',
+              AlertCircle,
+            );
+          } else {
+            this.#toastService.show(
+              'error',
+              "Une erreur inattendue s'est produite. Veuillez réessayer.",
+              'Erreur de connexion',
+              AlertCircle,
+            );
+          }
         },
       });
     }

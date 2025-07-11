@@ -1,26 +1,29 @@
 <div class="card card-xl w-full sm:w-96 bg-base-200">
   <div class="card-body">
-    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+    <form (ngSubmit)="onSubmit()" [formGroup]="firstLoginForm">
       <fieldset class="fieldset">
-        <app-input [label]="'Email'" [name]="'email'" formControlName="email" />
         <app-input
           [label]="'Mot de passe'"
           [name]="'password'"
-          [type]="'password'"
           formControlName="password"
+          type="password"
+        />
+        <app-input
+          [label]="'Confirmer mot de passe'"
+          [name]="'password'"
+          formControlName="confirmPassword"
+          type="password"
         />
       </fieldset>
       <div class="card-actions text-center px-8 mt-4">
         <button
-          [class.btn-disabled]="loginForm.invalid"
+          (click)="onSubmit()"
+          [class.btn-disabled]="firstLoginForm.invalid"
           class="btn btn-primary w-full"
           type="submit"
         >
-          Se connecter
+          Enregistrer le mot de passe
         </button>
-        <div class="text-xs flex flex-col justify-center items-center w-full gap-1 mt-4">
-          <a class="link w-full">Mot de passe oublié</a>
-        </div>
       </div>
     </form>
   </div>

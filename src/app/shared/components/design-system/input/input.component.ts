@@ -7,6 +7,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { getFirstErrorMessage } from '../../../validators/validation-errors';
+import { LucideAngularModule, LucideEye, LucideEyeOff } from 'lucide-angular';
 
 export const CUSTOM_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -16,7 +17,7 @@ export const CUSTOM_CONTROL_VALUE_ACCESSOR: Provider = {
 
 @Component({
   selector: 'app-input',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   templateUrl: './input.component.html',
   styleUrl: './input.component.css',
   viewProviders: [CUSTOM_CONTROL_VALUE_ACCESSOR],
@@ -25,12 +26,12 @@ export class InputComponent implements ControlValueAccessor {
   label = input<string>();
   name = input.required<string>();
   type = input<'password' | 'text' | 'email'>('text');
-  // error = input<string | null>(null);
   placeholder = input<string | null>(null);
+  showPassword = false;
   value = '';
   isDisabled = false;
-  // control = signal<NgControl | undefined>(undefined);
-  // private injector = inject<Injector>(INJECTOR);
+  protected readonly LucideEye = LucideEye;
+  protected readonly LucideEyeOff = LucideEyeOff;
 
   constructor(@Self() @Optional() public controlDir: NgControl) {
     if (this.controlDir) {
@@ -78,5 +79,9 @@ export class InputComponent implements ControlValueAccessor {
 
   validate(): ValidationErrors | null {
     return null;
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

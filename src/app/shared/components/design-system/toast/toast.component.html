@@ -2,19 +2,13 @@
   @for (toast of toasts(); track toast.id) {
     <div
       role="alert"
-      class="alert pt-5 relative"
+      class="alert alert-dismissible cursor-pointer"
       [class.alert-info]="toast.alertType === 'info'"
       [class.alert-success]="toast.alertType === 'success'"
       [class.alert-error]="toast.alertType === 'error'"
       (click)="dismiss(toast.id)"
       (keyup.enter)="dismiss(toast.id)"
     >
-      <lucide-angular
-        [img]="X"
-        class="absolute top-0.5 right-1 cursor-pointer"
-        (click)="dismiss(toast.id)"
-        size="16"
-      />
       <lucide-angular [img]="toast.iconName" />
 
       <span>{{ toast.message }}</span>

@@ -4,6 +4,7 @@ import { authGuard } from './chore/guards/auth.guard';
 import { FullLayoutComponent } from './shared/components/layouts/full-layout/full-layout.component';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
 import { TestComponent } from './pages/test/test.component';
+import { FirstLoginComponent } from './pages/first-login/first-login-page.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,10 @@ export const routes: Routes = [
   {
     path: '',
     component: FullLayoutComponent,
-    children: [{ path: 'login', component: LoginPageComponent }],
+    children: [
+      { path: 'login', component: LoginPageComponent },
+      { path: 'first-login', component: FirstLoginComponent },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];
