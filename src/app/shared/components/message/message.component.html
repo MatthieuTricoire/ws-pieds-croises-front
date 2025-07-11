@@ -1,0 +1,12 @@
+<div
+  class="w-full bg-base-200 py-6 rounded-xl px-12 md:px-24 flex gap-4 md:gap-8 items-center h-20 text-sm md:text-base"
+>
+  <lucide-angular
+    [img]="messageConfig().iconName"
+    [ngClass]="messageConfig().iconColor"
+    size="32"
+  />
+  <div class="tooltip" data-tip="message().content">
+    <span class="line-clamp-2">{{ message().content }}</span>
+  </div>
+</div>

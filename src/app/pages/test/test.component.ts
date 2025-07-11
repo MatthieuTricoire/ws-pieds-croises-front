@@ -1,9 +1,11 @@
+
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../chore/services/auth.service';
+import { MessagesContainerComponent } from '../../shared/components/messages-container/messages-container.component';
 
 @Component({
   selector: 'app-test',
-  imports: [],
+  imports: [MessagesContainerComponent],
   templateUrl: './test.component.html',
   styleUrl: './test.component.css',
 })
