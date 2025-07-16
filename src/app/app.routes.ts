@@ -12,7 +12,20 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    children: [{ path: 'test', component: TestComponent, canActivate: [authGuard] }],
+    children: [
+      // TODO ajouter les future components
+      { path: '', component: TestComponent, canActivate: [authGuard] },
+      { path: 'dashboard', component: TestComponent, canActivate: [authGuard] },
+      { path: 'planification', component: TestComponent, canActivate: [authGuard] },
+      { path: 'communication', component: TestComponent, canActivate: [authGuard] },
+      { path: 'utilisateurs', component: TestComponent, canActivate: [authGuard] },
+      { path: 'abonnements', component: TestComponent, canActivate: [authGuard] },
+      { path: 'stats', component: TestComponent, canActivate: [authGuard] },
+      { path: 'planning', component: TestComponent, canActivate: [authGuard] },
+      { path: 'gestion', component: TestComponent, canActivate: [authGuard] },
+      { path: 'profile', component: TestComponent, canActivate: [authGuard] },
+      { path: 'test', component: TestComponent, canActivate: [authGuard] },
+    ],
   },
   {
     path: '',
