@@ -1,0 +1,9 @@
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
+  @if (courses().length > 0) {
+    @for (c of courses(); track c.id) {
+      <app-course-card [course]="c" />
+    }
+  } @else {
+    <p class="text-center text-sm text-warning-content col-span-full">Aucun cours à venir.</p>
+  }
+</section>
