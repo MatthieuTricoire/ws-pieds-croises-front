@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../chore/services/auth.service';
+import { AuthService } from '../../../../chore/services/auth.service';
 import { AlertCircle, CircleCheck, LucideAngularModule } from 'lucide-angular';
-import { ToastService } from '../../../chore/services/toast.service';
-import { InputComponent } from '../design-system/input/input.component';
-import { Router } from '@angular/router';
-import { strictEmailValidator } from '../../validators/validators';
+import { ToastService } from '../../../../chore/services/toast.service';
+import { InputComponent } from '../../design-system/input/input.component';
+import { Router, RouterLink } from '@angular/router';
+import { strictEmailValidator } from '../../../validators/validators';
 
 interface LoginForm {
   email: FormControl<string>;
@@ -14,7 +14,7 @@ interface LoginForm {
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, LucideAngularModule, InputComponent],
+  imports: [ReactiveFormsModule, LucideAngularModule, InputComponent, RouterLink],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
 })

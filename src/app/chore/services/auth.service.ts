@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   clearToken(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
   }
 
   verifyToken(): void {
@@ -80,5 +80,21 @@ export class AuthService {
       this.clearToken();
       return false;
     }
+  }
+
+  askNewPassword(email: string): Observable<string> {
+    return this.#http.post(
+      `${this.apiUrl}/auth/forgot-password`,
+      { email },
+      { responseType: 'text' },
+    );
+  }
+
+  resetPassword(resetPasswordToken: string, newPassword: string): Observable<string> {
+    return this.#http.post(
+      `${this.apiUrl}/auth/reset-password`,
+      { resetPasswordToken, newPassword },
+      { responseType: 'text' },
+    );
   }
 }
