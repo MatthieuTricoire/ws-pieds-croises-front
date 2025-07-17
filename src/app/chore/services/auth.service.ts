@@ -9,9 +9,8 @@ import { AuthUser, Role } from '../../shared/models/authUser';
   providedIn: 'root',
 })
 export class AuthService {
-  router: Router = inject(Router);
+  #router: Router = inject(Router);
   #http = inject(HttpClient);
-  #router = inject(Router);
 
   firstLogin(password: string, registrationToken: string): Observable<string> {
     return this.#http.post(
@@ -64,7 +63,7 @@ export class AuthService {
 
   logout(): void {
     this.clearToken();
-    this.router.navigate(['/login']);
+    this.#router.navigate(['/login']);
   }
 
   getToken(): string | null {
