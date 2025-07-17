@@ -1,0 +1,41 @@
+<ul class="flex flex-col gap-2 max-md:flex-row max-md:h-full max-md:justify-around">
+  @for (btn of buttons(); track btn) {
+    @if (btn.menuList) {
+      <app-nav-menu-button [button]="btn" class="md:hidden h-full" />
+    } @else if (btn.action) {
+      <li
+        class="btn max-sm:pr-2 max-sm:pl-2 shadow-none w-full flex border-0 md:hover:border-l-[8px] hover:border-l-primary md:hover:pl-[8px] rounded-none max-md:bg-transparent max-md:w-auto max-md:h-full"
+      >
+        <a
+          (click)="btn.action()"
+          (keydown.enter)="(btn.action)"
+          tabindex="0"
+          class="w-full flex items-center gap-4 max-md:gap-2 max-md:flex-col max-md:justify-center max-md:item-center max-md:hover:text-primary max-md:hover:bg-base"
+        >
+          <lucide-icon
+            class="md:h-[20px] max-md:h-[32px] max-md:w-[32px] max-sm:h-[25px]"
+            [img]="btn.icon"
+          />
+          <span class="max-md:text-xl max-sm:text-sm">{{ btn.label }}</span>
+        </a>
+      </li>
+    } @else {
+      <li
+        routerLinkActive="md:border-l-[8px] border-l-primary max-md:text-primary md:pl-[8px] "
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="btn max-sm:pr-2 max-sm:pl-2 shadow-none w-full flex border-0 md:hover:border-l-[8px] hover:border-l-primary md:hover:pl-[8px] rounded-none max-md:bg-transparent max-md:w-auto max-md:h-full"
+      >
+        <a
+          [routerLink]="btn.path"
+          class="w-full flex items-center gap-4 max-md:gap-2 max-md:flex-col max-md:justify-center max-md:item-center max-md:hover:text-primary max-md:hover:bg-base"
+        >
+          <lucide-icon
+            class="md:h-[20px] max-md:h-[32px] max-md:w-[32px] max-sm:h-[25px]"
+            [img]="btn.icon"
+          />
+          <span class="max-md:text-xl max-sm:text-sm">{{ btn.label }}</span>
+        </a>
+      </li>
+    }
+  }
+</ul>

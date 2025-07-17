@@ -3,14 +3,14 @@ import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { AuthUser, Role } from '../../shared/models/authUser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080';
+  #router: Router = inject(Router);
   #http = inject(HttpClient);
-  #router = inject(Router);
 
   firstLogin(password: string, registrationToken: string): Observable<string> {
     return this.#http.post(
@@ -19,6 +19,9 @@ export class AuthService {
       { responseType: 'text' },
     );
   }
+  private apiUrl = 'http://localhost:8080';
+
+  private currentUser: AuthUser | null = null;
 
   login(email: string, password: string): Observable<string> {
     return this.#http
@@ -30,7 +33,35 @@ export class AuthService {
       );
   }
 
-  logout() {
+  private buildAuthUserFromToken(token: string): void {
+    try {
+      const decoded = jwtDecode<{
+        sub: string;
+        exp: number;
+        roles: { authority: Role }[];
+      }>(token);
+
+      const authorities = decoded.roles.map((role) => role.authority);
+
+      let mainRole: Role = 'ROLE_USER';
+
+      if (authorities.includes('ROLE_ADMIN')) {
+        mainRole = 'ROLE_ADMIN';
+      } else if (authorities.includes('ROLE_COACH')) {
+        mainRole = 'ROLE_COACH';
+      }
+
+      this.currentUser = {
+        email: decoded.sub,
+        exp: decoded.exp,
+        role: mainRole,
+      };
+    } catch {
+      this.currentUser = null;
+    }
+  }
+
+  logout(): void {
     this.clearToken();
     this.#router.navigate(['/login']);
   }
@@ -41,6 +72,7 @@ export class AuthService {
 
   saveToken(token: string): void {
     localStorage.setItem('access_token', token);
+    this.buildAuthUserFromToken(token);
   }
 
   clearToken(): void {
@@ -80,6 +112,28 @@ export class AuthService {
       this.clearToken();
       return false;
     }
+  }
+
+  getCurrentUser(): AuthUser | null {
+    if (this.currentUser) return this.currentUser;
+
+    const token = this.getToken();
+    if (!token) return null;
+
+    this.buildAuthUserFromToken(token);
+    return this.currentUser;
+  }
+
+  isAdmin(): boolean {
+    return this.getCurrentUser()?.role === 'ROLE_ADMIN';
+  }
+
+  isCoach(): boolean {
+    return this.getCurrentUser()?.role === 'ROLE_COACH';
+  }
+
+  isUser(): boolean {
+    return this.getCurrentUser()?.role === 'ROLE_USER';
   }
 
   askNewPassword(email: string): Observable<string> {
