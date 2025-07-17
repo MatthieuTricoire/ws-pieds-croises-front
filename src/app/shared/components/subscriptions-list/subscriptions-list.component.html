@@ -1,0 +1,9 @@
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
+  @if (subscriptions().length > 0) {
+    @for (c of subscriptions(); track c.id) {
+      <app-subscription-card [subscription]="c" />
+    }
+  } @else {
+    <p class="text-center text-sm text-warning-content col-span-full">Aucun abonnement.</p>
+  }
+</section>
