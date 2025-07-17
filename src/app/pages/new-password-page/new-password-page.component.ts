@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TwoColumnsLayoutComponent } from '../../shared/components/layouts/two-columns-layout/two-columns-layout.component';
-import { NewPasswordFormComponent } from '../../shared/components/form/new-password-form/new-password-form.component';
+import { NewPasswordFormComponent } from '../../shared/components/forms/new-password-form/new-password-form.component';
 
 @Component({
   selector: 'app-new-password-page',

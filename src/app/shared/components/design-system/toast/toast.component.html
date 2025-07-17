@@ -9,7 +9,7 @@
       (click)="dismiss(toast.id)"
       (keyup.enter)="dismiss(toast.id)"
     >
-      <lucide-angular [img]="toast.iconName" />
+      <lucide-angular [img]="getIconName(toast.alertType)" />
 
       <span>{{ toast.message }}</span>
     </div>
