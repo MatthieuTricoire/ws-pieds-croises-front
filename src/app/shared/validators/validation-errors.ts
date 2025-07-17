@@ -7,7 +7,8 @@ export type AppValidationErrorKey =
   | 'invalidEmail'
   | 'noUppercase'
   | 'noNumber'
-  | 'noSpecialChar';
+  | 'noSpecialChar'
+  | 'passwordsMismatch';
 
 export type AppValidationErrors = Partial<Record<AppValidationErrorKey, true>>;
 
@@ -19,6 +20,7 @@ export const ValidationErrorMessages: Record<AppValidationErrorKey, string> = {
   noUppercase: 'Le mot de passe doit contenir au moins une majuscule',
   noNumber: 'Le mot de passe doit contenir au moins un chiffre',
   noSpecialChar: 'Le mot de passe doit contenir au moins un caractère spécial',
+  passwordsMismatch: 'Les mots de passe ne correspondent pas',
 };
 
 export function getFirstErrorMessage(control: AbstractControl): string | null {

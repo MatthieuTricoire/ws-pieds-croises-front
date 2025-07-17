@@ -1,0 +1,19 @@
+<div class="min-h-screen flex items-center justify-center gap-2">
+  <div class="w-[400px] h-[500px] flex items-center justify-center">
+    <img alt="Image de connexion" class="max-w-full max-h-full object-cover" src="/logo.svg" />
+  </div>
+
+  <div class="w-[400px] h-[500px] flex flex-col items-center justify-center">
+    <section>
+      <h1>Salut {{nom de l'utilisateur}}</h1>
+      <p>Défini le mot de passe avec lequel tu pourras t'identifier à la plateforme.</p>
+      <ul>
+        <li>8 caractères minimum</li>
+        <li>une majuscule</li>
+        <li>un chiffre</li>
+        <li>un caractère spécial</li>
+      </ul>
+    </section>
+    <app-first-login-form />
+  </div>
+</div>
