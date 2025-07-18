@@ -19,7 +19,7 @@ export class CourseListComponent {
       .getCoursesNextTwoWeeks()
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
-        this.courses.set(data);
+        this.courses.set(data.slice(0, 3));
       });
   }
 }

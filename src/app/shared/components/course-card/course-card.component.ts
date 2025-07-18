@@ -1,12 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, input, Signal } from '@angular/core';
 import { Course } from '../../models/course';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { addMinutesToDate } from '../../utils/dates';
 
 @Component({
   selector: 'app-course-card',
+  standalone: true,
   templateUrl: './course-card.component.html',
-  imports: [DatePipe],
+  imports: [DatePipe, CommonModule],
 })
 export class CourseCardComponent {
-  @Input({ required: true }) course!: Course;
+  readonly course = input.required<Course>();
+  readonly endDatetime: Signal<Date> = computed(() => {
+    const c = this.course();
+    return addMinutesToDate(c.startDatetime, c.duration);
+  });
 }
