@@ -1,0 +1,14 @@
+@switch (tagType()) {
+  @case ('h1') {
+    <h1 [class]="class()">{{ text() }}</h1>
+  }
+  @case ('p') {
+    <p [class]="class()">{{ text() }}</p>
+  }
+  @case ('span') {
+    <span [class]="class()">{{ text() }}</span>
+  }
+  @default {
+    <div [class]="class()">{{ text() }}</div>
+  }
+}
