@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginFormComponent } from '../../shared/components/form/login-form/login-form.component';
+import { LoginFormComponent } from '../../shared/components/forms/login-form/login-form.component';
 import { TwoColumnsLayoutComponent } from '../../shared/components/layouts/two-columns-layout/two-columns-layout.component';
 
 @Component({

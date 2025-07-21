@@ -43,7 +43,7 @@ export class NewPasswordFormComponent implements OnInit {
         .pipe(finalize(() => (this.isLoading = false)))
         .subscribe({
           next: () => {
-            this.#router.navigate(['/login']);
+            void this.#router.navigate(['/login']);
             this.#toastService.show('info', 'Votre mot de passe a été mis à jour avec succès.', '');
           },
           error: (error) => {

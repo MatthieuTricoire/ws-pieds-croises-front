@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TwoColumnsLayoutComponent } from '../../shared/components/layouts/two-columns-layout/two-columns-layout.component';
-import { FirstLoginFormComponent } from '../../shared/components/form/first-login-form/first-login-form.component';
+import { FirstLoginFormComponent } from '../../shared/components/forms/first-login-form/first-login-form.component';
 
 @Component({
   selector: 'app-first-login',
