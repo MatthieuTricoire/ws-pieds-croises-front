@@ -1,7 +1,8 @@
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
-  @if (subscriptions().length > 0) {
-    @for (c of subscriptions(); track c.id) {
-      <app-subscription-card [subscription]="c" />
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 m-3">
+  <h2 class="text-xl col-span-full">Nos abonnements</h2>
+  @if (userSubscriptions().length > 0) {
+    @for (c of userSubscriptions(); track c.id) {
+      <app-subscription-card [userSubscription]="c" />
     }
   } @else {
     <p class="text-center text-sm text-warning-content col-span-full">Aucun abonnement.</p>

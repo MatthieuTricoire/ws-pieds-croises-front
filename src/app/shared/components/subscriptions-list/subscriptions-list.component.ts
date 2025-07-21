@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SubscriptionService } from '../../../chore/services/subscription.service';
-import { Subscription } from '../../models/subscription';
+import { UserSubscription } from '../../models/subscription';
 import { SubscriptionCardComponent } from '../subscription-card/subscription-card.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-subscriptions-list',
@@ -12,15 +12,14 @@ import { SubscriptionCardComponent } from '../subscription-card/subscription-car
 })
 export class SubscriptionsListComponent {
   private subscriptionService = inject(SubscriptionService);
-  readonly subscriptions = signal<Subscription[]>([]);
+  readonly userSubscriptions = signal<UserSubscription[]>([]);
 
   constructor() {
     this.subscriptionService
-      .getUserSubscriptions(1)
+      .getUserSubscriptions()
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
-        console.log(data);
-        // this.subscriptions.set(data);
+        this.userSubscriptions.set(data);
       });
   }
 }

@@ -1,38 +1,92 @@
-<main
-  class="flex flex-col w-[300px] mx-auto items-center gap-6 p-8 bg-[#2c2c2c] border border-[#444] rounded-lg"
->
-  <header class="flex flex-col items-center w-full gap-4">
-    <h1 class="text-white text-center text-2xl font-bold">Découverte</h1>
+@if (userSubscription()) {
+  <div
+    class="card w-[300px] text-content-neutral shadow-md border"
+    [ngClass]="{
+      'bg-primary border-primary': isActive,
+      'bg-neutral border-neutral-content/10 border-neutral': !isActive,
+    }"
+  >
+    <div class="card-body p-6 gap-4">
+      <!-- Titre -->
+      <h2 class="text-2xl font-bold text-center">
+        {{ userSubscription().subscription.name }}
+      </h2>
 
-    <p class="flex items-end justify-center gap-1">
-      <span class="flex items-start">
-        <span class="text-white text-2xl font-bold">€</span>
-        <span class="text-white text-5xl font-bold opacity-90">39</span>
-      </span>
-      <span class="text-white text-sm">/ mo</span>
-    </p>
+      <!-- Prix -->
+      <div class="flex justify-center items-end gap-1">
+        <div class="flex items-baseline gap-1">
+          <span class="text-2xl font-bold">€</span>
+          <span class="text-5xl font-bold opacity-90">{{
+            userSubscription().subscription.price
+          }}</span>
+        </div>
+        <span class="text-sm">/ mois</span>
+      </div>
 
-    <ul class="flex flex-col items-start w-full gap-3 list-none p-0 m-0">
-      <li class="text-sm flex flex-wrap">
-        <span class="text-[#fc5100] font-semibold mr-1">Durée</span>
-        <span class="text-white">: sans engagement</span>
-      </li>
-      <li class="text-sm flex flex-wrap">
-        <span class="text-[#fc5100] font-semibold mr-1">Accès</span>
-        <span class="text-white">: 2 séances par semaine</span>
-      </li>
-      <li class="text-sm flex flex-wrap">
-        <span class="text-[#fc5100] font-semibold mr-1">Idéal pour</span>
-        <span class="text-white">: les débutants ou ceux qui veulent tester</span>
-      </li>
-    </ul>
-  </header>
+      <!-- Détails -->
+      <ul class="mt-4 flex flex-col gap-2 text-sm">
+        <li class="flex flex-wrap">
+          <span
+            class="font-semibold mr-1"
+            [ngClass]="{
+              'text-primary': !isActive,
+              'text-secondary-content': isActive,
+            }"
+          >
+            Durée
+          </span>
+          <span>: {{ userSubscription().subscription.duration }} jours</span>
+        </li>
+        <li class="flex flex-wrap">
+          <span
+            class="font-semibold mr-1"
+            [ngClass]="{
+              'text-primary': !isActive,
+              'text-secondary-content': isActive,
+            }"
+          >
+            Accès
+          </span>
+          <span>: {{ userSubscription().subscription.sessionPerWeek }} / semaine</span>
+        </li>
+        <li class="flex flex-wrap">
+          <span
+            class="font-semibold mr-1"
+            [ngClass]="{
+              'text-primary': !isActive,
+              'text-secondary-content': isActive,
+            }"
+          >
+            Commence le
+          </span>
+          <span>: {{ userSubscription().startDate | date: 'dd/MM/yyyy' }}</span>
+        </li>
+        <li class="flex flex-wrap">
+          <span
+            class="font-semibold mr-1"
+            [ngClass]="{
+              'text-primary': !isActive,
+              'text-secondary-content': isActive,
+            }"
+          >
+            Prend fin le
+          </span>
+          <span>: {{ userSubscription().endDate | date: 'dd/MM/yyyy' }}</span>
+        </li>
+      </ul>
 
-  <footer class="w-full">
-    <button
-      class="w-full px-4 py-3 bg-[#fc5100] hover:bg-[#e64900] active:bg-[#d44300] text-white font-semibold text-sm rounded-lg transition duration-300"
-    >
-      Souscrire
-    </button>
-  </footer>
-</main>
+      <!-- Bouton -->
+      <div class="mt-6 w-full card-actions">
+        <button
+          class="btn btn-block"
+          [ngClass]="{
+            'btn-neutral': isActive,
+            'btn-primary': !isActive,
+          }"
+        >
+          {{ isActive ? "Arrêter l'abonnement" : 'Souscrire' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
