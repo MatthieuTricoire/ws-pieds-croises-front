@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { ButtonNavComponent } from '../../shared/components/button-nav/button-nav.component';
 import { ButtonNav } from '../../shared/models/buttonNav';
 import {
@@ -27,7 +27,7 @@ import { AuthService } from '../../chore/services/auth.service';
 export class SidebarComponent {
   private readonly authService = inject(AuthService);
 
-  readonly isAdmin = signal(this.authService.isAdmin());
+  readonly isAdmin = this.authService.isAdminSignal();
 
   readonly buttonsAdmin: ButtonNav[] = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
@@ -50,7 +50,7 @@ export class SidebarComponent {
       label: 'Gestion',
       path: '/gestion',
       icon: Cog,
-      menuList: this.isAdmin() ? this.buttonsAdmin : this.buttonsGestion,
+      menuList: this.isAdmin ? this.buttonsAdmin : this.buttonsGestion,
     },
   ]);
 

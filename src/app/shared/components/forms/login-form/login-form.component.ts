@@ -4,7 +4,7 @@ import { AuthService } from '../../../../chore/services/auth.service';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../../chore/services/toast.service';
 import { InputComponent } from '../../design-system/input/input.component';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { strictEmailValidator } from '../../../validators/validators';
 
 interface LoginForm {
@@ -26,7 +26,6 @@ export class LoginFormComponent {
   });
   #authService = inject(AuthService);
   #toastService = inject(ToastService);
-  #router = inject(Router);
 
   onSubmit() {
     if (this.loginForm.valid) {
@@ -34,7 +33,6 @@ export class LoginFormComponent {
 
       this.#authService.login(email, password).subscribe({
         next: () => {
-          void this.#router.navigate(['/test']);
           this.#toastService.show('success', 'Connexion réussi!', '');
         },
         error: (error) => {
