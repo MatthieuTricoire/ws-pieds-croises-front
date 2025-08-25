@@ -1,29 +1,27 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthUser } from '../../shared/models/authUser';
+import { AuthUser, Role } from '../../shared/models/authUser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  #router: Router = inject(Router);
-  #http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080';
-  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  // Signals unifiés
   userSignal = signal<AuthUser | null>(null);
   isLoggedInSignal = signal<boolean>(false);
-
   isAdminSignal = computed(() => this.userSignal()?.roles.includes('ROLE_ADMIN') ?? false);
-
   isCoachSignal = computed(() => this.userSignal()?.roles.includes('ROLE_COACH') ?? false);
 
-  get isLoggedIn$(): Observable<boolean> {
-    return this._isLoggedIn.asObservable();
-  }
+  // Injections
+  #router: Router = inject(Router);
+  #http = inject(HttpClient);
 
-  private returnUrl: string | null = null;
+  // Configuration
+  private readonly apiUrl = 'http://localhost:8080';
+  private readonly defaultRoute = '/dashboard'; // Plus parlant que /test
+  private readonly returnUrlKey = 'auth_return_url';
 
   constructor() {
     this.checkAuthStatus();
@@ -43,7 +41,6 @@ export class AuthService {
         switchMap(() => this.isAuthenticated()),
         switchMap((isAuth) => {
           if (isAuth) {
-            this.isLoggedInSignal.set(true);
             return this.loadCurrentUser().pipe(
               tap(() => {
                 console.log('[AuthService] Login réussi, utilisateur chargé.');
@@ -54,7 +51,7 @@ export class AuthService {
           } else {
             console.error('[AuthService] Login ok mais isAuthenticated retourne false.');
             this.markAsLoggedOut();
-            return of(false);
+            return throwError(() => new Error('Authentication failed'));
           }
         }),
         catchError((err) => {
@@ -102,41 +99,42 @@ export class AuthService {
     );
   }
 
-  logout() {
-    return this.#http.post(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
+  logout(): Observable<void> {
+    return this.#http.post<void>(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
       tap(() => {
         this.markAsLoggedOut();
+        this.clearReturnUrl();
         this.#router.navigate(['/login']);
       }),
       catchError((error) => {
         console.error('[AuthService] Erreur logout:', error);
         this.markAsLoggedOut();
+        this.clearReturnUrl();
         this.#router.navigate(['/login']);
-        return of();
+        return throwError(() => error);
       }),
     );
   }
 
-  markAsLoggedOut() {
-    if (!this.isCurrentlyLoggedIn()) {
-      this._isLoggedIn.next(false);
-      this.userSignal.set(null);
-    }
+  markAsLoggedOut(): void {
+    this.userSignal.set(null);
+    this.isLoggedInSignal.set(false);
   }
 
-  setReturnUrl(url: string) {
-    this.returnUrl = url;
+  // Persistance de l'URL de retour
+  setReturnUrl(url: string): void {
+    sessionStorage.setItem(this.returnUrlKey, url);
   }
 
-  private navigateAfterLogin() {
-    if (this.returnUrl) {
-      this.#router.navigateByUrl(this.returnUrl);
-    } else {
-      this.#router.navigate(['/test']);
-    }
+  private getReturnUrl(): string | null {
+    return sessionStorage.getItem(this.returnUrlKey);
   }
 
-  getCurrentUser() {
+  private clearReturnUrl(): void {
+    sessionStorage.removeItem(this.returnUrlKey);
+  }
+
+  getCurrentUser(): Observable<AuthUser> {
     return this.#http.get<AuthUser>(`${this.apiUrl}/auth/me`, { withCredentials: true });
   }
 
@@ -169,7 +167,28 @@ export class AuthService {
       });
   }
 
-  isCurrentlyLoggedIn(): boolean {
-    return this._isLoggedIn.value;
+  private navigateAfterLogin(): void {
+    const returnUrl = this.getReturnUrl();
+    if (returnUrl) {
+      this.clearReturnUrl();
+      this.#router.navigateByUrl(returnUrl);
+    } else {
+      this.#router.navigate([this.defaultRoute]);
+    }
+  }
+
+  // Méthodes utilitaires pour les guards/composants
+  requireAuth(): boolean {
+    if (!this.isLoggedInSignal()) {
+      this.setReturnUrl(this.#router.url);
+      this.#router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
+
+  requireRole(role: Role): boolean {
+    const user = this.userSignal();
+    return user?.roles.includes(role) ?? false;
   }
 }
