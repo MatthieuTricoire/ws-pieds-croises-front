@@ -5,7 +5,7 @@ import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-test',
-  imports: [MessagesContainerComponent, JsonPipe],
+  imports: [MessagesContainerComponent, JsonPipe, CourseListComponent],
   templateUrl: './test.component.html',
   styleUrl: './test.component.css',
 })
