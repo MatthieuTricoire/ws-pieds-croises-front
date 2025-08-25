@@ -15,7 +15,6 @@ export class SubscriptionService {
 
   getUserSubscriptions(): Observable<UserSubscription[]> {
     const user = this.#auth.userSignal();
-    console.log(user);
     if (!user) {
       throw new Error('Aucun utilisateur connecté');
     }
