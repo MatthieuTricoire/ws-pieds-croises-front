@@ -1,6 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { ToastService } from '../../../../chore/services/toast.service';
-import { CircleCheckBig, LucideAngularModule, X } from 'lucide-angular';
+import {
+  CircleCheck,
+  CircleCheckBig,
+  InfoIcon,
+  LucideAngularModule,
+  LucideIconData,
+  X,
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-toast',
@@ -15,5 +22,18 @@ export class ToastComponent {
 
   dismiss(id: number): void {
     this.toastService.dismiss(id);
+  }
+
+  getIconName(alertType: string): LucideIconData {
+    switch (alertType) {
+      case 'success':
+        return CircleCheck;
+      case 'error':
+        return X;
+      case 'info':
+        return InfoIcon;
+      default:
+        return InfoIcon;
+    }
   }
 }

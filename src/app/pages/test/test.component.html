@@ -1,6 +1,10 @@
-
-
 <button (click)="logOut()" class="btn btn-primary">Se déconnecter</button>
 
 <app-messages-container />
 <app-course-list />
+
+<div>
+  Je suis un admin ? <span class="ml-4">{{ isAdmin() ? '✅' : '❌' }}</span>
+</div>
+
+<div class="mt-4">{{ user() | json }}</div>

@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../chore/services/auth.service';
-import { AlertCircle, CircleCheck, LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
 import { ToastService } from '../../../../chore/services/toast.service';
 import { InputComponent } from '../../design-system/input/input.component';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { strictEmailValidator } from '../../../validators/validators';
 
 interface LoginForm {
@@ -26,7 +26,6 @@ export class LoginFormComponent {
   });
   #authService = inject(AuthService);
   #toastService = inject(ToastService);
-  #router = inject(Router);
 
   onSubmit() {
     if (this.loginForm.valid) {
@@ -34,8 +33,7 @@ export class LoginFormComponent {
 
       this.#authService.login(email, password).subscribe({
         next: () => {
-          void this.#router.navigate(['/test']);
-          this.#toastService.show('success', 'Connexion réussi!', '', CircleCheck);
+          this.#toastService.show('success', 'Connexion réussi!', '');
         },
         error: (error) => {
           if (error.status === 401) {
@@ -43,14 +41,12 @@ export class LoginFormComponent {
               'error',
               'Email ou mot de passe incorrect.',
               'Erreur de connexion',
-              AlertCircle,
             );
           } else {
             this.#toastService.show(
               'error',
               "Une erreur inattendue s'est produite. Veuillez réessayer.",
               'Erreur de connexion',
-              AlertCircle,
             );
           }
         },
