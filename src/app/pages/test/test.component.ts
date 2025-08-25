@@ -11,7 +11,6 @@ import { JsonPipe } from '@angular/common';
 })
 export class TestComponent implements OnInit {
   #authService = inject(AuthService);
-
   // Utiliser computed() pour créer des signaux dérivés qui se mettent à jour automatiquement
   isAdmin = computed(() => this.#authService.isAdminSignal());
   user = computed(() => this.#authService.userSignal());
