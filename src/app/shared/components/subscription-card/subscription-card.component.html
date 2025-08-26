@@ -1,92 +1,66 @@
-@if (userSubscription()) {
-  <div
-    class="card w-[300px] text-content-neutral shadow-md border"
-    [ngClass]="{
-      'bg-primary border-primary': isActive,
-      'bg-neutral border-neutral-content/10 border-neutral': !isActive,
-    }"
-  >
-    <div class="card-body p-6 gap-4">
-      <!-- Titre -->
-      <h2 class="text-2xl font-bold text-center">
-        {{ userSubscription().subscription.name }}
-      </h2>
+@let userSubscription = userSubscriptionSignal();
 
-      <!-- Prix -->
-      <div class="flex justify-center items-end gap-1">
-        <div class="flex items-baseline gap-1">
-          <span class="text-2xl font-bold">€</span>
-          <span class="text-5xl font-bold opacity-90">{{
-            userSubscription().subscription.price
-          }}</span>
-        </div>
-        <span class="text-sm">/ mois</span>
+<div
+  class="card w-[300px] text-content-neutral shadow-md border"
+  [ngClass]="{
+    'bg-primary border-primary': userSubscription && isActive(),
+    'bg-neutral border-neutral-content/10 border-neutral': !userSubscription || !isActive(),
+  }"
+>
+  <div class="card-body p-6 gap-4">
+    <h2 class="text-2xl font-bold text-center">{{ subscriptionSignal().name }}</h2>
+
+    <div class="flex justify-center items-end gap-1">
+      <div class="flex items-baseline gap-1">
+        <span class="text-2xl font-bold">€</span>
+        <span class="text-5xl font-bold opacity-90">{{ subscriptionSignal().price }}</span>
       </div>
+      <span class="text-sm">/ mois</span>
+    </div>
 
-      <!-- Détails -->
-      <ul class="mt-4 flex flex-col gap-2 text-sm">
-        <li class="flex flex-wrap">
-          <span
-            class="font-semibold mr-1"
-            [ngClass]="{
-              'text-primary': !isActive,
-              'text-secondary-content': isActive,
-            }"
-          >
-            Durée
-          </span>
-          <span>: {{ userSubscription().subscription.duration }} jours</span>
-        </li>
-        <li class="flex flex-wrap">
-          <span
-            class="font-semibold mr-1"
-            [ngClass]="{
-              'text-primary': !isActive,
-              'text-secondary-content': isActive,
-            }"
-          >
-            Accès
-          </span>
-          <span>: {{ userSubscription().subscription.sessionPerWeek }} / semaine</span>
-        </li>
-        <li class="flex flex-wrap">
-          <span
-            class="font-semibold mr-1"
-            [ngClass]="{
-              'text-primary': !isActive,
-              'text-secondary-content': isActive,
-            }"
-          >
-            Commence le
-          </span>
-          <span>: {{ userSubscription().startDate | date: 'dd/MM/yyyy' }}</span>
-        </li>
-        <li class="flex flex-wrap">
-          <span
-            class="font-semibold mr-1"
-            [ngClass]="{
-              'text-primary': !isActive,
-              'text-secondary-content': isActive,
-            }"
-          >
-            Prend fin le
-          </span>
-          <span>: {{ userSubscription().endDate | date: 'dd/MM/yyyy' }}</span>
-        </li>
-      </ul>
-
-      <!-- Bouton -->
-      <div class="mt-6 w-full card-actions">
-        <button
-          class="btn btn-block"
-          [ngClass]="{
-            'btn-neutral': isActive,
-            'btn-primary': !isActive,
-          }"
+    <ul class="mt-4 flex flex-col gap-2 text-sm">
+      <li class="flex flex-wrap">
+        <span
+          class="font-semibold mr-1"
+          [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
+          >Durée</span
         >
-          {{ isActive ? "Arrêter l'abonnement" : 'Souscrire' }}
-        </button>
-      </div>
+        <span>: {{ subscriptionSignal().duration }} jours</span>
+      </li>
+      <li class="flex flex-wrap">
+        <span
+          class="font-semibold mr-1"
+          [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
+          >Accès</span
+        >
+        <span>: {{ subscriptionSignal().sessionPerWeek || 0 }} / semaine</span>
+      </li>
+      @if (userSubscription) {
+        <li class="flex flex-wrap">
+          <span
+            class="font-semibold mr-1"
+            [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
+            >Commence le</span
+          >
+          <span>: {{ userSubscription.startDate | date: 'dd/MM/yyyy' }}</span>
+        </li>
+        <li class="flex flex-wrap">
+          <span
+            class="font-semibold mr-1"
+            [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
+            >Prend fin le</span
+          >
+          <span>: {{ userSubscription.endDate | date: 'dd/MM/yyyy' }}</span>
+        </li>
+      }
+    </ul>
+    <div class="mt-6 w-full card-actions">
+      <button
+        class="btn btn-block"
+        [ngClass]="{ 'btn-neutral': isActive(), 'btn-primary': !isActive() }"
+      >
+        {{ isActive() ? "Arrêter l'abonnement" : 'Souscrire' }}
+      </button>
     </div>
   </div>
-}
+</div>

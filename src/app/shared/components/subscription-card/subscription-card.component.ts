@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { UserSubscription } from '../../models/subscription';
+import { Component, computed, input } from '@angular/core';
+import { Subscription as AppSubscription, UserSubscription } from '../../models/subscription';
 import { DatePipe, NgClass } from '@angular/common';
 
 @Component({
@@ -8,12 +8,15 @@ import { DatePipe, NgClass } from '@angular/common';
   imports: [DatePipe, NgClass],
 })
 export class SubscriptionCardComponent {
-  readonly userSubscription = input.required<UserSubscription>();
+  subscriptionSignal = input.required<AppSubscription>();
+  userSubscriptionSignal = input<UserSubscription>();
 
-  get isActive(): boolean {
+  readonly isActive = computed(() => {
+    const userSubscription = this.userSubscriptionSignal();
+    if (!userSubscription) return false;
     const now = new Date();
-    const start = new Date(this.userSubscription().startDate);
-    const end = new Date(this.userSubscription().endDate);
+    const start = new Date(userSubscription.startDate);
+    const end = new Date(userSubscription.endDate);
     return start <= now && now <= end;
-  }
+  });
 }

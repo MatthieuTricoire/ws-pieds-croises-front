@@ -1,8 +1,12 @@
 <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 m-3">
   <h2 class="text-xl col-span-full">Nos abonnements</h2>
-  @if (userSubscriptions().length > 0) {
-    @for (c of userSubscriptions(); track c.id) {
-      <app-subscription-card [userSubscription]="c" />
+  @if (subscriptions && subscriptions.length > 0) {
+    @for (sub of subscriptions; track sub.id) {
+      <app-subscription-card
+        [subscriptionSignal]="sub"
+        [userSubscriptionSignal]="getUserSubscription(sub)"
+      >
+      </app-subscription-card>
     }
   } @else {
     <p class="text-center text-sm text-warning-content col-span-full">Aucun abonnement.</p>
