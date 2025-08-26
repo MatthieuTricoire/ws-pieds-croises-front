@@ -3,14 +3,15 @@
 <app-messages-container />
 <app-course-list />
 
-<p>1:</p>
-<app-typography type="h2" class="text-blue-500"> Texte via ng-content h2 ! </app-typography>
+<app-typography text="Texte h1 ! " tagType="h1" />
+<app-typography text="Texte h2 !" tagType="h2" />
+<app-typography text="Texte h3 !" tagType="h3" />
+<app-typography text="Texte h4 !" tagType="h4" />
+<app-typography text="Texte span !" tagType="span" />
+<app-typography text="Texte p !" tagType="p" />
+<app-typography text="teste surchage css d'un h1" tagType="h1" class="text-blue-500 text-xl" />
 
-<p>2:</p>
-<app-typography type="h1"> Texte via ng-content h1! </app-typography>
 
-<p>3:</p>
-<app-typography type="h1" class="text-blue-500">testeeee</app-typography>
 <div>
   Je suis un admin ? <span class="ml-4">{{ isAdmin() ? '✅' : '❌' }}</span>
 </div>

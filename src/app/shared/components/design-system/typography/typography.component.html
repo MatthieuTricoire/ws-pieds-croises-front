@@ -1,14 +1,23 @@
 @switch (tagType()) {
   @case ('h1') {
-    <h1 [class]="class()">{{ text() }}</h1>
+    <h1 [class]="finalClass()">{{ text() }}</h1>
+  }
+  @case ('h2') {
+    <h2 [class]="finalClass()">{{ text() }}</h2>
+  }
+  @case ('h3') {
+    <h3 [class]="finalClass()">{{ text() }}</h3>
+  }
+  @case ('h4') {
+    <h4 [class]="finalClass()">{{ text() }}</h4>
   }
   @case ('p') {
-    <p [class]="class()">{{ text() }}</p>
+    <p [class]="finalClass()">{{ text() }}</p>
   }
   @case ('span') {
-    <span [class]="class()">{{ text() }}</span>
+    <span [class]="finalClass()">{{ text() }}</span>
   }
   @default {
-    <div [class]="class()">{{ text() }}</div>
+    <div [class]="finalClass()">{{ text() }}</div>
   }
 }
