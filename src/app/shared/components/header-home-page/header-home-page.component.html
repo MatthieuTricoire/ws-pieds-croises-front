@@ -7,11 +7,13 @@
     class="absolute inset-0 w-full h-full object-cover z-0"
   />
 
-  <h1 class="text-6xl max-sm:text-4xl font-bold relative text-center sm:w-2/3">
-    Bienvenue sur Pieds Croisés
-  </h1>
+  <app-typography
+    text="Bienvenue sur Pieds Croisés"
+    tagType="h1"
+    class="relative text-center sm:w-2/3"
+  ></app-typography>
 
-  <a class="btn btn-primary relative text-base-content" [routerLink]="['/planning']"
-    >Voir le planning des séances</a
-  >
+  <a class="btn btn-primary relative text-base-content" [routerLink]="['/planning']">
+    Voir le planning des séances
+  </a>
 </header>

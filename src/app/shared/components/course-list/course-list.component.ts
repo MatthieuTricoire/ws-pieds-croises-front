@@ -4,11 +4,12 @@ import { CourseService } from '../../../chore/services/course.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Course } from '../../models/course';
 import { CourseCardComponent } from '../course-card/course-card.component';
+import { TypographyComponent } from '../design-system/typography/typography.component';
 
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
-  imports: [CommonModule, CourseCardComponent, CourseCardComponent],
+  imports: [CommonModule, CourseCardComponent, CourseCardComponent, TypographyComponent],
 })
 export class CourseListComponent {
   private courseService = inject(CourseService);
