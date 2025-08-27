@@ -1,4 +1,5 @@
 @let userSubscription = userSubscriptionSignal();
+@let subscription = subscriptionSignal();
 
 <div
   class="card w-[300px] text-content-neutral shadow-md border"
@@ -8,12 +9,12 @@
   }"
 >
   <div class="card-body p-6 gap-4">
-    <h2 class="text-2xl font-bold text-center">{{ subscriptionSignal().name }}</h2>
+    <h2 class="text-2xl font-bold text-center">{{ subscription.name }}</h2>
 
     <div class="flex justify-center items-end gap-1">
       <div class="flex items-baseline gap-1">
         <span class="text-2xl font-bold">€</span>
-        <span class="text-5xl font-bold opacity-90">{{ subscriptionSignal().price }}</span>
+        <span class="text-5xl font-bold opacity-90">{{ subscription.price }}</span>
       </div>
       <span class="text-sm">/ mois</span>
     </div>
@@ -25,7 +26,7 @@
           [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
           >Durée</span
         >
-        <span>: {{ subscriptionSignal().duration }} jours</span>
+        <span>: {{ subscription.duration }} jours</span>
       </li>
       <li class="flex flex-wrap">
         <span
@@ -33,7 +34,7 @@
           [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
           >Accès</span
         >
-        <span>: {{ subscriptionSignal().sessionPerWeek || 0 }} / semaine</span>
+        <span>: {{ subscription.sessionPerWeek || 0 }} / semaine</span>
       </li>
       @if (userSubscription) {
         <li class="flex flex-wrap">
@@ -58,6 +59,7 @@
       <button
         class="btn btn-block"
         [ngClass]="{ 'btn-neutral': isActive(), 'btn-primary': !isActive() }"
+        (click)="isActive() ? onCancel() : onSubscribe()"
       >
         {{ isActive() ? "Arrêter l'abonnement" : 'Souscrire' }}
       </button>

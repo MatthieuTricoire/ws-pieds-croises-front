@@ -9,7 +9,7 @@ export interface UserSubscription {
 }
 
 export interface Subscription {
-  id?: number;
+  id: number;
   name: string;
   price: number;
   sessionPerWeek?: number;
