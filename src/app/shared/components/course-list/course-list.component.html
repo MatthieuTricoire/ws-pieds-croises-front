@@ -1,5 +1,5 @@
-<section class="grid grid-cols-1 gap-4 m-3">
-  <h2 class="text-xl">Séances à venir</h2>
+<section class="grid grid-cols-1 gap-4">
+  <h2 class="text-4xl max-sm:text-3xl font-semibold">Séances à venir</h2>
   @if (courses().length > 0) {
     @for (c of courses(); track c.id) {
       <app-course-card [course]="c" />

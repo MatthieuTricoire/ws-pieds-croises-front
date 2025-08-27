@@ -12,6 +12,6 @@ export class MessageService {
   constructor(private http: HttpClient) {}
 
   getActiveMessages(): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}?status=active`);
+    return this.http.get<Message[]>(`${this.apiUrl}?status=active`, { withCredentials: true });
   }
 }

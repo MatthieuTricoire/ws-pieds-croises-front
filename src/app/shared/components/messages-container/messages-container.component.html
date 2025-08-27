@@ -1,4 +1,4 @@
-<h1 class="text-2xl">Actualités</h1>
+<h1 class="text-4xl max-sm:text-3xl font-semibold mb-4">Actualités</h1>
 @if (messages && messages.length === 1) {
   <app-message [message]="messages[0]" />
 }
@@ -7,10 +7,7 @@
   <div class="carousel w-full">
     @for (message of messages; let i = $index; track message.id) {
       @if (i === currentSlide) {
-        <div
-          class="carousel-item w-full min-w-full flex-none relative"
-          [class.hidden]="i !== currentSlide"
-        >
+        <div class="carousel-item w-full flex-none relative" [class.hidden]="i !== currentSlide">
           <app-message [message]="message" class="w-full" />
           <div
             class="absolute left-1 right-1 md:left-5 md:right-5 top-1/2 flex -translate-y-1/2 transform justify-between"

@@ -1,1 +1,17 @@
-<img alt="salle de crossFit" class="object-contain" src="/header-home.svg" />
+<header
+  class="relative flex flex-col gap-14 max-md:gap-7 items-center justify-center h-[clamp(12.5rem,7.4172rem+22.5904vw,21.875rem)]"
+>
+  <img
+    alt="salle de crossFit"
+    src="/header-home.svg"
+    class="absolute inset-0 w-full h-full object-cover z-0"
+  />
+
+  <h1 class="text-6xl max-sm:text-4xl font-bold relative text-center sm:w-2/3">
+    Bienvenue sur Pieds Croisés
+  </h1>
+
+  <a class="btn btn-primary relative text-base-content" [routerLink]="['/planning']"
+    >Voir le planning des séances</a
+  >
+</header>

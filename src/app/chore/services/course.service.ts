@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Course } from '../../shared/models/course';
 
 @Injectable({
@@ -11,13 +11,19 @@ export class CourseService {
   #http = inject(HttpClient);
 
   getCoursesNextTwoWeeks(): Observable<Course[]> {
-    return this.#http.get<Course[]>(`${this.apiUrl}/next-two-weeks`).pipe(
-      map((courses) =>
-        courses.map((course) => ({
-          ...course,
-          startDatetime: new Date(course.startDatetime), // conversion string -> Date
-        })),
-      ),
-    );
+    return this.#http
+      .get<Course[]>(`${this.apiUrl}/next-two-weeks`, { withCredentials: true })
+      .pipe(
+        map((courses) =>
+          courses.map((course) => ({
+            ...course,
+            startDatetime: new Date(course.startDatetime), // conversion string -> Date
+          })),
+        ),
+        catchError((error) => {
+          console.error('Error fetching courses', error);
+          return throwError(() => error);
+        }),
+      );
   }
 }
