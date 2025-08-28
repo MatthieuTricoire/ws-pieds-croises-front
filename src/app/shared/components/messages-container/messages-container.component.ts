@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MessageService } from '../../../chore/services/message.service';
 import { Message } from '../../models/message';
 import { MessageComponent } from '../message/message.component';
+import { TypographyComponent } from '../design-system/typography/typography.component';
 
 @Component({
   selector: 'app-messages-container',
-  imports: [MessageComponent],
+  imports: [MessageComponent, TypographyComponent],
   templateUrl: './messages-container.component.html',
   styleUrl: './messages-container.component.css',
 })

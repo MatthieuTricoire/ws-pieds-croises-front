@@ -1,11 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { AuthService } from '../../chore/services/auth.service';
-import { MessagesContainerComponent } from '../../shared/components/messages-container/messages-container.component';
-import { DayInfo } from '../../chore/services/week-selector.service';
+import { MessagesContainerComponent } from '../../shared/components/m
+import { JsonPipe } from '@angular/common';
+import { TypographyComponent } from '../../shared/components/design-system/typography/typography.component';
+import { CourseListComponent } from '../../shared/components/course-list/course-list.component';
 
 @Component({
   selector: 'app-test',
-  imports: [MessagesContainerComponent],
+  imports: [MessagesContainerComponent, TypographyComponent, CourseListComponent, JsonPipe],
   templateUrl: './test.component.html',
   styleUrl: './test.component.css',
 })

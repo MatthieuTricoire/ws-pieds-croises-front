@@ -6,7 +6,7 @@
     [ngClass]="messageConfig().iconColor"
     size="32"
   />
-  <div class="tooltip" data-tip="message().content">
+  <div class="tooltip" [attr.data-tip]="message().content">
     <span class="line-clamp-2">{{ message().content }}</span>
   </div>
 </div>

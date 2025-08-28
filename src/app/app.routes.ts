@@ -8,13 +8,15 @@ import { FirstLoginComponent } from './pages/first-login-page/first-login-page.c
 import { AskResetPasswordPageComponent } from './pages/ask-reset-password-page/ask-reset-password-page.component';
 import { NewPasswordPageComponent } from './pages/new-password-page/new-password-page.component';
 import { CourseReservationPageComponent } from './pages/course-reservation-page/course-reservation-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: '', component: TestComponent, canActivate: [authGuard] },
+      { path: '', component: HomePageComponent, canActivate: [authGuard] },
       { path: 'dashboard', component: TestComponent, canActivate: [authGuard] },
       { path: 'planification', component: TestComponent, canActivate: [authGuard] },
       { path: 'communication', component: TestComponent, canActivate: [authGuard] },
