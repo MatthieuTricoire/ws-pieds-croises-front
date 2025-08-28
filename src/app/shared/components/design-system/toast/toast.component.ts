@@ -13,6 +13,7 @@ import {
   selector: 'app-toast',
   imports: [LucideAngularModule],
   templateUrl: './toast.component.html',
+  styleUrl: './toast.component.css',
 })
 export class ToastComponent {
   toastService = inject(ToastService);

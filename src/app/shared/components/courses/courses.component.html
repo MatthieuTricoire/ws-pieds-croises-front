@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-body p-0 gap-6 md:grid md:grid-cols-3">
+    @for (course of courses(); let index = $index; track course.id) {
+      <app-course-card
+        [index]="index"
+        [course]="course"
+        (courseUpdated)="onCourseUpdated($event)"
+      />
+    } @empty {
+      <p class="text-center">Aucun cours disponible pour le moment.</p>
+    }
+  </div>
+</div>
