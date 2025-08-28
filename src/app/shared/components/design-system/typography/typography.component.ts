@@ -13,7 +13,7 @@ type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
 export class TypographyComponent {
   text = input.required<string>();
   tagType = input<Tag>('p');
-  className = input<string>(' ');
+  className = input<string>('');
 
   finalClass = computed(() => {
     switch (this.tagType()) {

@@ -1,11 +1,9 @@
 <section class="grid grid-cols-1 gap-4">
   <app-typography text="Séances à venir" tagType="h2" />
 
-  @if (courses().length > 0) {
-    @for (c of courses(); track c.id) {
-      <app-course-card [course]="c" />
-    }
-  } @else {
+  @for (course of courses(); track course.id) {
+    <app-course-card [course]="course" />
+  } @empty {
     <p class="text-center text-sm text-warning color col-span-full bg-base-200 rounded-xl p-7.5">
       Aucun cours à venir.
     </p>
