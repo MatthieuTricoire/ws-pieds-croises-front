@@ -1,4 +1,5 @@
 export interface BoxInfo {
+  name: string;
   email: string;
   phoneNumber: string;
   address: string;
