@@ -9,21 +9,25 @@
 
     @if (boxInfo$ | async; as boxInfo) {
       <div>
-        <h3 class="footer-title text-base md:text-lg">Contact</h3>
-        <p>Mail : {{ boxInfo.email }}</p>
-        <p>Tél : {{ boxInfo.phoneNumber }}</p>
+        <app-typography text="Contact" tagType="h3" class="footer-title text-base md:text-lg" />
+        <app-typography text="Mail : {{ boxInfo.email }}" tagType="p" />
+        <app-typography text="Tél : {{ boxInfo.phoneNumber }}" tagType="p" />
       </div>
 
       <div>
-        <h3 class="footer-title text-base md:text-lg">Infos pratiques</h3>
-        <p>{{ boxInfo.schedule }}</p>
-        <p>{{ boxInfo.address }}</p>
-        <p>{{ boxInfo.city }} {{ boxInfo.zipcode }}</p>
+        <app-typography
+          text="Infos pratiques"
+          tagType="h3"
+          class="footer-title text-base md:text-lg"
+        />
+        <app-typography text="{{ boxInfo.schedule }}" tagType="p" />
+        <app-typography text="{{ boxInfo.address }}" tagType="p" />
+        <app-typography text="{{ boxInfo.city }} {{ boxInfo.zipcode }}" tagType="p" />
       </div>
     }
 
     <div>
-      <h3 class="footer-title text-base md:text-lg">Légal</h3>
+      <app-typography text="Légal" tagType="h3" class="footer-title text-base md:text-lg" />
       <a href="#" class="link link-hover">Mentions légales</a><br />
       <a href="#" class="link link-hover">CGU</a><br />
       <a href="#" class="link link-hover">Confidentialités</a>
