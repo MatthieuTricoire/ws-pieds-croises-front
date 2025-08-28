@@ -12,6 +12,6 @@ export class BoxService {
   constructor(private http: HttpClient) {}
 
   getBoxInfo(): Observable<BoxInfo> {
-    return this.http.get<BoxInfo>(`${this.apiUrl}/box-info`);
+    return this.http.get<BoxInfo>(`${this.apiUrl}/box-info`, { withCredentials: true });
   }
 }
