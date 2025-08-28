@@ -1,5 +1,5 @@
 @if (course()) {
-  <article class="card card-side bg-base-200 text-base-content shadow-md max-w-sm">
+  <article class="card card-side bg-base-200 text-base-content shadow-md w-full">
     <time
       class="flex w-[57px] h-[57px] items-center justify-center flex-col bg-primary rounded-lg m-3 p-2 self-start md:self-center"
     >
@@ -12,7 +12,7 @@
     </time>
 
     <div class="card-body p-3 ml-3">
-      <h2 class="card-title text-base font-semibold leading-tight">{{ course().title }}</h2>
+      <h3 class="card-title text-base font-semibold leading-tight">{{ course().title }}</h3>
       <p class="text-sm leading-snug">
         {{ course().startDatetime | date: 'HH:mm' }} - {{ endDatetime() | date: 'HH:mm' }}
       </p>

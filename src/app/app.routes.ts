@@ -7,6 +7,7 @@ import { TestComponent } from './pages/test/test.component';
 import { FirstLoginComponent } from './pages/first-login-page/first-login-page.component';
 import { AskResetPasswordPageComponent } from './pages/ask-reset-password-page/ask-reset-password-page.component';
 import { NewPasswordPageComponent } from './pages/new-password-page/new-password-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       // TODO ajouter les future components
-      { path: '', component: TestComponent, canActivate: [authGuard] },
+      { path: '', component: HomePageComponent, canActivate: [authGuard] },
       { path: 'dashboard', component: TestComponent, canActivate: [authGuard] },
       { path: 'planification', component: TestComponent, canActivate: [authGuard] },
       { path: 'communication', component: TestComponent, canActivate: [authGuard] },
