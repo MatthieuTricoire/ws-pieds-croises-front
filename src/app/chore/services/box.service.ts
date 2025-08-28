@@ -7,7 +7,7 @@ import { BoxInfo } from '../../shared/models/boxInfo';
   providedIn: 'root',
 })
 export class BoxService {
-  private apiUrl = 'http://localhost:8080/boxes';
+  private apiUrl = 'http://localhost:8080/box';
   private boxInfoSubject = new BehaviorSubject<BoxInfo | null>(null);
   boxInfo$ = this.boxInfoSubject.asObservable();
 
