@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { ToastComponent } from './shared/components/design-system/toast/toast.component';
@@ -9,7 +9,7 @@ import { BoxService } from './chore/services/box.service';
   templateUrl: './app.component.html',
   imports: [RouterOutlet, LucideAngularModule, ToastComponent],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private boxService: BoxService) {}
 
   ngOnInit() {
