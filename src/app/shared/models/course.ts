@@ -4,7 +4,7 @@ export interface Course {
   id: number;
   title: string;
   description: string;
-  startDatetime: string;
+  startDatetime: Date;
   duration: number;
   personLimit: number;
   status: CourseStatus;
