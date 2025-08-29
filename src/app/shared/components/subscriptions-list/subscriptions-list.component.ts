@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SubscriptionService } from '../../../chore/services/subscription.service';
-import { Subscription as AppSubscription } from '../../models/subscription';
 import { SubscriptionCardComponent } from '../subscription-card/subscription-card.component';
 
 @Component({
@@ -10,25 +9,19 @@ import { SubscriptionCardComponent } from '../subscription-card/subscription-car
   imports: [CommonModule, SubscriptionCardComponent],
 })
 export class SubscriptionsListComponent implements OnInit {
-  private subscriptionService = inject(SubscriptionService);
+  subscriptionService = inject(SubscriptionService);
 
-  subscriptions: AppSubscription[] = [];
-  userSubscription = this.subscriptionService.userSubscription; // <- signal
-
-  ngOnInit(): void {
-    // les abonnements disponibles (une seule fois)
-    this.subscriptionService.getAllSubscriptions().subscribe({
-      next: (subscriptions) => (this.subscriptions = subscriptions),
-    });
-
-    // charge les souscriptions utilisateur initiales
-    this.subscriptionService.loadUserSubscription();
+  isCurrentSubscription(subscriptionId: number): boolean {
+    const current = this.subscriptionService.userSubscription();
+    return current?.subscriptionId === subscriptionId;
   }
 
-  // getUserSubscription(sub: AppSubscription) {
-  //   console.log(this.userSubscription());
-  //   if (this.userSubscription().subscriptionId === sub.id) {
-  //     return this.userSubscription();
-  //   }
-  // }
+  ngOnInit(): void {
+    this.subscriptionService.getActiveUserSubscription();
+    this.subscriptionService.getAllSubscriptions().subscribe({
+      next: (subscriptions) => {
+        this.subscriptionService.availableSubscriptions.set(subscriptions);
+      },
+    });
+  }
 }

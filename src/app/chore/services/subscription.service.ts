@@ -2,8 +2,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import {
-  UserSubscription,
   Subscription as AppSubscription,
+  UserSubscription,
 } from '../../shared/models/subscription';
 import { AuthService } from './auth.service';
 
@@ -12,16 +12,16 @@ export class SubscriptionService {
   private readonly baseUrl = 'http://localhost:8080';
   private readonly http = inject(HttpClient);
   private readonly auth = inject(AuthService);
-
-  /** état réactif des abonnements utilisateur */
+  // Signals
   userSubscription = signal<UserSubscription | null>(null);
+  availableSubscriptions = signal<AppSubscription[]>([]);
 
-  loadUserSubscription() {
+  getActiveUserSubscription() {
     const user = this.auth.userSignal();
     if (!user) throw new Error('Utilisateur non connecté');
 
     this.http
-      .get<UserSubscription>(`${this.baseUrl}/user-subscriptions/user/${user.id}`, {
+      .get<UserSubscription>(`${this.baseUrl}/user-subscriptions/active/user/${user.id}`, {
         withCredentials: true,
       })
       .subscribe((sub) => this.userSubscription.set(sub));
@@ -37,20 +37,16 @@ export class SubscriptionService {
     const user = this.auth.userSignal();
     if (!user) throw new Error('Utilisateur non connecté');
 
-    const now = new Date();
-    const startDate = new Date(now.getTime() + 1 * 60 * 60 * 1000);
-
     return this.http
       .post<UserSubscription>(
         `${this.baseUrl}/user-subscriptions`,
-        { userId: user.id, subscriptionId, startDate },
+        { userId: user.id, subscriptionId },
         { withCredentials: true },
       )
       .pipe(
-        tap((newSub) => {
-          // met à jour automatiquement le signal
-          if (newSub) {
-            this.userSubscription.set(newSub);
+        tap((newUserSubscription) => {
+          if (newUserSubscription) {
+            this.userSubscription.set(newUserSubscription);
           }
         }),
       );

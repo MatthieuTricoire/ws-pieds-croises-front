@@ -1,20 +1,25 @@
-@let userSubscription = userSubscriptionSignal();
-@let subscription = subscriptionSignal();
-
 <div
-  class="card w-[300px] text-content-neutral shadow-md border"
+  class="card w-[300px] text-content-neutral border bg-neutral border-neutral-content/10 transition-all duration-200 ease-in-out"
   [ngClass]="{
-    'bg-primary border-primary': userSubscription && isActive(),
-    'bg-neutral border-neutral-content/10 border-neutral': !userSubscription || !isActive(),
+    'bg-primary border-primary indicator shadow-[0px_0px_107px_27px_rgba(221,120,64,0.5)]':
+      isCurrentSubscription(),
   }"
 >
+  @if (isCurrentSubscription()) {
+    <div
+      class="indicator-item badge badge-lg badge-success rotate-[30deg]"
+      [class.show]="isCurrentSubscription()"
+    >
+      Activé !
+    </div>
+  }
   <div class="card-body p-6 gap-4">
-    <h2 class="text-2xl font-bold text-center">{{ subscription.name }}</h2>
+    <h2 class="text-2xl font-bold text-center">{{ subscription().name }}</h2>
 
     <div class="flex justify-center items-end gap-1">
       <div class="flex items-baseline gap-1">
         <span class="text-2xl font-bold">€</span>
-        <span class="text-5xl font-bold opacity-90">{{ subscription.price }}</span>
+        <span class="text-5xl font-bold opacity-90">{{ subscription().price }}</span>
       </div>
       <span class="text-sm">/ mois</span>
     </div>
@@ -22,46 +27,49 @@
     <ul class="mt-4 flex flex-col gap-2 text-sm">
       <li class="flex flex-wrap">
         <span
-          class="font-semibold mr-1"
-          [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
+          class="font-semibold mr-1 text-primary"
+          [ngClass]="{ 'text-secondary-content': isCurrentSubscription() }"
           >Durée</span
         >
-        <span>: {{ subscription.duration }} jours</span>
+        <span>: {{ subscription().duration }} jours</span>
       </li>
       <li class="flex flex-wrap">
         <span
-          class="font-semibold mr-1"
-          [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
+          class="font-semibold mr-1 text-primary"
+          [ngClass]="{ 'text-secondary-content': isCurrentSubscription() }"
           >Accès</span
         >
-        <span>: {{ subscription.sessionPerWeek || 0 }} / semaine</span>
+        <span>: {{ subscription().sessionPerWeek || 0 }} / semaine</span>
       </li>
-      @if (userSubscription) {
-        <li class="flex flex-wrap">
-          <span
-            class="font-semibold mr-1"
-            [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
-            >Commence le</span
-          >
-          <span>: {{ userSubscription.startDate | date: 'dd/MM/yyyy' }}</span>
-        </li>
-        <li class="flex flex-wrap">
-          <span
-            class="font-semibold mr-1"
-            [ngClass]="{ 'text-primary': !isActive(), 'text-secondary-content': isActive() }"
-            >Prend fin le</span
-          >
-          <span>: {{ userSubscription.endDate | date: 'dd/MM/yyyy' }}</span>
-        </li>
-      }
     </ul>
+    <div
+      class="overflow-hidden transition-all duration-200 ease-in-out"
+      [ngClass]="{
+        'max-h-32 opacity-100': isCurrentSubscription(),
+        'max-h-0 opacity-0': !isCurrentSubscription(),
+      }"
+    >
+      @let staticUserSubscription = userSubscription();
+      @if (staticUserSubscription && staticUserSubscription.subscriptionId === subscription().id) {
+        <ul>
+          <li class="flex flex-wrap">
+            <span class="font-semibold mr-1 text-secondary-content">Commence le</span>
+            <span>: {{ staticUserSubscription.startDate | date: 'dd/MM/yyyy' }}</span>
+          </li>
+          <li class="flex flex-wrap">
+            <span class="font-semibold mr-1 text-secondary-content">Prend fin le</span>
+            <span>: {{ staticUserSubscription.endDate | date: 'dd/MM/yyyy' }}</span>
+          </li>
+        </ul>
+      }
+    </div>
     <div class="mt-6 w-full card-actions">
       <button
-        class="btn btn-block"
-        [ngClass]="{ 'btn-neutral': isActive(), 'btn-primary': !isActive() }"
-        (click)="isActive() ? onCancel() : onSubscribe()"
+        class="btn btn-block btn-primary"
+        [ngClass]="{ 'bg-neutral btn-neutral!': isCurrentSubscription() }"
+        (click)="isCurrentSubscription() ? onCancel() : onSubscribe()"
       >
-        {{ isActive() ? "Arrêter l'abonnement" : 'Souscrire' }}
+        {{ isCurrentSubscription() ? "Arrêter l'abonnement" : 'Souscrire' }}
       </button>
     </div>
   </div>
