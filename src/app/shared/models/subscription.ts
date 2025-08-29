@@ -16,6 +16,5 @@ export interface Subscription {
   duration: number;
   freezeDaysAllowed: number;
   terminationConditions?: string;
-  // box?: Box;
   userSubscriptions?: UserSubscription[];
 }
