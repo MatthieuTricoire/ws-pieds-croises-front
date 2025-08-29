@@ -9,6 +9,7 @@ import { AskResetPasswordPageComponent } from './pages/ask-reset-password-page/a
 import { NewPasswordPageComponent } from './pages/new-password-page/new-password-page.component';
 import { CourseReservationPageComponent } from './pages/course-reservation-page/course-reservation-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UsersPageComponent } from './pages/user-page/user-page.component';
 import { MessagesPageComponent } from './pages/messages-page/messages-page.component';
 
@@ -26,7 +27,7 @@ export const routes: Routes = [
       { path: 'stats', component: TestComponent, canActivate: [authGuard] },
       { path: 'planning', component: CourseReservationPageComponent, canActivate: [authGuard] },
       { path: 'gestion', component: TestComponent, canActivate: [authGuard] },
-      { path: 'profile', component: TestComponent, canActivate: [authGuard] },
+      { path: 'profile', component: ProfilePageComponent, canActivate: [authGuard] },
       { path: 'test', component: TestComponent, canActivate: [authGuard] },
 
       {

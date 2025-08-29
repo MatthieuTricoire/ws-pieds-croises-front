@@ -1,8 +1,10 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { Course } from '../../shared/models/course';
 import { AuthUser, CreateUser } from '../../shared/models/authUser';
+import { AuthService } from './auth.service';
+import { AuthUser } from '../../shared/models/authUser';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +12,8 @@ import { AuthUser, CreateUser } from '../../shared/models/authUser';
 export class UserService {
   #apiUrl = 'http://localhost:8080/users';
   #http = inject(HttpClient);
+  #authService = inject(AuthService);
+  user = computed(() => this.#authService.userSignal());
 
   #users = signal<AuthUser[]>([]);
   #error = signal<string | null>(null);
@@ -89,9 +93,55 @@ export class UserService {
         })),
       ),
       catchError((error) => {
-        console.error('Error fetching courses', error);
         return throwError(() => error);
       }),
     );
+  }
+
+  updateProfile(user: AuthUser) {
+    return this.#http.put<AuthUser>(`${this.apiUrl}/profile`, user, { withCredentials: true }).pipe(
+      tap((updatedUser) => {
+        // Met à jour le signal user et le flag logged in
+        this.#authService.userSignal.set(updatedUser);
+        this.#authService.isLoggedInSignal.set(true);
+      }),
+      catchError((err) => {
+        return throwError(() => err);
+      }),
+    );
+  }
+
+  uploadProfilePicture(userId: number, file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // responseType: 'text' pour indiquer que la réponse est une chaîne de caractères
+    return this.#http.post(`${this.apiUrl}/profile/profile-picture`, formData, {
+      responseType: 'text',
+      withCredentials: true,
+    });
+  }
+
+  deleteProfilePicture(): Observable<string> {
+    return this.#http
+      .delete(`${this.apiUrl}/profile/profile-picture`, {
+        responseType: 'text',
+        withCredentials: true,
+      })
+      .pipe(
+        tap(() => {
+          // Met à jour le signal user pour retirer la photo
+          const currentUser = this.#authService.userSignal();
+          if (currentUser) {
+            this.#authService.userSignal.set({
+              ...currentUser,
+              profilePicture: null,
+            });
+          }
+        }),
+        catchError((err) => {
+          return throwError(() => err);
+        }),
+      );
   }
 }

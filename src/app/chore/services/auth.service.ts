@@ -13,6 +13,7 @@ export class AuthService {
   isLoggedInSignal = signal<boolean>(false);
   isAdminSignal = computed(() => this.userSignal()?.roles.includes('ROLE_ADMIN') ?? false);
   isCoachSignal = computed(() => this.userSignal()?.roles.includes('ROLE_COACH') ?? false);
+  userUpdateSignal = signal<AuthUser | null>(null);
 
   // Injections
   #router: Router = inject(Router);
@@ -25,6 +26,10 @@ export class AuthService {
 
   constructor() {
     this.checkAuthStatus();
+  }
+
+  getApiUrl(): string {
+    return this.#apiUrl; // 👈 accessible depuis le template
   }
 
   login(email: string, password: string): Observable<boolean> {
@@ -191,4 +196,6 @@ export class AuthService {
     const user = this.userSignal();
     return user?.roles.includes(role) ?? false;
   }
+
+
 }
