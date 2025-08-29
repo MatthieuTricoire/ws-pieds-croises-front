@@ -12,11 +12,11 @@ import { TypographyComponent } from '../design-system/typography/typography.comp
   imports: [CommonModule, CourseCardComponent, CourseCardComponent, TypographyComponent],
 })
 export class CourseListComponent {
-  private courseService = inject(UserService);
+  #courseService = inject(UserService);
   readonly courses = signal<Course[]>([]);
 
   constructor() {
-    this.courseService
+    this.#courseService
       .getUserCourses()
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {

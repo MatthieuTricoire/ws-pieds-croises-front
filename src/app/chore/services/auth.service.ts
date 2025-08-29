@@ -19,9 +19,9 @@ export class AuthService {
   #http = inject(HttpClient);
 
   // Configuration
-  private readonly apiUrl = 'http://localhost:8080';
-  private readonly defaultRoute = '/dashboard'; // Plus parlant que /test
-  private readonly returnUrlKey = 'auth_return_url';
+  readonly #apiUrl = 'http://localhost:8080';
+  readonly #defaultRoute = '/dashboard'; // Plus parlant que /test
+  readonly #returnUrlKey = 'auth_return_url';
 
   constructor() {
     this.checkAuthStatus();
@@ -30,7 +30,7 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     return this.#http
       .post(
-        `${this.apiUrl}/auth/login`,
+        `${this.#apiUrl}/auth/login`,
         { email, password },
         {
           withCredentials: true,
@@ -64,7 +64,7 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return this.#http
-      .get<boolean>(`${this.apiUrl}/auth/check`, {
+      .get<boolean>(`${this.#apiUrl}/auth/check`, {
         withCredentials: true,
       })
       .pipe(
@@ -77,7 +77,7 @@ export class AuthService {
 
   firstLogin(password: string, registrationToken: string): Observable<string> {
     return this.#http.post(
-      `${this.apiUrl}/auth/register`,
+      `${this.#apiUrl}/auth/register`,
       { password, registrationToken },
       { responseType: 'text', withCredentials: true },
     );
@@ -85,7 +85,7 @@ export class AuthService {
 
   askNewPassword(email: string): Observable<string> {
     return this.#http.post(
-      `${this.apiUrl}/auth/forgot-password`,
+      `${this.#apiUrl}/auth/forgot-password`,
       { email },
       { responseType: 'text' },
     );
@@ -93,14 +93,14 @@ export class AuthService {
 
   resetPassword(resetPasswordToken: string, newPassword: string): Observable<string> {
     return this.#http.post(
-      `${this.apiUrl}/auth/reset-password`,
+      `${this.#apiUrl}/auth/reset-password`,
       { resetPasswordToken, newPassword },
       { responseType: 'text' },
     );
   }
 
   logout(): Observable<void> {
-    return this.#http.post<void>(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
+    return this.#http.post<void>(`${this.#apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
       tap(() => {
         this.markAsLoggedOut();
         this.clearReturnUrl();
@@ -123,19 +123,19 @@ export class AuthService {
 
   // Persistance de l'URL de retour
   setReturnUrl(url: string): void {
-    sessionStorage.setItem(this.returnUrlKey, url);
+    sessionStorage.setItem(this.#returnUrlKey, url);
   }
 
   private getReturnUrl(): string | null {
-    return sessionStorage.getItem(this.returnUrlKey);
+    return sessionStorage.getItem(this.#returnUrlKey);
   }
 
   private clearReturnUrl(): void {
-    sessionStorage.removeItem(this.returnUrlKey);
+    sessionStorage.removeItem(this.#returnUrlKey);
   }
 
   getCurrentUser(): Observable<AuthUser> {
-    return this.#http.get<AuthUser>(`${this.apiUrl}/auth/me`, { withCredentials: true });
+    return this.#http.get<AuthUser>(`${this.#apiUrl}/auth/me`, { withCredentials: true });
   }
 
   loadCurrentUser(): Observable<AuthUser> {
@@ -173,7 +173,7 @@ export class AuthService {
       this.clearReturnUrl();
       this.#router.navigateByUrl(returnUrl);
     } else {
-      this.#router.navigate([this.defaultRoute]);
+      this.#router.navigate([this.#defaultRoute]);
     }
   }
 

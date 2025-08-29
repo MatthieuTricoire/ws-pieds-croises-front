@@ -25,9 +25,9 @@ import { AuthService } from '../../chore/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
-  private readonly authService = inject(AuthService);
+  readonly #authService = inject(AuthService);
 
-  readonly isAdmin = this.authService.isAdminSignal();
+  readonly isAdmin = this.#authService.isAdminSignal();
 
   readonly buttonsAdmin: ButtonNav[] = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
@@ -55,7 +55,7 @@ export class SidebarComponent {
   ]);
 
   logout(): void {
-    this.authService.logout();
+    this.#authService.logout();
   }
 
   protected readonly Cog = Cog;

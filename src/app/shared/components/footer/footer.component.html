@@ -1,32 +1,39 @@
-<footer class="bg-neutral text-neutral-content p-10 border-t border-[#444444] text-sm md:text-base">
-  <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
-    <div class="flex justify-center items-center gap-8">
-      <a href="#" class="hover:text-primary"><i class="fab fa-x-twitter fa-2x"></i></a>
-      <a href="#" class="hover:text-primary"><i class="fab fa-instagram fa-2x"></i></a>
-      <a href="#" class="hover:text-primary"><i class="fab fa-youtube fa-2x"></i></a>
-      <a href="#" class="hover:text-primary"><i class="fab fa-linkedin fa-2x"></i></a>
-    </div>
-
-    @if (boxInfo$ | async; as boxInfo) {
-      <div>
-        <h3 class="footer-title text-base md:text-lg">Contact</h3>
-        <p>Mail : {{ boxInfo.email }}</p>
-        <p>Tél : {{ boxInfo.phoneNumber }}</p>
-      </div>
-
-      <div>
-        <h3 class="footer-title text-base md:text-lg">Infos pratiques</h3>
-        <p>{{ boxInfo.schedule }}</p>
-        <p>{{ boxInfo.address }}</p>
-        <p>{{ boxInfo.city }} {{ boxInfo.zipcode }}</p>
-      </div>
+<footer
+  class="flex justify-around gap-8 max-[950px]:flex-col max-[950px]:justify-center max-[950px]:items-center max-[950px]:text-center bg-neutral p-8 max-[950px]:px-2 border-t border-base-300"
+>
+  <div class="flex justify-center items-center gap-4">
+    @for (socialBtn of socialButtons; track $index) {
+      <a
+        [href]="socialBtn.path"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="socialBtn.label"
+        class="hover:text-primary"
+      >
+        <lucide-icon [img]="socialBtn.icon" class="h-6 w-6 md:h-8 md:w-8"></lucide-icon>
+      </a>
     }
+  </div>
+
+  @if (boxInfo$ | async; as boxInfo) {
+    <div>
+      <h3 class="footer-title text-base md:text-lg">Contact</h3>
+      <p>Mail : {{ boxInfo.email }}</p>
+      <p>Tél : {{ boxInfo.phoneNumber }}</p>
+    </div>
 
     <div>
-      <h3 class="footer-title text-base md:text-lg">Légal</h3>
-      <a href="#" class="link link-hover">Mentions légales</a><br />
-      <a href="#" class="link link-hover">CGU</a><br />
-      <a href="#" class="link link-hover">Confidentialités</a>
+      <h3 class="footer-title text-base md:text-lg">Infos pratiques</h3>
+      <p>{{ boxInfo.schedule }}</p>
+      <p>{{ boxInfo.address }}</p>
+      <p>{{ boxInfo.city }} {{ boxInfo.zipcode }}</p>
     </div>
+  }
+
+  <div>
+    <h3 class="footer-title text-base md:text-lg">Légal</h3>
+    <a href="#" class="link link-hover">Mentions légales</a><br />
+    <a href="#" class="link link-hover">CGU</a><br />
+    <a href="#" class="link link-hover">Confidentialités</a>
   </div>
 </footer>
