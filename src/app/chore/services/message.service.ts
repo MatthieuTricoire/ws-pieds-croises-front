@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Message } from '../../shared/models/message';
@@ -7,11 +7,10 @@ import { Message } from '../../shared/models/message';
   providedIn: 'root',
 })
 export class MessageService {
-  private apiUrl = 'http://localhost:8080/messages';
-
-  constructor(private http: HttpClient) {}
+  #apiUrl = 'http://localhost:8080/messages';
+  #http = inject(HttpClient);
 
   getActiveMessages(): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}?status=active`, { withCredentials: true });
+    return this.#http.get<Message[]>(`${this.#apiUrl}?status=active`, { withCredentials: true });
   }
 }
