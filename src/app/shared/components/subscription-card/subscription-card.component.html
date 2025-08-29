@@ -37,9 +37,23 @@
         <span
           class="font-semibold mr-1 text-primary"
           [ngClass]="{ 'text-secondary-content': isCurrentSubscription() }"
-          >Accès</span
+          >Nombre sessions</span
         >
-        <span>: {{ subscription().sessionPerWeek || 0 }} / semaine</span>
+        <span
+          >:
+          {{
+            subscription().sessionPerWeek === null ? 'Illimité' : subscription().sessionPerWeek || 0
+          }}
+          / semaine</span
+        >
+      </li>
+      <li class="flex flex-wrap">
+        <span
+          class="font-semibold mr-1 text-primary"
+          [ngClass]="{ 'text-secondary-content': isCurrentSubscription() }"
+          >Nombre de jours de gel</span
+        >
+        <span>: {{ subscription().freezeDaysAllowed }}</span>
       </li>
     </ul>
     <div
@@ -59,6 +73,10 @@
           <li class="flex flex-wrap">
             <span class="font-semibold mr-1 text-secondary-content">Prend fin le</span>
             <span>: {{ staticUserSubscription.endDate | date: 'dd/MM/yyyy' }}</span>
+          </li>
+          <li class="flex flex-wrap">
+            <span class="font-semibold mr-1 text-secondary-content">Gels disponibles</span>
+            <span>: {{ staticUserSubscription.freezeDaysRemaining }}</span>
           </li>
         </ul>
       }

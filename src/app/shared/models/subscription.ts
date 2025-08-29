@@ -12,7 +12,7 @@ export interface Subscription {
   id: number;
   name: string;
   price: number;
-  sessionPerWeek?: number;
+  sessionPerWeek?: number | null;
   duration: number;
   freezeDaysAllowed: number;
   terminationConditions?: string;
