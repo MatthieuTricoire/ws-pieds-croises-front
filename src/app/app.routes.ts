@@ -7,14 +7,15 @@ import { TestComponent } from './pages/test/test.component';
 import { FirstLoginComponent } from './pages/first-login-page/first-login-page.component';
 import { AskResetPasswordPageComponent } from './pages/ask-reset-password-page/ask-reset-password-page.component';
 import { NewPasswordPageComponent } from './pages/new-password-page/new-password-page.component';
+import { CourseReservationPageComponent } from './pages/course-reservation-page/course-reservation-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
     children: [
-      // TODO ajouter les future components
       { path: '', component: HomePageComponent, canActivate: [authGuard] },
       { path: 'dashboard', component: TestComponent, canActivate: [authGuard] },
       { path: 'planification', component: TestComponent, canActivate: [authGuard] },
@@ -22,7 +23,7 @@ export const routes: Routes = [
       { path: 'utilisateurs', component: TestComponent, canActivate: [authGuard] },
       { path: 'abonnements', component: TestComponent, canActivate: [authGuard] },
       { path: 'stats', component: TestComponent, canActivate: [authGuard] },
-      { path: 'planning', component: TestComponent, canActivate: [authGuard] },
+      { path: 'planning', component: CourseReservationPageComponent, canActivate: [authGuard] },
       { path: 'gestion', component: TestComponent, canActivate: [authGuard] },
       { path: 'profile', component: TestComponent, canActivate: [authGuard] },
       { path: 'test', component: TestComponent, canActivate: [authGuard] },

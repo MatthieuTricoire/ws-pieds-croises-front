@@ -15,7 +15,7 @@ export class UserService {
       map((courses) =>
         courses.map((course) => ({
           ...course,
-          startDatetime: new Date(course.startDatetime), // conversion string -> Date
+          startDatetime: new Date(course.startDatetime),
         })),
       ),
       catchError((error) => {

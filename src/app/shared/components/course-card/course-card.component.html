@@ -1,21 +1,41 @@
-@if (course()) {
-  <article class="card card-side bg-base-200 text-base-content shadow-md w-full">
-    <time
-      class="flex w-[57px] h-[57px] items-center justify-center flex-col bg-primary rounded-lg m-3 p-2 self-start md:self-center"
-    >
-      <span class="block font-semibold text-base leading-tight text-center">
-        {{ course().startDatetime | date: 'dd' }}
-      </span>
-      <span class="block font-semibold text-base leading-tight text-center">
-        {{ course().startDatetime | date: 'MMM' }}
-      </span>
-    </time>
 
-    <div class="card-body p-3 ml-3">
-      <h3 class="card-title text-base font-semibold leading-tight">{{ course().title }}</h3>
-      <p class="text-sm leading-snug">
-        {{ course().startDatetime | date: 'HH:mm' }} - {{ endDatetime() | date: 'HH:mm' }}
-      </p>
+<div class="indicator w-full">
+  @if (isUserRegistered()) {
+    <div class="indicator-item top-0 right-10 badge badge-success">Inscris</div>
+  }
+  @if (isCourseFull() && !isUserRegistered()) {
+    <div class="indicator-item top-0 right-10 badge badge-error">Complet</div>
+  }
+  <div
+    class="collapse border border-base-300 bg-base-200 w-full md:collapse-open"
+    [ngClass]="{ 'border-success': isUserRegistered(), 'border-error': isCourseFull() }"
+  >
+    <input type="radio" name="course-accordion" />
+    <div class="collapse-title text-base flex justify-between px-4 items-center gap-2">
+      <div class="flex flex-col">
+        <div>{{ getStartTime() }}</div>
+        <div>{{ getEndTime() }}</div>
+      </div>
+      <div class="text-center font-medium text-lg">{{ course().description }}</div>
+      <div
+        class="flex items-center text-sm shrink-0"
+        [ngClass]="occupiedSlots() === totalSlots() ? 'text-error' : ''"
+      >
+        <lucide-angular [img]="Users" [size]="18" class="mr-1" />
+        {{ occupiedSlots() }} / {{ totalSlots() }}
+      </div>
     </div>
-  </article>
-}
+    <div class="collapse-content flex items-center justify-between">
+      <div>Coach : {{ course().coachName }}</div>
+      <button
+        class="btn btn-sm flex items-center gap-2"
+        [class]="buttonConfig().variant"
+        [disabled]="buttonConfig().disabled"
+        (click)="handleCourseAction(); $event.stopPropagation()"
+      >
+        <lucide-angular [img]="buttonConfig().icon" size="16" />
+        {{ buttonConfig().text }}
+      </button>
+    </div>
+  </div>
+</div>

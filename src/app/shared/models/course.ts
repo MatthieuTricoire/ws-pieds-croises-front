@@ -1,17 +1,14 @@
+type CourseStatus = 'OPEN' | 'FULL' | 'CANCELLED';
+
 export interface Course {
-  id?: number;
+  id: number;
   title: string;
-  description?: string;
+  description: string;
   startDatetime: Date;
   duration: number;
   personLimit: number;
   status: CourseStatus;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export enum CourseStatus {
-  OPEN = 'OPEN',
-  FULL = 'FULL',
-  CANCELLED = 'CANCELLED',
+  usersId: number[];
+  coachName: string;
+  coachId: number;
 }
