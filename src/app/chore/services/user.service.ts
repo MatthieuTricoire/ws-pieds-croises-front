@@ -7,11 +7,11 @@ import { Course } from '../../shared/models/course';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/users';
+  #apiUrl = 'http://localhost:8080/users';
   #http = inject(HttpClient);
 
   getUserCourses(): Observable<Course[]> {
-    return this.#http.get<Course[]>(`${this.apiUrl}/courses`, { withCredentials: true }).pipe(
+    return this.#http.get<Course[]>(`${this.#apiUrl}/courses`, { withCredentials: true }).pipe(
       map((courses) =>
         courses.map((course) => ({
           ...course,
