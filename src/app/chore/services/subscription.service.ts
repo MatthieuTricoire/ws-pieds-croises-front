@@ -21,7 +21,8 @@ export class SubscriptionService {
     if (!user) throw new Error('Utilisateur non connecté');
 
     this.http
-      .get<UserSubscription>(`${this.baseUrl}/user-subscriptions/active/user/${user.id}`, {
+      .get<UserSubscription>(`${this.baseUrl}/user-subscriptions/user/${user.id}`, {
+        params: { status: 'ACTIVE' },
         withCredentials: true,
       })
       .subscribe((sub) => this.userSubscription.set(sub));
