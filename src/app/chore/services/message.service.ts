@@ -13,4 +13,8 @@ export class MessageService {
   getActiveMessages(): Observable<Message[]> {
     return this.#http.get<Message[]>(`${this.#apiUrl}?status=active`, { withCredentials: true });
   }
+
+  getAllMesseges(): Observable<Message[]> {
+    return this.#http.get<Message[]>(this.#apiUrl, { withCredentials: true });
+  }
 }

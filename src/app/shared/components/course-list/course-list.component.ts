@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../../chore/services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Course } from '../../models/course';
-import { CourseCardComponent } from '../course-card/course-card.component';
 import { TypographyComponent } from '../design-system/typography/typography.component';
+import { SuscribedCourseCardComponent } from '../suscribed-course-card/suscribed-course-card.component';
 
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
-  imports: [CommonModule, CourseCardComponent, CourseCardComponent, TypographyComponent],
+  imports: [CommonModule, TypographyComponent, SuscribedCourseCardComponent],
 })
 export class CourseListComponent {
   #courseService = inject(UserService);

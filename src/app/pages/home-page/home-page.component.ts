@@ -7,6 +7,5 @@ import { MessagesContainerComponent } from '../../shared/components/messages-con
   selector: 'app-home-page',
   imports: [HeaderHomePageComponent, CourseListComponent, MessagesContainerComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css',
 })
 export class HomePageComponent {}
