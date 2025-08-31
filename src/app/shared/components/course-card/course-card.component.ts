@@ -56,7 +56,6 @@ export class CourseCardComponent {
   } as const;
 
   course = input.required<Course>();
-  index = input.required<number>();
   isLoading = signal(false);
   courseUpdated = output<Course>();
 
@@ -139,7 +138,6 @@ export class CourseCardComponent {
 
     if (this.isCourseFull()) {
       return {
-        // text: this.MESSAGES.WAITING_LIST,
         text: 'Complet',
         variant: 'btn-disabled',
         icon: CircleAlert,
