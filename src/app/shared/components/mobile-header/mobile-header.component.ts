@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { LogOut, LucideAngularModule } from 'lucide-angular';
 import { AuthService } from '../../../chore/services/auth.service';
 import { TypographyComponent } from '../design-system/typography/typography.component';
+import { BoxService } from '../../../chore/services/box.service';
 
 @Component({
   selector: 'app-mobile-header',
@@ -11,11 +12,10 @@ import { TypographyComponent } from '../design-system/typography/typography.comp
 })
 export class MobileHeaderComponent {
   #authService = inject(AuthService);
-  // #boxService = inject(BoxService)
+  #boxService = inject(BoxService);
 
   userName = `${this.#authService.userSignal()?.firstname} ${this.#authService.userSignal()?.lastname}`;
-  // boxName = this.#boxName.boxSignal().name;
-  boxName = 'Super Box!!!';
+  boxName = this.#boxService.boxSignal()?.name;
 
   logOut() {
     this.#authService.logout().subscribe();

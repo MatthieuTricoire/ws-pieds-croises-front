@@ -1,20 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { BoxInfo } from '../../models/boxInfo';
 import { BoxService } from '../../../chore/services/box.service';
-import { AsyncPipe } from '@angular/common';
 import { LucideAngularModule, X, Instagram, Youtube, Linkedin } from 'lucide-angular';
 import { ButtonNav } from '../../models/buttonNav';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [AsyncPipe, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './footer.component.html',
 })
 export class FooterComponent {
   #boxService = inject(BoxService);
-  boxInfo$: Observable<BoxInfo | null> = this.#boxService.boxInfo$;
+  boxInfo = this.#boxService.boxSignal;
 
   readonly socialButtons: ButtonNav[] = [
     { label: 'Lien vers le compte X', path: 'https://twitter.com', icon: X },

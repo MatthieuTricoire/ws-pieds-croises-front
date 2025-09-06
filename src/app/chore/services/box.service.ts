@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 import { BoxInfo } from '../../shared/models/boxInfo';
 
 @Injectable({
@@ -8,20 +7,20 @@ import { BoxInfo } from '../../shared/models/boxInfo';
 })
 export class BoxService {
   #apiUrl = 'http://localhost:8080/box';
-  #boxInfoSubject = new BehaviorSubject<BoxInfo | null>(null);
   #http = inject(HttpClient);
-  boxInfo$ = this.#boxInfoSubject.asObservable();
+
+  boxSignal = signal<BoxInfo | null>(null);
 
   fetchBoxInfo() {
     this.#http.get<BoxInfo>(`${this.#apiUrl}/box-info`, { withCredentials: true }).subscribe({
-      next: (data) => this.#boxInfoSubject.next(data),
+      next: (data) => this.boxSignal.set(data),
       error: (error) => console.error('Error while loading the box', error),
     });
   }
 
   updateBoxInfo(data: BoxInfo) {
     this.#http.put<BoxInfo>(`${this.#apiUrl}/box-info`, data, { withCredentials: true }).subscribe({
-      next: (updatedBox) => this.#boxInfoSubject.next(updatedBox),
+      next: (updatedBox) => this.boxSignal.set(updatedBox),
       error: (error) => console.error('Error while updating the box', error),
     });
   }
