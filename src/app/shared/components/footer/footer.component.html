@@ -15,7 +15,7 @@
     }
   </div>
 
-  @if (boxInfo$ | async; as boxInfo) {
+  @if (boxInfo(); as boxInfo) {
     <div>
       <h3 class="footer-title text-base md:text-lg">Contact</h3>
       <p>Mail : {{ boxInfo.email }}</p>
