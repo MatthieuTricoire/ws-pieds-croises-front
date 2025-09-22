@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .modal-backdrop {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    display: grid;
+    align-self: stretch;
+    justify-self: stretch;
+    color: transparent;
+    z-index: -1;
+
+    /*backdrop-filter: blur(4px);*/
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .modal-box {
+    background-color: var(--color-base-200);
+  }
+}
+
 
 @plugin "daisyui" {
   themes: corporate --default;
