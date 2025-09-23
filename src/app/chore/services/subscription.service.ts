@@ -4,23 +4,24 @@ import { Observable, tap } from 'rxjs';
 import {
   Subscription as AppSubscription,
   UserSubscription,
-} from '../../shared/models/subscription';
+} from '../../shared/models/user-subscription';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
   private readonly baseUrl = 'http://localhost:8080';
-  private readonly http = inject(HttpClient);
-  private readonly auth = inject(AuthService);
+  #http = inject(HttpClient);
+  #auth = inject(AuthService);
+
   // Signals
   userSubscription = signal<UserSubscription | null>(null);
   availableSubscriptions = signal<AppSubscription[]>([]);
 
   getActiveUserSubscription() {
-    const user = this.auth.userSignal();
+    const user = this.#auth.userSignal();
     if (!user) throw new Error('Utilisateur non connecté');
 
-    this.http
+    this.#http
       .get<UserSubscription>(`${this.baseUrl}/user-subscriptions/user/${user.id}`, {
         params: { status: 'ACTIVE' },
         withCredentials: true,
@@ -29,16 +30,16 @@ export class SubscriptionService {
   }
 
   getAllSubscriptions(): Observable<AppSubscription[]> {
-    return this.http.get<AppSubscription[]>(`${this.baseUrl}/subscriptions`, {
+    return this.#http.get<AppSubscription[]>(`${this.baseUrl}/subscriptions`, {
       withCredentials: true,
     });
   }
 
   createUserSubscription(subscriptionId: number) {
-    const user = this.auth.userSignal();
+    const user = this.#auth.userSignal();
     if (!user) throw new Error('Utilisateur non connecté');
 
-    return this.http
+    return this.#http
       .post<UserSubscription>(
         `${this.baseUrl}/user-subscriptions`,
         { userId: user.id, subscriptionId },
@@ -56,7 +57,7 @@ export class SubscriptionService {
     userId: number,
     subscriptionId: number,
   ): Observable<UserSubscription> {
-    return this.http.post<UserSubscription>(
+    return this.#http.post<UserSubscription>(
       `${this.baseUrl}/user-subscriptions`,
       { userId, subscriptionId },
       { withCredentials: true },
@@ -64,7 +65,7 @@ export class SubscriptionService {
   }
 
   deleteUserSubscription(userSubscriptionId: number): Observable<void> {
-    return this.http
+    return this.#http
       .delete<void>(`${this.baseUrl}/user-subscriptions/${userSubscriptionId}`, {
         withCredentials: true,
       })

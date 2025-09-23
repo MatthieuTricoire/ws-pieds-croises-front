@@ -1,0 +1,16 @@
+<section class="relative flex flex-col items-center justify-center gap-14 max-md:gap-7 pt-36">
+  <!-- Image de fond + overlay dégradé -->
+  <div class="absolute inset-0 w-full h-full z-0">
+    <img
+      alt="Image de couverture du profil"
+      class="w-full h-full object-cover opacity-20"
+      src="/bg-profile-page.png"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70"></div>
+  </div>
+
+  <!-- Carte utilisateur centrée -->
+  <div class="relative w-full max-w-4xl px-4 md:px-0">
+    <app-user-card />
+  </div>
+</section>

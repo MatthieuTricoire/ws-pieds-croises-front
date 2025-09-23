@@ -7,9 +7,10 @@ export interface AuthUser {
   firstname: string;
   lastname: string;
   email: string;
-  roles: Role[];
   phone: string;
-  photoUrl: string;
+  profilePicture: string | null;
+  roles: Role[];
+  createdAt: Date;
   userSubscriptions: UserSubscription[];
 }
 

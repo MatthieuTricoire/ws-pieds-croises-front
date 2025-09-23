@@ -4,7 +4,7 @@ import { ModalService } from '../../../chore/services/modal.service';
 import { NgClass } from '@angular/common';
 import { Check, Edit, LucideAngularModule, PlusIcon, Trash, X } from 'lucide-angular';
 import { AuthUser } from '../../models/authUser';
-import { UserSubscription } from '../../models/subscription';
+import { UserSubscription } from '../../models/user-subscription';
 import { UserCreationFormComponent } from '../forms/user-creation-form/user-creation-form.component';
 import { SubscriptionService } from '../../../chore/services/subscription.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';

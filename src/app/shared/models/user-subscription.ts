@@ -1,3 +1,5 @@
+export type userSubscriptionStatus = 'ACTIVE' | 'CANCELLED' | 'EXPIRED';
+
 export interface Subscription {
   id: number;
   name: string;
@@ -9,12 +11,13 @@ export interface Subscription {
 
 export interface UserSubscription {
   id: number;
+  startDate: Date;
+  endDate: Date;
+  freezeDaysRemaining: number;
   userId: number;
   subscriptionId: number;
-  startDate: string;
-  endDate: string;
-  freezeDaysRemaining: number;
   subscription: Subscription;
+  status: userSubscriptionStatus;
 }
 
 export interface SubscriptionValidation {

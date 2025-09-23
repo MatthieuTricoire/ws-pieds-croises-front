@@ -13,13 +13,14 @@ export class AuthService {
   isLoggedInSignal = signal<boolean>(false);
   isAdminSignal = computed(() => this.userSignal()?.roles.includes('ROLE_ADMIN') ?? false);
   isCoachSignal = computed(() => this.userSignal()?.roles.includes('ROLE_COACH') ?? false);
+  userUpdateSignal = signal<AuthUser | null>(null);
 
   // Injections
   #router: Router = inject(Router);
   #http = inject(HttpClient);
 
   // Configuration
-  readonly #apiUrl = 'http://localhost:8080';
+  readonly apiUrl = 'http://localhost:8080';
   readonly #defaultRoute = '/dashboard'; // Plus parlant que /test
   readonly #returnUrlKey = 'auth_return_url';
 
@@ -27,10 +28,14 @@ export class AuthService {
     this.checkAuthStatus();
   }
 
+  getApiUrl(): string {
+    return this.apiUrl; // 👈 accessible depuis le template
+  }
+
   login(email: string, password: string): Observable<boolean> {
     return this.#http
       .post(
-        `${this.#apiUrl}/auth/login`,
+        `${this.apiUrl}/auth/login`,
         { email, password },
         {
           withCredentials: true,
@@ -64,7 +69,7 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return this.#http
-      .get<boolean>(`${this.#apiUrl}/auth/check`, {
+      .get<boolean>(`${this.apiUrl}/auth/check`, {
         withCredentials: true,
       })
       .pipe(
@@ -77,7 +82,7 @@ export class AuthService {
 
   firstLogin(password: string, registrationToken: string): Observable<string> {
     return this.#http.post(
-      `${this.#apiUrl}/auth/register`,
+      `${this.apiUrl}/auth/register`,
       { password, registrationToken },
       { responseType: 'text', withCredentials: true },
     );
@@ -85,7 +90,7 @@ export class AuthService {
 
   askNewPassword(email: string): Observable<string> {
     return this.#http.post(
-      `${this.#apiUrl}/auth/forgot-password`,
+      `${this.apiUrl}/auth/forgot-password`,
       { email },
       { responseType: 'text' },
     );
@@ -93,14 +98,14 @@ export class AuthService {
 
   resetPassword(resetPasswordToken: string, newPassword: string): Observable<string> {
     return this.#http.post(
-      `${this.#apiUrl}/auth/reset-password`,
+      `${this.apiUrl}/auth/reset-password`,
       { resetPasswordToken, newPassword },
       { responseType: 'text' },
     );
   }
 
   logout(): Observable<void> {
-    return this.#http.post<void>(`${this.#apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
+    return this.#http.post<void>(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
       tap(() => {
         this.markAsLoggedOut();
         this.clearReturnUrl();
@@ -135,7 +140,7 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<AuthUser> {
-    return this.#http.get<AuthUser>(`${this.#apiUrl}/auth/me`, { withCredentials: true });
+    return this.#http.get<AuthUser>(`${this.apiUrl}/auth/me`, { withCredentials: true });
   }
 
   loadCurrentUser(): Observable<AuthUser> {

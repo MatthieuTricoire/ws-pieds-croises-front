@@ -31,32 +31,33 @@ export class UserSubscriptionService {
     );
   }
 
-  validateSubscriptionForCourse(userId: number): Observable<SubscriptionValidation> {
-    return this.getUserActiveSubscription(userId).pipe(
-      map((subscription) => {
-        if (!subscription) {
-          return {
-            isValid: false,
-            canRegister: false,
-            reason: 'Aucun abonnement actif trouvé',
-          };
-        }
-
-        return {
-          isValid: true,
-          canRegister: true,
-          weeklyLimit: subscription.subscription.sessionPerWeek,
-        };
-      }),
-      catchError(() =>
-        of({
-          isValid: false,
-          canRegister: false,
-          reason: "Erreur lors de la vérification de l'abonnement",
-        }),
-      ),
-    );
-  }
+  // validateSubscriptionForCourse(userId: number): Observable<SubscriptionValidation> {
+  //   return this.getUserActiveSubscription(userId).pipe(
+  //     map((subscription) => {
+  //       if (!subscription) {
+  //         return {
+  //           isValid: false,
+  //           canRegister: false,
+  //           reason: 'Aucun abonnement actif trouvé',
+  //         };
+  //       }
+  //
+  //       return {
+  //         isValid: true,
+  //         canRegister: true,
+  //         weeklyLimit: subscription.subscription.sessionPerWeek,
+  //         weeklyRegistrations: undefined,
+  //       };
+  //     }),
+  //     catchError(() =>
+  //       of({
+  //         isValid: false,
+  //         canRegister: false,
+  //         reason: "Erreur lors de la vérification de l'abonnement",
+  //       }),
+  //     ),
+  //   );
+  // }
 
   getWeeklyRegistrationsCount(userId: number, courseDate: Date): Observable<number> {
     const courseDateParam = courseDate.toISOString().split('T')[0];
@@ -97,20 +98,4 @@ export class UserSubscriptionService {
       }),
     );
   }
-
-  // private getStartOfWeek(date: Date): Date {
-  //   const startOfWeek = new Date(date);
-  //   const day = startOfWeek.getDay();
-  //   const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1);
-  //   startOfWeek.setDate(diff);
-  //   startOfWeek.setHours(0, 0, 0, 0);
-  //   return startOfWeek;
-  // }
-
-  // private getEndOfWeek(date: Date): Date {
-  //   const endOfWeek = new Date(this.getStartOfWeek(date));
-  //   endOfWeek.setDate(endOfWeek.getDate() + 6);
-  //   endOfWeek.setHours(23, 59, 59, 999);
-  //   return endOfWeek;
-  // }
 }
