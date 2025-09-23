@@ -6,11 +6,12 @@ import { SubscriptionService } from '../../../chore/services/subscription.servic
 import { DatePipe } from '@angular/common';
 import { UserService } from '../../../chore/services/user.service';
 import { AuthUser } from '../../models/authUser';
+import { TypographyComponent } from '../design-system/typography/typography.component';
 
 @Component({
   selector: 'app-user-card',
   templateUrl: './user-card.component.html',
-  imports: [LucideAngularModule, DatePipe, ReactiveFormsModule],
+  imports: [LucideAngularModule, DatePipe, ReactiveFormsModule, TypographyComponent],
   standalone: true,
 })
 export class UserCardComponent implements OnInit {
@@ -28,6 +29,7 @@ export class UserCardComponent implements OnInit {
   protected readonly AuthService = AuthService;
   #authService = inject(AuthService);
   user = computed(() => this.#authService.userSignal());
+  userName = `${this.#authService.userSignal()?.firstname} ${this.#authService.userSignal()?.lastname}`;
   #subscriptionService = inject(SubscriptionService);
   userSubscriptionSignal = computed(() => this.#subscriptionService.userSubscription());
   #fb = inject(FormBuilder);

@@ -1,6 +1,6 @@
-<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-3">
-  <h2 class="text-xl col-span-full">Nos abonnements</h2>
+<app-typography className="text-center mb-10" tagType="h2" text="Nos abonnements" />
 
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-3">
   @for (sub of subscriptionService.availableSubscriptions(); track sub.id) {
     <app-subscription-card
       [subscription]="sub"
