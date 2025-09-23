@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 import {
   Subscription as AppSubscription,
   UserSubscription,
-} from '../../shared/models/subscription';
+} from '../../shared/models/user-subscription';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })

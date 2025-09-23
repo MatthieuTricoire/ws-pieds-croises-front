@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UserService } from '../../../../chore/services/user.service';
 import { SubscriptionService } from '../../../../chore/services/subscription.service';
 import { ModalService } from '../../../../chore/services/modal.service';
-import { Subscription } from '../../../models/subscription';
+import { Subscription } from '../../../models/user-subscription';
 import { ToastService } from '../../../../chore/services/toast.service';
 
 @Component({

@@ -4,7 +4,6 @@ import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { Course } from '../../shared/models/course';
 import { AuthUser, CreateUser } from '../../shared/models/authUser';
 import { AuthService } from './auth.service';
-import { AuthUser } from '../../shared/models/authUser';
 
 @Injectable({
   providedIn: 'root',
@@ -99,16 +98,18 @@ export class UserService {
   }
 
   updateProfile(user: AuthUser) {
-    return this.#http.put<AuthUser>(`${this.apiUrl}/profile`, user, { withCredentials: true }).pipe(
-      tap((updatedUser) => {
-        // Met à jour le signal user et le flag logged in
-        this.#authService.userSignal.set(updatedUser);
-        this.#authService.isLoggedInSignal.set(true);
-      }),
-      catchError((err) => {
-        return throwError(() => err);
-      }),
-    );
+    return this.#http
+      .put<AuthUser>(`${this.#apiUrl}/profile`, user, { withCredentials: true })
+      .pipe(
+        tap((updatedUser) => {
+          // Met à jour le signal user et le flag logged in
+          this.#authService.userSignal.set(updatedUser);
+          this.#authService.isLoggedInSignal.set(true);
+        }),
+        catchError((err) => {
+          return throwError(() => err);
+        }),
+      );
   }
 
   uploadProfilePicture(userId: number, file: File): Observable<string> {
@@ -116,7 +117,7 @@ export class UserService {
     formData.append('file', file);
 
     // responseType: 'text' pour indiquer que la réponse est une chaîne de caractères
-    return this.#http.post(`${this.apiUrl}/profile/profile-picture`, formData, {
+    return this.#http.post(`${this.#apiUrl}/profile/profile-picture`, formData, {
       responseType: 'text',
       withCredentials: true,
     });
@@ -124,7 +125,7 @@ export class UserService {
 
   deleteProfilePicture(): Observable<string> {
     return this.#http
-      .delete(`${this.apiUrl}/profile/profile-picture`, {
+      .delete(`${this.#apiUrl}/profile/profile-picture`, {
         responseType: 'text',
         withCredentials: true,
       })

@@ -40,7 +40,7 @@ export class UserCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.#subscriptionService.loadActiveUserSubscription();
+    this.#subscriptionService.getActiveUserSubscription();
 
     // Init form avec les données actuelles
     this.profileForm = this.#fb.group({

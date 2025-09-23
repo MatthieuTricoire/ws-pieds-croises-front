@@ -1,5 +1,3 @@
-import { Subscription } from './subscription';
-
 export type userSubscriptionStatus = 'ACTIVE' | 'CANCELLED' | 'EXPIRED';
 
 export interface Subscription {
