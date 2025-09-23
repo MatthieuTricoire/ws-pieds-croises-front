@@ -1,0 +1,121 @@
+<dialog id="create-user-modal" class="modal">
+  <div class="modal-box w-11/12 max-w-md">
+    <h3 class="font-bold text-lg mb-4">Créer un nouvel utilisateur</h3>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <!-- Prénom -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="firstname-input">
+          <span class="label-text">Prénom *</span>
+        </label>
+        <input
+          id="firstname-input"
+          type="text"
+          formControlName="firstname"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            userForm.get('firstname')?.invalid && userForm.get('firstname')?.touched
+          "
+          placeholder="Entrez le prénom"
+        />
+        @if (userForm.get('firstname')?.invalid && userForm.get('firstname')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le prénom est requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Nom -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="lastname-input">
+          <span class="label-text">Nom *</span>
+        </label>
+        <input
+          id="lastname-input"
+          type="text"
+          formControlName="lastname"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            userForm.get('lastname')?.invalid && userForm.get('lastname')?.touched
+          "
+          placeholder="Entrez le nom"
+        />
+        @if (userForm.get('lastname')?.invalid && userForm.get('lastname')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le nom est requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Email -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="email-input">
+          <span class="label-text">Email *</span>
+        </label>
+        <input
+          id="email-input"
+          type="email"
+          formControlName="email"
+          class="input input-bordered w-full"
+          [class.input-error]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+          placeholder="exemple@email.com"
+        />
+        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Email valide requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Sélecteur d'abonnement -->
+      <div class="form-control w-full mb-6">
+        <label class="label" for="subscription-select">
+          <span class="label-text">Abonnement *</span>
+        </label>
+        <select
+          id="subscription-select"
+          formControlName="subscriptionId"
+          class="select select-bordered w-full"
+          [class.select-error]="
+            userForm.get('subscriptionId')?.invalid && userForm.get('subscriptionId')?.touched
+          "
+        >
+          <option value="">Choisir un abonnement</option>
+          @for (subscription of subscriptions(); track subscription.id) {
+            <option [value]="subscription.id">
+              {{ subscription.name }} - {{ subscription.price }}€
+            </option>
+          }
+        </select>
+        @if (userForm.get('subscriptionId')?.invalid && userForm.get('subscriptionId')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Veuillez sélectionner un abonnement</span>
+          </div>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" (click)="closeModal()" [disabled]="isLoading()">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="userForm.invalid || isLoading()"
+          [class.loading]="isLoading()"
+        >
+          @if (isLoading()) {
+            Création...
+          } @else {
+            Créer l'utilisateur
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button type="button" (click)="closeModal()">Fermer</button>
+  </form>
+</dialog>

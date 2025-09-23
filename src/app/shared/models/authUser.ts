@@ -1,3 +1,5 @@
+import { UserSubscription } from './user-subscription';
+
 export type Role = 'ROLE_ADMIN' | 'ROLE_USER' | 'ROLE_COACH';
 
 export interface AuthUser {
@@ -8,4 +10,14 @@ export interface AuthUser {
   roles: Role[];
   phone: string;
   photoUrl: string;
+  userSubscriptions: UserSubscription[];
+}
+
+export interface CreateUser {
+  firstname: string;
+  lastname: string;
+  email: string;
+  roles: Role[];
+  phone: string;
+  subscriptionId?: string;
 }

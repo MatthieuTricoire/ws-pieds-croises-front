@@ -1,0 +1,65 @@
+<div class="mb-4">
+  <button class="btn btn-primary" (click)="openCreateMessageModal()">
+    <lucide-icon [img]="plusIcon" />
+    Créer un message
+  </button>
+</div>
+
+<table class="table table-auto">
+  <thead>
+    <tr>
+      <th></th>
+      <th><span>Titre</span></th>
+      <th>
+        <span>Message</span>
+      </th>
+      <th>
+        <span>Activé</span>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (message of messages(); track message.id) {
+      <tr>
+        <td class="flex justify-center">
+          <div
+            class="badge"
+            [ngClass]="{
+              'badge-error': message.messageType === 'ALERT',
+              'badge-primary': message.messageType === 'EVENT',
+              'badge-info': message.messageType === 'INFORMATION',
+              'badge-warning': message.messageType === 'REMINDER',
+            }"
+          >
+            {{ message.messageTypeLabel }}
+          </div>
+        </td>
+        <td class="">
+          {{ message.title }}
+        </td>
+        <td>{{ message.content }}</td>
+        <td>
+          <input
+            type="checkbox"
+            class="toggle toggle-success"
+            [checked]="message.messageStatus === 'ACTIVE'"
+            (change)="toggleMessageStatus(message, $event)"
+          />
+        </td>
+
+        <td>
+          <button
+            class="btn btn-soft btn-error"
+            (click)="confirmDelete(message)"
+            title="Supprimer le message"
+          >
+            <lucide-icon [img]="trashIcon" />
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<app-message-creation-form />

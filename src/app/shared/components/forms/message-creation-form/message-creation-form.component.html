@@ -1,0 +1,99 @@
+<dialog id="create-message-modal" class="modal">
+  <div class="modal-box w-11/12 max-w-md">
+    <h3 class="font-bold text-lg mb-4">Créer un nouveau message</h3>
+
+    <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+      <!-- Type de message -->
+      <div class="form-control w-full mb-4 flex flex-col gap-2">
+        <label class="label" for="messageType-select">
+          <span class="label-text">Type de message *</span>
+        </label>
+        <select
+          id="messageType-select"
+          formControlName="messageType"
+          class="select select-bordered w-full"
+          [class.select-error]="
+            messageForm.get('messageType')?.invalid && messageForm.get('messageType')?.touched
+          "
+        >
+          <option value="">Choisir un type</option>
+          @for (type of messageTypes; track type.value) {
+            <option [value]="type.value">{{ type.label }}</option>
+          }
+        </select>
+        @if (messageForm.get('messageType')?.invalid && messageForm.get('messageType')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le type de message est requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Titre -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="title-input">
+          <span class="label-text">Titre *</span>
+        </label>
+        <input
+          id="title-input"
+          type="text"
+          formControlName="title"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            messageForm.get('title')?.invalid && messageForm.get('title')?.touched
+          "
+          placeholder="Entrez le titre du message"
+        />
+        @if (messageForm.get('title')?.invalid && messageForm.get('title')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le titre est requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Contenu -->
+      <div class="form-control w-full mb-6">
+        <label class="label" for="content-input">
+          <span class="label-text">Message *</span>
+        </label>
+        <textarea
+          id="content-input"
+          formControlName="content"
+          class="textarea textarea-bordered w-full"
+          [class.textarea-error]="
+            messageForm.get('content')?.invalid && messageForm.get('content')?.touched
+          "
+          placeholder="Entrez le contenu du message"
+          rows="4"
+        ></textarea>
+        @if (messageForm.get('content')?.invalid && messageForm.get('content')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le contenu est requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" (click)="closeModal()" [disabled]="isLoading()">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="messageForm.invalid || isLoading()"
+          [class.loading]="isLoading()"
+        >
+          @if (isLoading()) {
+            Création...
+          } @else {
+            Créer le message
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button type="button" (click)="closeModal()">Fermer</button>
+  </form>
+</dialog>

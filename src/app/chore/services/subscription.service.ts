@@ -52,6 +52,16 @@ export class SubscriptionService {
         }),
       );
   }
+  createUserSubscriptionForUser(
+    userId: number,
+    subscriptionId: number,
+  ): Observable<UserSubscription> {
+    return this.http.post<UserSubscription>(
+      `${this.baseUrl}/user-subscriptions`,
+      { userId, subscriptionId },
+      { withCredentials: true },
+    );
+  }
 
   deleteUserSubscription(userSubscriptionId: number): Observable<void> {
     return this.http

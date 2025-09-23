@@ -1,14 +1,14 @@
 <app-typography text="Actualités" tagType="h2" className="mb-4" />
 
-@if (messages && messages.length === 1) {
-  <app-message [message]="messages[0]" />
+@if (messages() && messages().length === 1) {
+  <app-message [message]="messages()[0]" />
 }
 
-@if (messages && messages.length > 1) {
+@if (messages() && messages().length > 1) {
   <div class="carousel w-full">
-    @for (message of messages; let i = $index; track message.id) {
-      @if (i === currentSlide) {
-        <div class="carousel-item w-full flex-none relative" [class.hidden]="i !== currentSlide">
+    @for (message of messages(); let i = $index; track message.id) {
+      @if (i === currentSlide()) {
+        <div class="carousel-item w-full flex-none relative">
           <app-message [message]="message" class="w-full" />
           <div
             class="absolute left-1 right-1 md:left-5 md:right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
