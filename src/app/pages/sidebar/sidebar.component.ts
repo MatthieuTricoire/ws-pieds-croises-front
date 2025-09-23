@@ -1,19 +1,19 @@
-import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ButtonNavComponent } from '../../shared/components/button-nav/button-nav.component';
 import { ButtonNav } from '../../shared/models/buttonNav';
 import {
   Calendar,
-  House,
   ChartNoAxesColumn,
-  LayoutDashboard,
-  Compass,
-  MessageCircle,
-  Users,
-  DollarSign,
-  User,
-  LogOut,
   Cog,
+  Compass,
+  DollarSign,
+  House,
+  LayoutDashboard,
+  LogOut,
   LucideAngularModule,
+  MessageCircle,
+  User,
+  Users,
 } from 'lucide-angular';
 import { AuthService } from '../../chore/services/auth.service';
 
@@ -55,7 +55,8 @@ export class SidebarComponent {
   ]);
 
   logout(): void {
-    this.#authService.logout();
+    console.log('Logout');
+    this.#authService.logout().subscribe();
   }
 
   protected readonly Cog = Cog;
