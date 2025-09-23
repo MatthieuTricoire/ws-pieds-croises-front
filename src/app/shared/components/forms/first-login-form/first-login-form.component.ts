@@ -16,7 +16,6 @@ interface FirstLoginForm {
   selector: 'app-first-login-form',
   imports: [InputComponent, ReactiveFormsModule],
   templateUrl: './first-login-form.component.html',
-  styleUrl: './first-login-form.component.css',
 })
 export class FirstLoginFormComponent implements OnInit {
   registrationToken?: string;

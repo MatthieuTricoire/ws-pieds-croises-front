@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CourseListComponent } from './course-list.component';
+import { FirstLoginComponent } from './first-login-page.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
-describe('CourseListComponent', () => {
-  let component: CourseListComponent;
-  let fixture: ComponentFixture<CourseListComponent>;
+describe('FirstLoginComponent', () => {
+  let component: FirstLoginComponent;
+  let fixture: ComponentFixture<FirstLoginComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CourseListComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [FirstLoginComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CourseListComponent);
+    fixture = TestBed.createComponent(FirstLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

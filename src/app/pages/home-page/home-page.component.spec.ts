@@ -1,22 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { WeekSelectorComponent } from './week-selector.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-describe('WeekSelectorComponent', () => {
-  let component: WeekSelectorComponent;
-  let fixture: ComponentFixture<WeekSelectorComponent>;
+import { HomePageComponent } from './home-page.component';
+
+describe('HomePageComponent', () => {
+  let component: HomePageComponent;
+  let fixture: ComponentFixture<HomePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeekSelectorComponent],
+      imports: [HomePageComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -26,7 +25,7 @@ describe('WeekSelectorComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WeekSelectorComponent);
+    fixture = TestBed.createComponent(HomePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
