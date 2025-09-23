@@ -8,7 +8,6 @@ import { ToastService } from '../../../../chore/services/toast.service';
   selector: 'app-message-creation-form',
   imports: [ReactiveFormsModule],
   templateUrl: './message-creation-form.component.html',
-  styleUrl: './message-creation-form.component.css',
 })
 export class MessageCreationFormComponent {
   #fb = inject(FormBuilder);
