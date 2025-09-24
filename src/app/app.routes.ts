@@ -12,6 +12,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { UsersPageComponent } from './pages/user-page/user-page.component';
 import { MessagesPageComponent } from './pages/messages-page/messages-page.component';
+import { SubscriptionsPageComponent } from './pages/subscriptions-page/subscriptions-page.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,7 @@ export const routes: Routes = [
         children: [
           { path: 'users', component: UsersPageComponent },
           { path: 'messages', component: MessagesPageComponent },
+          { path: 'subscriptions', component: SubscriptionsPageComponent },
         ],
       },
     ],

@@ -2,7 +2,7 @@
 
 <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-3">
   @for (sub of subscriptionService.availableSubscriptions(); track sub.id) {
-    <app-subscription-card
+    <app-user-subscription-card
       [subscription]="sub"
       [isCurrentSubscription]="isCurrentSubscription(sub.id)"
       [userSubscription]="subscriptionService.userSubscription()"

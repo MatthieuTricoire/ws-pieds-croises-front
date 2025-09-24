@@ -63,7 +63,11 @@
       class="overflow-hidden transition-all duration-200 ease-in-out"
     >
       @let staticUserSubscription = userSubscription();
-      @if (staticUserSubscription && staticUserSubscription.subscriptionId === subscription().id) {
+      @if (
+        staticUserSubscription &&
+        staticUserSubscription.subscriptionId === subscription().id &&
+        mode() === 'user'
+      ) {
         <ul>
           <li class="flex flex-wrap">
             <span class="font-semibold mr-1 text-secondary-content">Commence le</span>
@@ -81,13 +85,19 @@
       }
     </div>
     <div class="mt-6 w-full card-actions">
-      <button
-        (click)="isCurrentSubscription() ? onCancel() : onSubscribe()"
-        [ngClass]="{ 'bg-neutral btn-neutral!': isCurrentSubscription() }"
-        class="btn btn-block btn-primary"
-      >
-        {{ isCurrentSubscription() ? "Arrêter l'abonnement" : 'Souscrire' }}
-      </button>
+      @if (mode() === 'user') {
+        <button
+          (click)="isCurrentSubscription() ? onCancel() : onSubscribe()"
+          [ngClass]="{ 'bg-neutral btn-neutral!': isCurrentSubscription() }"
+          class="btn btn-block btn-primary"
+        >
+          {{ isCurrentSubscription() ? "Arrêter l'abonnement" : 'Souscrire' }}
+        </button>
+      }
+      @if (mode() === 'admin') {
+        <button class="btn btn-block btn-primary" (click)="onEdit()">Modifier</button>
+        <button class="btn btn-block btn-error" (click)="onDelete()">Supprimer</button>
+      }
     </div>
   </div>
 </div>
