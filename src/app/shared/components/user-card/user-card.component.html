@@ -144,7 +144,7 @@
         </button>
       </form>
     } @else {
-      <p class="text-center md:text-left">{{ user()?.firstname }} {{ user()?.lastname }}</p>
+      <app-typography [text]="userName" tagType="h3" className="text-center md:text-left" />
       <p class="text-center md:text-left">{{ user()?.email }}</p>
       <p class="text-center md:text-left">{{ user()?.phone }}</p>
     }
@@ -173,7 +173,7 @@
         }}
       </span>
     }
-    <span class="text-left md:text-left">Inscrit depuis le &nbsp;:</span>
+    <span class="text-left md:text-left">Inscrit depuis le&nbsp;:</span>
     <span class="font-semibold ml-2">{{ user()?.createdAt | date: 'dd MMMM' }}</span>
   </div>
 </div>

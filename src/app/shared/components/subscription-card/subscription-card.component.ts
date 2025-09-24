@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Subscription as AppSubscription, UserSubscription } from '../../models/subscription';
+import { Subscription as AppSubscription, UserSubscription } from '../../models/user-subscription';
 import { SubscriptionService } from '../../../chore/services/subscription.service';
 import { CommonModule } from '@angular/common';
 
