@@ -1,10 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import {
-  Subscription as AppSubscription,
-  UserSubscription,
-} from '../../shared/models/user-subscription';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import { Subscription, UserSubscription } from '../../shared/models/user-subscription';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
@@ -15,7 +12,7 @@ export class SubscriptionService {
 
   // Signals
   userSubscription = signal<UserSubscription | null>(null);
-  availableSubscriptions = signal<AppSubscription[]>([]);
+  availableSubscriptions = signal<Subscription[]>([]);
 
   getActiveUserSubscription() {
     const user = this.#auth.userSignal();
@@ -29,10 +26,16 @@ export class SubscriptionService {
       .subscribe((sub) => this.userSubscription.set(sub));
   }
 
-  getAllSubscriptions(): Observable<AppSubscription[]> {
-    return this.#http.get<AppSubscription[]>(`${this.baseUrl}/subscriptions`, {
-      withCredentials: true,
-    });
+  getAllSubscriptions(): Observable<Subscription[]> {
+    return this.#http
+      .get<Subscription[]>(`${this.baseUrl}/subscriptions`, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((subscriptions) => {
+          this.availableSubscriptions.set(subscriptions);
+        }),
+      );
   }
 
   createUserSubscription(subscriptionId: number) {
@@ -72,6 +75,63 @@ export class SubscriptionService {
       .pipe(
         tap(() => {
           this.userSubscription.set(null);
+        }),
+      );
+  }
+
+  createSubscription(subscription: Partial<Subscription>): Observable<Subscription> {
+    return this.#http
+      .post<Subscription>(`${this.baseUrl}/subscriptions`, subscription, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((newSubscription) => {
+          const currentSubscriptions = this.availableSubscriptions();
+          this.availableSubscriptions.set([...currentSubscriptions, newSubscription]);
+        }),
+        catchError((error) => {
+          console.error('Error creating subscription:', error);
+          return throwError(() => error);
+        }),
+      );
+  }
+
+  updateSubscription(
+    subscriptionId: number,
+    subscriptionData: Partial<Subscription>,
+  ): Observable<Subscription> {
+    return this.#http
+      .put<Subscription>(`${this.baseUrl}/subscriptions/${subscriptionId}`, subscriptionData, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((updatedSubscription) => {
+          const currentSubscriptions = this.availableSubscriptions();
+          const updatedSubscriptions = currentSubscriptions.map((sub) =>
+            sub.id === subscriptionId ? updatedSubscription : sub,
+          );
+          this.availableSubscriptions.set(updatedSubscriptions);
+        }),
+        catchError((error) => {
+          console.error('Error updating subscription:', error);
+          return throwError(() => error);
+        }),
+      );
+  }
+  deleteSubscription(subscriptionId: number): Observable<void> {
+    return this.#http
+      .delete<void>(`${this.baseUrl}/subscriptions/${subscriptionId}`, { withCredentials: true })
+      .pipe(
+        tap(() => {
+          const currentSubscriptions = this.availableSubscriptions();
+          const filteredSubscriptions = currentSubscriptions.filter(
+            (sub) => sub.id !== subscriptionId,
+          );
+          this.availableSubscriptions.set(filteredSubscriptions);
+        }),
+        catchError((error) => {
+          console.error('Error deleting subscription:', error);
+          return throwError(() => error);
         }),
       );
   }

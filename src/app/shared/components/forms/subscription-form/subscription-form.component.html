@@ -1,0 +1,136 @@
+<dialog id="subscription-modal" class="modal">
+  <div class="modal-box w-11/12 max-w-md">
+    <h3 class="font-bold text-lg mb-4">
+      {{ subscriptionToEdit() ? "Modifier l'abonnement" : 'Créer un nouvel abonnement' }}
+    </h3>
+
+    <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+      <!-- Nom -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="name-input">
+          <span class="label-text">Nom de l'abonnement *</span>
+        </label>
+        <input
+          id="name-input"
+          type="text"
+          formControlName="name"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            subscriptionForm.get('name')?.invalid && subscriptionForm.get('name')?.touched
+          "
+          placeholder="Entrez le nom de l'abonnement"
+        />
+        @if (subscriptionForm.get('name')?.invalid && subscriptionForm.get('name')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le nom est requis</span>
+          </div>
+        }
+      </div>
+
+      <!-- Prix -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="price-input">
+          <span class="label-text">Prix (€) *</span>
+        </label>
+        <input
+          id="price-input"
+          type="number"
+          min="0"
+          step="0.01"
+          formControlName="price"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            subscriptionForm.get('price')?.invalid && subscriptionForm.get('price')?.touched
+          "
+          placeholder="0.00"
+        />
+        @if (subscriptionForm.get('price')?.invalid && subscriptionForm.get('price')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Le prix doit être supérieur ou égal à 0</span>
+          </div>
+        }
+      </div>
+
+      <!-- Sessions par semaine -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="sessionPerWeek-input">
+          <span class="label-text">Sessions par semaine *</span>
+        </label>
+        <input
+          id="sessionPerWeek-input"
+          type="number"
+          min="1"
+          formControlName="sessionPerWeek"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            subscriptionForm.get('sessionPerWeek')?.invalid &&
+            subscriptionForm.get('sessionPerWeek')?.touched
+          "
+          placeholder="1"
+        />
+        @if (
+          subscriptionForm.get('sessionPerWeek')?.invalid &&
+          subscriptionForm.get('sessionPerWeek')?.touched
+        ) {
+          <div class="label">
+            <span class="label-text-alt text-error"
+              >Le nombre de sessions doit être supérieur à 0</span
+            >
+          </div>
+        }
+      </div>
+
+      <!-- Jours de gel autorisés -->
+      <div class="form-control w-full mb-6">
+        <label class="label" for="freezeDaysAllowed-input">
+          <span class="label-text">Jours de gel autorisés *</span>
+        </label>
+        <input
+          id="freezeDaysAllowed-input"
+          type="number"
+          min="0"
+          formControlName="freezeDaysAllowed"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            subscriptionForm.get('freezeDaysAllowed')?.invalid &&
+            subscriptionForm.get('freezeDaysAllowed')?.touched
+          "
+          placeholder="0"
+        />
+        @if (
+          subscriptionForm.get('freezeDaysAllowed')?.invalid &&
+          subscriptionForm.get('freezeDaysAllowed')?.touched
+        ) {
+          <div class="label">
+            <span class="label-text-alt text-error"
+              >Le nombre de jours de gel doit être supérieur ou égal à 0</span
+            >
+          </div>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" (click)="closeModal()" [disabled]="isLoading()">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="subscriptionForm.invalid || isLoading()"
+          [class.loading]="isLoading()"
+        >
+          @if (isLoading()) {
+            {{ subscriptionToEdit() ? 'Modification...' : 'Création...' }}
+          } @else {
+            {{ subscriptionToEdit() ? "Modifier l'abonnement" : "Créer l'abonnement" }}
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button type="button" (click)="closeModal()">Fermer</button>
+  </form>
+</dialog>
