@@ -7,10 +7,12 @@
       class="w-[125px] object-contain max-md:hidden"
       src="/logoSmall.svg"
     />
-    <app-button-nav [buttons]="buttonsAdmin" class="w-full max-md:hidden" />
+    @if (isAdmin) {
+      <app-button-nav [buttons]="buttonsAdmin" class="w-full max-md:hidden" />
+    } @else {
+      <app-button-nav [buttons]="buttonsUser()" class="w-full h-auto max-md:h-full" />
+    }
     <hr class="border w-[120px] max-md:hidden" />
-    <app-button-nav [buttons]="buttonsUser()" class="w-full h-auto max-md:h-full" />
   </div>
-
   <app-button-nav [buttons]="buttonsGestion" class="w-full max-md:hidden" />
 </aside>
