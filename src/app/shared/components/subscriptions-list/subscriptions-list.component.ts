@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SubscriptionService } from '../../../chore/services/subscription.service';
-import { SubscriptionCardComponent } from '../subscription-card/subscription-card.component';
+import { UserSubscriptionCardComponent } from '../user-subscription-card/user-subscription-card.component';
 
 @Component({
   selector: 'app-subscriptions-list',
   templateUrl: './subscriptions-list.component.html',
-  imports: [CommonModule, SubscriptionCardComponent],
+  imports: [CommonModule, UserSubscriptionCardComponent],
 })
 export class SubscriptionsListComponent implements OnInit {
   subscriptionService = inject(SubscriptionService);

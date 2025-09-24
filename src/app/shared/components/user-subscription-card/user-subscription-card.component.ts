@@ -1,17 +1,21 @@
-import { Component, inject, input } from '@angular/core';
-import { Subscription as AppSubscription, UserSubscription } from '../../models/subscription';
+import { Component, inject, input, output } from '@angular/core';
+import { Subscription, UserSubscription } from '../../models/user-subscription';
 import { SubscriptionService } from '../../../chore/services/subscription.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-subscription-card',
-  templateUrl: './subscription-card.component.html',
+  selector: 'app-user-subscription-card',
+  templateUrl: './user-subscription-card.component.html',
   imports: [CommonModule],
 })
-export class SubscriptionCardComponent {
-  subscription = input.required<AppSubscription>();
+export class UserSubscriptionCardComponent {
+  mode = input<'user' | 'admin'>('user');
+  subscription = input.required<Subscription>();
   userSubscription = input<UserSubscription | null>(null);
   isCurrentSubscription = input(false);
+
+  editAction = output<Subscription>();
+  deleteAction = output<Subscription>();
 
   subscriptionService = inject(SubscriptionService);
 
@@ -23,5 +27,13 @@ export class SubscriptionCardComponent {
     const userSubscription = this.userSubscription();
     if (!userSubscription) return;
     this.subscriptionService.deleteUserSubscription(userSubscription?.id).subscribe();
+  }
+
+  onDelete() {
+    this.deleteAction.emit(this.subscription());
+  }
+
+  onEdit() {
+    this.editAction.emit(this.subscription());
   }
 }

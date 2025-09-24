@@ -2,7 +2,7 @@
   <h2 class="text-xl col-span-full">Nos abonnements</h2>
 
   @for (sub of subscriptionService.availableSubscriptions(); track sub.id) {
-    <app-subscription-card
+    <app-user-subscription-card
       [subscription]="sub"
       [isCurrentSubscription]="isCurrentSubscription(sub.id)"
       [userSubscription]="subscriptionService.userSubscription()"
