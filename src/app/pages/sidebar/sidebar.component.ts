@@ -32,9 +32,9 @@ export class SidebarComponent {
   readonly buttonsAdmin: ButtonNav[] = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Planification', path: '/planification', icon: Compass },
-    { label: 'Communication', path: '/communication', icon: MessageCircle },
-    { label: 'Utilisateurs', path: '/utilisateurs', icon: Users },
-    { label: 'Abonnements', path: '/abonnements', icon: DollarSign },
+    { label: 'Communication', path: 'admin/communication', icon: MessageCircle },
+    { label: 'Utilisateurs', path: 'admin/utilisateurs', icon: Users },
+    { label: 'Abonnements', path: 'admin/abonnements', icon: DollarSign },
   ];
 
   readonly buttonsGestion: ButtonNav[] = [
