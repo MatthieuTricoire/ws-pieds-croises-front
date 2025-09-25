@@ -2,12 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, combineLatest, map, Observable, of } from 'rxjs';
 import { SubscriptionValidation, UserSubscription } from '../../shared/models/user-subscription';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserSubscriptionService {
-  private apiUrl = 'http://localhost:8080/user-subscriptions';
+  private apiUrl = environment.apiUrl + '/subscriptions';
   private http = inject(HttpClient);
 
   getUserSubscriptions(userId: number): Observable<UserSubscription[]> {

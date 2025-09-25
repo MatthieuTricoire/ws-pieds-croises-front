@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { BoxInfo } from '../../shared/models/boxInfo';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BoxService {
-  #apiUrl = 'http://localhost:8080/box';
+  #apiUrl = environment.apiUrl;
   #http = inject(HttpClient);
 
   boxSignal = signal<BoxInfo | null>(null);
