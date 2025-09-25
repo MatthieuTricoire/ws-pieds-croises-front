@@ -1,5 +1,4 @@
-@import "tailwindcss/theme" theme(reference);
-@import "tailwindcss/utilities";
+@import "tailwindcss";
 @layer utilities {
   .modal-backdrop {
     grid-column-start: 1;
