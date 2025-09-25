@@ -37,7 +37,7 @@ jobs:
     needs: build-and-test
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/CICD-quest'
     runs-on: ubuntu-latest
-    environment: VPS Deployment
+    environment: production
 
     steps:
       - name: 📥 Checkout du code
