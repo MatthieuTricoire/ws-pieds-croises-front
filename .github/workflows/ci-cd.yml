@@ -35,7 +35,7 @@ jobs:
   deploy:
     name: 🚀 Déploiement sur le VPS
     needs: build-and-test
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/CICD-quest'
     runs-on: ubuntu-latest
 
     steps:
