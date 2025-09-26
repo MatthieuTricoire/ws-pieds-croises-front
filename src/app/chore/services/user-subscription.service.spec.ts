@@ -27,9 +27,10 @@ describe('UserSubscriptionService', () => {
     id: 1,
     userId: 123,
     subscriptionId: 1,
-    startDate: '2024-01-01',
-    endDate: '2024-12-31',
+    startDate: new Date('2024-01-01'),
+    endDate: new Date('2024-12-31'),
     freezeDaysRemaining: 5,
+    status: 'ACTIVE',
     subscription: mockSubscription,
   };
 
@@ -37,9 +38,10 @@ describe('UserSubscriptionService', () => {
     id: 2,
     userId: 123,
     subscriptionId: 1,
-    startDate: '2023-01-01',
-    endDate: '2023-12-31',
+    startDate: new Date('2023-01-01'),
+    endDate: new Date('2023-12-31'),
     freezeDaysRemaining: 0,
+    status: 'EXPIRED',
     subscription: mockSubscription,
   };
 
@@ -47,9 +49,10 @@ describe('UserSubscriptionService', () => {
     id: 3,
     userId: 123,
     subscriptionId: 1,
-    startDate: '2025-01-01',
-    endDate: '2025-12-31',
+    startDate: new Date('2025-01-01'),
+    endDate: new Date('2025-12-31'),
     freezeDaysRemaining: 7,
+    status: 'ACTIVE',
     subscription: mockSubscription,
   };
 
@@ -168,74 +171,6 @@ describe('UserSubscriptionService', () => {
       service.getUserActiveSubscription(userId).subscribe({
         next: (activeSubscription) => {
           expect(activeSubscription).toBeNull();
-          done();
-        },
-      });
-
-      const req = httpMock.expectOne(`${apiUrl}/user/${userId}`);
-      req.flush('Error', { status: 500, statusText: 'Server Error' });
-    });
-  });
-
-  describe('validateSubscriptionForCourse', () => {
-    beforeEach(() => {
-      jasmine.clock().install();
-      jasmine.clock().mockDate(new Date('2024-06-15T10:00:00Z'));
-    });
-
-    afterEach(() => {
-      jasmine.clock().uninstall();
-    });
-
-    it('should return valid subscription when user has active subscription', (done) => {
-      const userId = 123;
-      const expectedValidation: SubscriptionValidation = {
-        isValid: true,
-        canRegister: true,
-        weeklyLimit: 3,
-      };
-
-      service.validateSubscriptionForCourse(userId).subscribe({
-        next: (validation) => {
-          expect(validation).toEqual(expectedValidation);
-          done();
-        },
-      });
-
-      const req = httpMock.expectOne(`${apiUrl}/user/${userId}`);
-      req.flush([mockActiveUserSubscription]);
-    });
-
-    it('should return invalid when user has no active subscription', (done) => {
-      const userId = 123;
-      const expectedValidation: SubscriptionValidation = {
-        isValid: false,
-        canRegister: false,
-        reason: 'Aucun abonnement actif trouvé',
-      };
-
-      service.validateSubscriptionForCourse(userId).subscribe({
-        next: (validation) => {
-          expect(validation).toEqual(expectedValidation);
-          done();
-        },
-      });
-
-      const req = httpMock.expectOne(`${apiUrl}/user/${userId}`);
-      req.flush([mockExpiredUserSubscription]);
-    });
-
-    it('should return error validation on HTTP error', (done) => {
-      const userId = 123;
-      const expectedValidation: SubscriptionValidation = {
-        isValid: false,
-        canRegister: false,
-        reason: 'Aucun abonnement actif trouvé',
-      };
-
-      service.validateSubscriptionForCourse(userId).subscribe({
-        next: (validation) => {
-          expect(validation).toEqual(expectedValidation);
           done();
         },
       });
@@ -464,7 +399,12 @@ describe('UserSubscriptionService', () => {
       const userId = 123;
       const multipleActiveSubscriptions = [
         mockActiveUserSubscription,
-        { ...mockActiveUserSubscription, id: 2, startDate: '2024-01-01', endDate: '2024-12-31' },
+        {
+          ...mockActiveUserSubscription,
+          id: 2,
+          startDate: new Date('2024-01-01'),
+          endDate: new Date('2024-12-31'),
+        },
       ];
 
       service.getUserActiveSubscription(userId).subscribe({

@@ -37,12 +37,10 @@ export class ModalService {
         </dialog>
       `;
 
-      // Injecter dans le DOM
       document.body.insertAdjacentHTML('beforeend', modalHtml);
 
       const modal = document.getElementById(modalId) as HTMLDialogElement;
 
-      // Variables pour suivre l'état
       let isResolved = false;
 
       const cleanup = () => {
@@ -61,7 +59,6 @@ export class ModalService {
         }
       };
 
-      // Ajouter les event listeners
       const cancelBtn = modal.querySelector('[data-action="cancel"]') as HTMLButtonElement;
       const confirmBtn = modal.querySelector('[data-action="confirm"]') as HTMLButtonElement;
 
@@ -75,16 +72,14 @@ export class ModalService {
         resolveAndCleanup(true);
       });
 
-      // Gérer la fermeture par ESC ou backdrop
       modal.addEventListener('close', () => {
         if (!isResolved) {
           isResolved = true;
-          resolve(false); // Clic à l'extérieur = annuler
+          resolve(false);
           cleanup();
         }
       });
 
-      // Ouvrir la modal
       modal.showModal();
     });
   }

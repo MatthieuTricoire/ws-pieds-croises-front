@@ -6,7 +6,7 @@ import { of, throwError } from 'rxjs';
 import {
   Subscription as AppSubscription,
   UserSubscription,
-} from '../../shared/models/subscription';
+} from '../../shared/models/user-subscription';
 import { AuthUser } from '../../shared/models/authUser';
 
 describe('SubscriptionService', () => {
@@ -21,7 +21,8 @@ describe('SubscriptionService', () => {
     email: 'jean.dupont@example.com',
     roles: ['ROLE_USER'],
     phone: '0123456789',
-    photoUrl: 'photo.jpg',
+    profilePicture: 'photo.jpg',
+    createdAt: new Date('2024-01-01'),
     userSubscriptions: [],
   };
 
@@ -48,9 +49,10 @@ describe('SubscriptionService', () => {
         id: 1,
         userId: 1,
         subscriptionId: 2,
-        startDate: '2024-01-01',
-        endDate: '2024-12-31',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
         freezeDaysRemaining: 5,
+        status: 'ACTIVE',
         subscription: {
           id: 2,
           name: 'Abonnement Mensuel',
@@ -118,9 +120,10 @@ describe('SubscriptionService', () => {
         id: 1,
         userId: 1,
         subscriptionId: 2,
-        startDate: '2024-01-01',
-        endDate: '2024-12-31',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
         freezeDaysRemaining: 5,
+        status: 'ACTIVE',
         subscription: {
           id: 2,
           name: 'Abonnement Mensuel',
@@ -173,9 +176,10 @@ describe('SubscriptionService', () => {
         id: 1,
         userId: 1,
         subscriptionId: 2,
-        startDate: '2024-01-01',
-        endDate: '2024-12-31',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
         freezeDaysRemaining: 5,
+        status: 'ACTIVE',
         subscription: {
           id: 2,
           name: 'Abonnement Mensuel',
@@ -208,9 +212,10 @@ describe('SubscriptionService', () => {
         id: 1,
         userId: 1,
         subscriptionId: 2,
-        startDate: '2024-01-01',
-        endDate: '2024-12-31',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
         freezeDaysRemaining: 5,
+        status: 'ACTIVE',
         subscription: {
           id: 2,
           name: 'Abonnement Mensuel',

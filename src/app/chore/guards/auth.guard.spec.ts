@@ -34,7 +34,8 @@ describe('Auth Guards', () => {
     email: 'john.doe@example.com',
     roles: ['ROLE_USER'],
     phone: '0123456789',
-    photoUrl: 'photo.jpg',
+    profilePicture: 'photo.jpg',
+    createdAt: new Date('2024-01-01'),
     userSubscriptions: [],
   };
 

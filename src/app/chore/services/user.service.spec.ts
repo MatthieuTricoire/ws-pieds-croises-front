@@ -1,13 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 import { AuthUser, CreateUser } from '../../shared/models/authUser';
 import { Course } from '../../shared/models/course';
+import { signal } from '@angular/core';
 
 describe('UserService', () => {
   let service: UserService;
   let httpMock: HttpTestingController;
   const apiUrl = 'http://localhost:8080/users';
+
+  const mockAuthService = {
+    userSignal: signal<AuthUser | null>(null),
+    isLoggedInSignal: signal<boolean>(false),
+    isAdminSignal: signal<boolean>(false),
+    isCoachSignal: signal<boolean>(false),
+    userUpdateSignal: signal<AuthUser | null>(null),
+  };
 
   const mockAuthUser: AuthUser = {
     id: 1,
@@ -16,7 +26,8 @@ describe('UserService', () => {
     email: 'john.doe@example.com',
     roles: ['ROLE_USER'],
     phone: '0123456789',
-    photoUrl: 'https://example.com/photo.jpg',
+    profilePicture: 'https://example.com/photo.jpg',
+    createdAt: new Date('2024-01-01T00:00:00Z'),
     userSubscriptions: [],
   };
 
@@ -45,7 +56,7 @@ describe('UserService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [UserService],
+      providers: [UserService, { provide: AuthService, useValue: mockAuthService }],
     });
     service = TestBed.inject(UserService);
     httpMock = TestBed.inject(HttpTestingController);

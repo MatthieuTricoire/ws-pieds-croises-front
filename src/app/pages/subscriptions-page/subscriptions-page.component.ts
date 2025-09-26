@@ -17,7 +17,6 @@ import { LucideAngularModule, Plus } from 'lucide-angular';
     LucideAngularModule,
   ],
   templateUrl: './subscriptions-page.component.html',
-  styleUrl: './subscriptions-page.component.css',
 })
 export class SubscriptionsPageComponent implements OnInit {
   protected readonly Plus = Plus;

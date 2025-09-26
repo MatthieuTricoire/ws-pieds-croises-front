@@ -17,7 +17,8 @@ describe('AuthService (unit)', () => {
     email: 'jean@example.com',
     roles: ['ROLE_USER'],
     phone: '000',
-    photoUrl: '',
+    profilePicture: null,
+    createdAt: new Date('2024-01-01T00:00:00Z'),
     userSubscriptions: [],
   };
 
@@ -75,7 +76,6 @@ describe('AuthService (unit)', () => {
   describe('HTTP methods', () => {
     it("login appelle http.post puis isAuthenticated et charge l'utilisateur", (done) => {
       httpSpy.post.and.returnValue(of({}));
-      // first call to get -> isAuthenticated, second -> getCurrentUser
       httpSpy.get.and.returnValues(of(true), of(mockUser));
 
       service.login('jean@example.com', 'pass').subscribe({

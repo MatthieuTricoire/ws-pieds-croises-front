@@ -3,7 +3,6 @@ import { LucideIconData } from 'lucide-angular';
 
 describe('ToastService', () => {
   let service: ToastService;
-  // Mock correct pour LucideIconData - c'est un tableau de noeuds
   const mockIcon: LucideIconData = [['path', { d: 'M9 12l2 2 4-4' }]];
 
   beforeEach(() => {
@@ -16,7 +15,7 @@ describe('ToastService', () => {
 
   it('should add a toast when show is called', () => {
     service.show('success', 'Message de succès', 'Bravo', mockIcon, true);
-    const toasts = service.toasts(); // Signal : appel de la fonction
+    const toasts = service.toasts();
     expect(toasts.length).toBe(1);
     expect(toasts[0].alertType).toBe('success');
     expect(toasts[0].message).toBe('Message de succès');
@@ -26,20 +25,15 @@ describe('ToastService', () => {
   });
 
   it('should remove the toast after 5 seconds', () => {
-    // Installation du mock de timer AVANT d'appeler le service
     jasmine.clock().install();
 
-    // Ajout d'un toast
     service.show('info', 'Message info');
     expect(service.toasts().length).toBe(1);
 
-    // Avance le temps de 5 secondes
     jasmine.clock().tick(5000);
 
-    // Vérification immédiate - pas besoin de setTimeout
     expect(service.toasts().length).toBe(0);
 
-    // Nettoyage
     jasmine.clock().uninstall();
   });
 
@@ -65,6 +59,6 @@ describe('ToastService', () => {
     expect(toast.message).toBe("Message d'erreur");
     expect(toast.title).toBeUndefined();
     expect(toast.iconName).toBeUndefined();
-    expect(toast.showIcon).toBeTrue(); // Valeur par défaut
+    expect(toast.showIcon).toBeTrue();
   });
 });
