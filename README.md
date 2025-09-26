@@ -44,6 +44,22 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 ng test
 ```
 
+## Running test coverage
+
+To generate a coverage report for your unit tests, use:
+
+```bash
+ng test --code-coverage
+```
+
+This will create a coverage report in the `coverage/` folder at the root of your project. For a detailed and interactive view, open the file:
+
+```
+coverage/pieds-croises-front/index.html
+```
+
+in your web browser. The report shows the percentage of code covered by tests, and you can click on each file to see which lines are covered or not.
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:

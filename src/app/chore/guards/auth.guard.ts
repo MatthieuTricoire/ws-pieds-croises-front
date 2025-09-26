@@ -8,16 +8,14 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Si on a déjà un utilisateur chargé, pas besoin de refaire les vérifications
   if (authService.isLoggedInSignal() && authService.userSignal()) {
     return of(true);
   }
 
   return authService.isAuthenticated().pipe(
-    take(1), // Évite les abonnements multiples
+    take(1),
     switchMap((isAuth) => {
       if (isAuth) {
-        // Utilisateur authentifié mais données pas chargées
         if (!authService.userSignal()) {
           console.log('[AuthGuard] Chargement des données utilisateur...');
           return authService.loadCurrentUser().pipe(
@@ -44,13 +42,11 @@ export const authGuard: CanActivateFn = (route, state) => {
   );
 };
 
-// Guard pour les rôles spécifiques
 export const roleGuard = (requiredRole: Role): CanActivateFn => {
   return (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    // Vérification rapide avec les signals si déjà authentifié
     if (authService.isLoggedInSignal() && authService.userSignal()) {
       const user = authService.userSignal();
       if (user?.roles.includes(requiredRole)) {
@@ -61,7 +57,6 @@ export const roleGuard = (requiredRole: Role): CanActivateFn => {
       }
     }
 
-    // Sinon, vérifier l'authentification puis le rôle
     return authService.isAuthenticated().pipe(
       take(1),
       switchMap((isAuth) => {
@@ -83,7 +78,6 @@ export const roleGuard = (requiredRole: Role): CanActivateFn => {
               }),
             );
           } else {
-            // Utilisateur déjà chargé, vérifier le rôle
             const user = authService.userSignal();
             if (user?.roles.includes(requiredRole)) {
               return of(true);
@@ -114,6 +108,5 @@ function redirectToLogin(
   return of(router.parseUrl('/login'));
 }
 
-// Guards spécifiques
 export const adminGuard: CanActivateFn = roleGuard('ROLE_ADMIN');
 export const coachGuard: CanActivateFn = roleGuard('ROLE_COACH');
