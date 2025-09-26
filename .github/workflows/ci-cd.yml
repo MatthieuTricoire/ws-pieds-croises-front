@@ -87,5 +87,13 @@ jobs:
             docker stop ${{ secrets.PROJECT_NAME }} || true &&
             docker rm ${{ secrets.PROJECT_NAME }} || true &&
             docker build -t ${{ secrets.PROJECT_NAME }} . &&
-            docker run -d --name ${{ secrets.PROJECT_NAME }} -p 3000:80 ${{ secrets.PROJECT_NAME }}
+            docker run -d --name ${{ secrets.PROJECT_NAME }} \
+              --label traefik.enable=true \
+              --label 'traefik.http.routers.pieds-croises-front.rule=Host(`java-092024-bleu-1.wns.wilders.dev`)' \
+              --label traefik.http.routers.pieds-croises-front.entrypoints=websecure \
+              --label traefik.http.routers.pieds-croises-front.tls.certresolver=letsencrypt \
+              --label traefik.http.services.pieds-croises-front.loadbalancer.server.port=80 \
+              --network traefik \
+              ${{ secrets.PROJECT_NAME }}
           "
+
