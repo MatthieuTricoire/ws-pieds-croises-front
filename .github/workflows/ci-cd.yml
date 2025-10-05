@@ -1,99 +1,99 @@
-name: CI/CD Angular
-
-on:
-  push:
-    branches:
-      - main
-      - dev
-      - feature/**
-      - fix/**
-  pull_request:
-    branches:
-      - main
-      - dev
-
-jobs:
-  build-and-test:
-    name: 🔧 Build and test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 📥 Checkout du code
-        uses: actions/checkout@v3
-
-      - name: ⚙️ Installer Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: 📦 Installer les dépendances
-        run: npm ci
-
-  #      - name: 🧪 Lancer les tests
-  #        run: npm run test -- --watch=false --browsers=ChromeHeadless
-
-  deploy:
-    name: 🚀 Déploiement sur le VPS
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/CICD-quest'
-    runs-on: ubuntu-latest
-    environment: production
-
-    steps:
-      - name: 📥 Checkout du code
-        uses: actions/checkout@v3
-
-      - name: ⚙️ Installer Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: 📦 Installer Angular CLI
-        run: npm install -g @angular/cli
-
-      - name: 📦 Installer les dépendances
-        run: npm ci
-
-      - name: 🧱 Build Angular (production)
-        run: npm run build -- --configuration production
-
-      - name: 🗂️ Préparer les fichiers à transférer
-        run: |
-          mkdir -p deploy/browser
-          cp -r dist/pieds-croises-front/browser/* deploy/browser/
-          cp nginx.conf Dockerfile deploy/
-
-      - name: 🔐 Ajouter la clé SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519_${{ secrets.PROJECT_NAME }}
-          chmod 600 ~/.ssh/id_ed25519_${{ secrets.PROJECT_NAME }}
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-
-      - name: 📤 Copier les fichiers sur le VPS
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: "deploy/**"
-          strip_components: 1
-          target: /home/${{ secrets.VPS_USER }}/${{ secrets.PROJECT_NAME }}/
-
-      - name: 🐳 Build et run le conteneur sur le VPS
-        run: |
-          ssh -i ~/.ssh/id_ed25519_${{ secrets.PROJECT_NAME }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/${{ secrets.PROJECT_NAME }} &&
-            docker stop ${{ secrets.PROJECT_NAME }} || true &&
-            docker rm ${{ secrets.PROJECT_NAME }} || true &&
-            docker build -t ${{ secrets.PROJECT_NAME }} . &&
-            docker run -d --name ${{ secrets.PROJECT_NAME }} \
-              --label traefik.enable=true \
-              --label 'traefik.http.routers.pieds-croises-front.rule=Host(\`pieds-croises.duckdns.org\`)' \
-              --label traefik.http.routers.pieds-croises-front.entrypoints=websecure \
-              --label traefik.http.routers.pieds-croises-front.tls.certresolver=letsencrypt \
-              --label traefik.http.services.pieds-croises-front.loadbalancer.server.port=80 \
-              --network traefik \
-              ${{ secrets.PROJECT_NAME }}
-          "
-
+# name: CI/CD Angular
+#
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+#       - feature/**
+#       - fix/**
+#   pull_request:
+#     branches:
+#       - main
+#       - dev
+#
+# jobs:
+#   build-and-test:
+#     name: 🔧 Build and test
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - name: 📥 Checkout du code
+#         uses: actions/checkout@v3
+#
+#       - name: ⚙️ Installer Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+#
+#       - name: 📦 Installer les dépendances
+#         run: npm ci
+#
+#   #      - name: 🧪 Lancer les tests
+#   #        run: npm run test -- --watch=false --browsers=ChromeHeadless
+#
+#   deploy:
+#     name: 🚀 Déploiement sur le VPS
+#     needs: build-and-test
+#     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/CICD-quest'
+#     runs-on: ubuntu-latest
+#     environment: production
+#
+#     steps:
+#       - name: 📥 Checkout du code
+#         uses: actions/checkout@v3
+#
+#       - name: ⚙️ Installer Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+#
+#       - name: 📦 Installer Angular CLI
+#         run: npm install -g @angular/cli
+#
+#       - name: 📦 Installer les dépendances
+#         run: npm ci
+#
+#       - name: 🧱 Build Angular (production)
+#         run: npm run build -- --configuration production
+#
+#       - name: 🗂️ Préparer les fichiers à transférer
+#         run: |
+#           mkdir -p deploy/browser
+#           cp -r dist/pieds-croises-front/browser/* deploy/browser/
+#           cp nginx.conf Dockerfile deploy/
+#
+#       - name: 🔐 Ajouter la clé SSH
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519_${{ secrets.PROJECT_NAME }}
+#           chmod 600 ~/.ssh/id_ed25519_${{ secrets.PROJECT_NAME }}
+#           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+#
+#       - name: 📤 Copier les fichiers sur le VPS
+#         uses: appleboy/scp-action@v0.1.4
+#         with:
+#           host: ${{ secrets.VPS_HOST }}
+#           username: ${{ secrets.VPS_USER }}
+#           key: ${{ secrets.VPS_SSH_KEY }}
+#           source: "deploy/**"
+#           strip_components: 1
+#           target: /home/${{ secrets.VPS_USER }}/${{ secrets.PROJECT_NAME }}/
+#
+#       - name: 🐳 Build et run le conteneur sur le VPS
+#         run: |
+#           ssh -i ~/.ssh/id_ed25519_${{ secrets.PROJECT_NAME }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
+#             cd /home/${{ secrets.VPS_USER }}/${{ secrets.PROJECT_NAME }} &&
+#             docker stop ${{ secrets.PROJECT_NAME }} || true &&
+#             docker rm ${{ secrets.PROJECT_NAME }} || true &&
+#             docker build -t ${{ secrets.PROJECT_NAME }} . &&
+#             docker run -d --name ${{ secrets.PROJECT_NAME }} \
+#               --label traefik.enable=true \
+#               --label 'traefik.http.routers.pieds-croises-front.rule=Host(\`pieds-croises.duckdns.org\`)' \
+#               --label traefik.http.routers.pieds-croises-front.entrypoints=websecure \
+#               --label traefik.http.routers.pieds-croises-front.tls.certresolver=letsencrypt \
+#               --label traefik.http.services.pieds-croises-front.loadbalancer.server.port=80 \
+#               --network traefik \
+#               ${{ secrets.PROJECT_NAME }}
+#           "
+#
