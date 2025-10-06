@@ -10,12 +10,6 @@ export class UserSubscriptionService {
   private apiUrl = 'http://localhost:8080/user-subscriptions';
   private http = inject(HttpClient);
 
-  getUserSubscriptions(userId: number): Observable<UserSubscription[]> {
-    return this.http.get<UserSubscription[]>(`${this.apiUrl}/user/${userId}`, {
-      withCredentials: true,
-    });
-  }
-
   getUserActiveSubscription(userId: number): Observable<UserSubscription | null> {
     return this.getUserSubscriptions(userId).pipe(
       map((subscriptions) => {
@@ -31,33 +25,11 @@ export class UserSubscriptionService {
     );
   }
 
-  // validateSubscriptionForCourse(userId: number): Observable<SubscriptionValidation> {
-  //   return this.getUserActiveSubscription(userId).pipe(
-  //     map((subscription) => {
-  //       if (!subscription) {
-  //         return {
-  //           isValid: false,
-  //           canRegister: false,
-  //           reason: 'Aucun abonnement actif trouvé',
-  //         };
-  //       }
-  //
-  //       return {
-  //         isValid: true,
-  //         canRegister: true,
-  //         weeklyLimit: subscription.subscription.sessionPerWeek,
-  //         weeklyRegistrations: undefined,
-  //       };
-  //     }),
-  //     catchError(() =>
-  //       of({
-  //         isValid: false,
-  //         canRegister: false,
-  //         reason: "Erreur lors de la vérification de l'abonnement",
-  //       }),
-  //     ),
-  //   );
-  // }
+  getUserSubscriptions(userId: number): Observable<UserSubscription[]> {
+    return this.http.get<UserSubscription[]>(`${this.apiUrl}/user/${userId}`, {
+      withCredentials: true,
+    });
+  }
 
   getWeeklyRegistrationsCount(userId: number, courseDate: Date): Observable<number> {
     const courseDateParam = courseDate.toISOString().split('T')[0];

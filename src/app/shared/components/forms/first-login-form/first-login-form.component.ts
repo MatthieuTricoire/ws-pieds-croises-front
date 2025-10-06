@@ -48,7 +48,6 @@ export class FirstLoginFormComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error:', error);
-            // Gérez les erreurs ici, par exemple, affichez un message d'erreur à l'utilisateur
           },
         });
     }
