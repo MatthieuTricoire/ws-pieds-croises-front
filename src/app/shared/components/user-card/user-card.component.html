@@ -132,14 +132,18 @@
           </div>
         }
 
-        <button type="submit" class="btn btn-primary w-full mt-2" [disabled]="isSaving()">
+        <button type="submit" class="btn btn-success w-full mt-2" [disabled]="isSaving()">
           @if (isSaving()) {
             <span class="loading loading-spinner"></span> Sauvegarde...
           } @else {
             Sauvegarder
           }
         </button>
-        <button type="button" class="btn btn-ghost w-full" (click)="isEditing.set(false)">
+        <button
+          type="button"
+          class="btn btn-ghost w-full btn-outline btn-error"
+          (click)="isEditing.set(false)"
+        >
           Annuler
         </button>
       </form>
