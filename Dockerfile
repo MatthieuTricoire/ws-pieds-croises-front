@@ -2,14 +2,13 @@
 FROM node:18 AS builder
 
 # Argument pour définir l'environnement (par défaut: production)
-ARG BUILD_CONFIG=production
+ARG BUILD_CONFIG=preprod
 
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
 
-RUN echo "Building with configuration: ${BUILD_CONFIG}"
 RUN npm run build -- --configuration ${BUILD_CONFIG}
 
 # Stage 2: Servir avec Nginx
