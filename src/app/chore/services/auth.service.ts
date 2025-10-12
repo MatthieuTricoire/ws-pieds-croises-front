@@ -3,6 +3,7 @@ import { catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthUser, Role } from '../../shared/models/authUser';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,10 @@ export class AuthService {
   #router: Router = inject(Router);
   #http = inject(HttpClient);
 
-  readonly apiUrl = 'http://localhost:8080';
-  readonly #defaultRoute = '/dashboard';
+  // Configuration
+  readonly apiUrl = environment.apiUrl;
+  readonly #defaultRoute = '/dashboard'; // Plus parlant que /test
+
   readonly #returnUrlKey = 'auth_return_url';
 
   constructor() {

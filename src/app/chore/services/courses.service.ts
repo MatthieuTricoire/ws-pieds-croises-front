@@ -1,13 +1,14 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course } from '../../shared/models/course';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesService {
-  private apiUrl = 'http://localhost:8080/courses';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
   getCoursesByDay(date: Date): Observable<Course[]> {

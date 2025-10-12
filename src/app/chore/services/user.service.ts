@@ -4,12 +4,13 @@ import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { Course } from '../../shared/models/course';
 import { AuthUser, CreateUser } from '../../shared/models/authUser';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  #apiUrl = 'http://localhost:8080/users';
+  #apiUrl = environment.apiUrl + '/users';
   #http = inject(HttpClient);
   #authService = inject(AuthService);
   user = computed(() => this.#authService.userSignal());

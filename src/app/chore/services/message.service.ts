@@ -2,12 +2,13 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { Message } from '../../shared/models/message';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  #apiUrl = 'http://localhost:8080/messages';
+  #apiUrl = environment.apiUrl + '/messages';
   #http = inject(HttpClient);
 
   #messages = signal<Message[]>([]);
