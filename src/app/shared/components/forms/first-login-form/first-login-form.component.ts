@@ -16,7 +16,6 @@ interface FirstLoginForm {
   selector: 'app-first-login-form',
   imports: [InputComponent, ReactiveFormsModule],
   templateUrl: './first-login-form.component.html',
-  styleUrl: './first-login-form.component.css',
 })
 export class FirstLoginFormComponent implements OnInit {
   registrationToken?: string;
@@ -47,7 +46,7 @@ export class FirstLoginFormComponent implements OnInit {
             this.#toastService.show('info', 'Votre mot de passe a été mis à jour avec succès.', '');
           },
           error: (error) => {
-            console.error('Error:', error);
+            this.#toastService.show('error', 'Une erreur est survenue.', '');
           },
         });
     }

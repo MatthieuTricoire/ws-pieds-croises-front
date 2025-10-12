@@ -8,7 +8,6 @@ import { BoxService } from '../../../chore/services/box.service';
   selector: 'app-mobile-header',
   imports: [LucideAngularModule, TypographyComponent],
   templateUrl: './mobile-header.component.html',
-  styleUrl: './mobile-header.component.css',
 })
 export class MobileHeaderComponent {
   #authService = inject(AuthService);

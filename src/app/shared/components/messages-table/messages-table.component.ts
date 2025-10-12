@@ -10,7 +10,6 @@ import { MessageCreationFormComponent } from '../forms/message-creation-form/mes
   selector: 'app-messages-table',
   imports: [NgClass, LucideAngularModule, MessageCreationFormComponent],
   templateUrl: './messages-table.component.html',
-  styleUrl: './messages-table.component.css',
 })
 export class MessagesTableComponent implements OnInit {
   readonly trashIcon = Trash;

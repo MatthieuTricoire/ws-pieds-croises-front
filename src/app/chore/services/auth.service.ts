@@ -8,20 +8,17 @@ import { AuthUser, Role } from '../../shared/models/authUser';
   providedIn: 'root',
 })
 export class AuthService {
-  // Signals unifiés
   userSignal = signal<AuthUser | null>(null);
   isLoggedInSignal = signal<boolean>(false);
   isAdminSignal = computed(() => this.userSignal()?.roles.includes('ROLE_ADMIN') ?? false);
   isCoachSignal = computed(() => this.userSignal()?.roles.includes('ROLE_COACH') ?? false);
   userUpdateSignal = signal<AuthUser | null>(null);
 
-  // Injections
   #router: Router = inject(Router);
   #http = inject(HttpClient);
 
-  // Configuration
   readonly apiUrl = 'http://localhost:8080';
-  readonly #defaultRoute = '/dashboard'; // Plus parlant que /test
+  readonly #defaultRoute = '/dashboard';
   readonly #returnUrlKey = 'auth_return_url';
 
   constructor() {
@@ -29,7 +26,7 @@ export class AuthService {
   }
 
   getApiUrl(): string {
-    return this.apiUrl; // 👈 accessible depuis le template
+    return this.apiUrl;
   }
 
   login(email: string, password: string): Observable<boolean> {
@@ -126,7 +123,6 @@ export class AuthService {
     this.isLoggedInSignal.set(false);
   }
 
-  // Persistance de l'URL de retour
   setReturnUrl(url: string): void {
     sessionStorage.setItem(this.#returnUrlKey, url);
   }
@@ -182,7 +178,6 @@ export class AuthService {
     }
   }
 
-  // Méthodes utilitaires pour les guards/composants
   requireAuth(): boolean {
     if (!this.isLoggedInSignal()) {
       this.setReturnUrl(this.#router.url);

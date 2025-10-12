@@ -6,6 +6,5 @@ import { ForgotPasswordFormComponent } from '../../shared/components/forms/forgo
   selector: 'app-forgotten-password',
   imports: [TwoColumnsLayoutComponent, ForgotPasswordFormComponent],
   templateUrl: './ask-reset-password-page.component.html',
-  styleUrl: './ask-reset-password-page.component.css',
 })
 export class AskResetPasswordPageComponent {}
