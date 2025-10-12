@@ -10,7 +10,6 @@ import { ToastService } from '../../../../chore/services/toast.service';
   selector: 'app-user-creation-form',
   imports: [ReactiveFormsModule],
   templateUrl: './user-creation-form.component.html',
-  styleUrl: './user-creation-form.component.css',
 })
 export class UserCreationFormComponent implements OnInit {
   #fb = inject(FormBuilder);

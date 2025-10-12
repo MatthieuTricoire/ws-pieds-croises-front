@@ -10,7 +10,6 @@ export class SubscriptionService {
   #http = inject(HttpClient);
   #auth = inject(AuthService);
 
-  // Signals
   userSubscription = signal<UserSubscription | null>(null);
   availableSubscriptions = signal<Subscription[]>([]);
 

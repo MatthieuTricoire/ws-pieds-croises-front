@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MessagesTableComponent } from './messages-table.component';
+import { FirstLoginComponent } from './first-login-page.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
-describe('MessagesTableComponent', () => {
-  let component: MessagesTableComponent;
-  let fixture: ComponentFixture<MessagesTableComponent>;
+describe('FirstLoginComponent', () => {
+  let component: FirstLoginComponent;
+  let fixture: ComponentFixture<FirstLoginComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MessagesTableComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [FirstLoginComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MessagesTableComponent);
+    fixture = TestBed.createComponent(FirstLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

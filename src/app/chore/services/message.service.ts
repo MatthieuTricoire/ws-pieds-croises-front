@@ -34,7 +34,6 @@ export class MessageService {
 
     return this.#http.get<Message[]>(this.#apiUrl, { withCredentials: true }).pipe(
       tap((messages) => {
-        // Transformer les messages avec les labels français
         const transformedMessages = messages.map((message) => ({
           ...message,
           messageTypeLabel: messageTypeLabels[message.messageType],

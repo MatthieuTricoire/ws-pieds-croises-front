@@ -7,7 +7,6 @@ import { LucideAngularModule } from 'lucide-angular';
   selector: 'app-nav-menu-button',
   imports: [RouterLink, LucideAngularModule],
   templateUrl: './nav-menu-button.component.html',
-  styleUrl: './nav-menu-button.component.css',
 })
 export class NavMenuButtonComponent {
   route: ActivatedRoute = inject(ActivatedRoute);

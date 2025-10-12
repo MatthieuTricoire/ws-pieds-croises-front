@@ -40,7 +40,6 @@ interface ButtonConfig {
   selector: 'app-course-card',
   imports: [LucideAngularModule, NgClass],
   templateUrl: './course-card.component.html',
-  styleUrl: './course-card.component.css',
 })
 export class CourseCardComponent {
   protected readonly Users = Users;

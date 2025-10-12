@@ -7,7 +7,6 @@ import { TypographyComponent } from '../design-system/typography/typography.comp
   selector: 'app-messages-container',
   imports: [MessageComponent, TypographyComponent],
   templateUrl: './messages-container.component.html',
-  styleUrl: './messages-container.component.css',
 })
 export class MessagesContainerComponent implements OnInit {
   currentSlide = signal(0);

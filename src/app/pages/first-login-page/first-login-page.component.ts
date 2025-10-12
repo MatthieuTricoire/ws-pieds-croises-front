@@ -7,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-first-login',
   imports: [TwoColumnsLayoutComponent, FirstLoginFormComponent],
   templateUrl: './first-login-page.component.html',
-  styleUrl: './first-login-page.component.css',
 })
 export class FirstLoginComponent implements OnInit {
   username?: string;
