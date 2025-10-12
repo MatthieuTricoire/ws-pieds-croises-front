@@ -46,8 +46,12 @@ export class NewPasswordFormComponent implements OnInit {
             this.#toastService.show('info', 'Votre mot de passe a été mis à jour avec succès.', '');
           },
           error: (error) => {
+            this.#toastService.show(
+              'error',
+              'Une erreur est survenue lors de la mise à jour du mot de passe.',
+              '',
+            );
             console.error('Error:', error);
-            // Gérez les erreurs ici, par exemple, affichez un message d'erreur à l'utilisateur
           },
         });
     }
