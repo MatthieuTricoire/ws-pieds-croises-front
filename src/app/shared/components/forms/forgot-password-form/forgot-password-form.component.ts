@@ -15,7 +15,6 @@ interface ForgotPasswordForm {
   selector: 'app-forgot-password-form',
   imports: [InputComponent, ReactiveFormsModule],
   templateUrl: './forgot-password-form.component.html',
-  styleUrl: './forgot-password-form.component.css',
 })
 export class ForgotPasswordFormComponent {
   isLoading = false;

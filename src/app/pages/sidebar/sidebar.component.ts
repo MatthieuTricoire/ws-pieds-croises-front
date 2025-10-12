@@ -21,7 +21,6 @@ import { AuthService } from '../../chore/services/auth.service';
   selector: 'app-sidebar',
   imports: [ButtonNavComponent, LucideAngularModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
@@ -39,7 +38,7 @@ export class SidebarComponent {
 
   readonly buttonsGestion: ButtonNav[] = [
     { label: 'Mon Compte', path: '/profile', icon: User },
-    { label: 'Se déconnecter', path: 'null', icon: LogOut, action: () => this.logout() },
+    { label: 'Se déconnecter', icon: LogOut, action: () => this.logout() },
   ];
 
   readonly buttonsUser = computed<ButtonNav[]>(() => [

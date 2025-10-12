@@ -7,7 +7,6 @@ type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
   selector: 'app-typography',
   standalone: true,
   templateUrl: './typography.component.html',
-  styleUrls: ['./typography.component.css'],
   imports: [CommonModule],
 })
 export class TypographyComponent {

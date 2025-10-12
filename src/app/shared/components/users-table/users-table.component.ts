@@ -13,7 +13,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   selector: 'app-users-table',
   imports: [NgClass, LucideAngularModule, UserCreationFormComponent, ReactiveFormsModule],
   templateUrl: './users-table.component.html',
-  styleUrl: './users-table.component.css',
 })
 export class UsersTableComponent implements OnInit {
   readonly plusIcon = PlusIcon;

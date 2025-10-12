@@ -19,7 +19,6 @@ interface MessageConfig {
   selector: 'app-message',
   imports: [LucideAngularModule, NgClass],
   templateUrl: './message.component.html',
-  styleUrl: './message.component.css',
 })
 export class MessageComponent {
   message = input.required<Message>();

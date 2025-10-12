@@ -16,7 +16,6 @@ interface FirstLoginForm {
   selector: 'app-first-login-form',
   imports: [InputComponent, ReactiveFormsModule],
   templateUrl: './first-login-form.component.html',
-  styleUrl: './first-login-form.component.css',
 })
 export class FirstLoginFormComponent implements OnInit {
   registrationToken?: string;
@@ -48,7 +47,7 @@ export class FirstLoginFormComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error:', error);
-            // Gérez les erreurs ici, par exemple, affichez un message d'erreur à l'utilisateur
+            this.#toastService.show('error', 'Une erreur est survenue.', '');
           },
         });
     }
