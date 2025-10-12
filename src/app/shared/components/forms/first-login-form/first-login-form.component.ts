@@ -47,6 +47,7 @@ export class FirstLoginFormComponent implements OnInit {
           },
           error: (error) => {
             this.#toastService.show('error', 'Une erreur est survenue.', '');
+            console.log('Error:', error);
           },
         });
     }
