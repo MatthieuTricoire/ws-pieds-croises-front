@@ -9,8 +9,6 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 
-# Utiliser l'argument pour le build
-# fais moi un echod de la variable build_config
 RUN echo "Building with configuration: ${BUILD_CONFIG}"
 RUN npm run build -- --configuration ${BUILD_CONFIG}
 
