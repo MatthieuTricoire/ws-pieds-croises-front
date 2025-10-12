@@ -6,6 +6,5 @@ import { TypographyComponent } from '../../shared/components/design-system/typog
   selector: 'app-messages-page',
   imports: [MessagesTableComponent, TypographyComponent],
   templateUrl: './messages-page.component.html',
-  styleUrl: './messages-page.component.css',
 })
 export class MessagesPageComponent {}

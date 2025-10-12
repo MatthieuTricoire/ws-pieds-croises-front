@@ -103,7 +103,6 @@ export class UserService {
       .put<AuthUser>(`${this.#apiUrl}/profile`, user, { withCredentials: true })
       .pipe(
         tap((updatedUser) => {
-          // Met à jour le signal user et le flag logged in
           this.#authService.userSignal.set(updatedUser);
           this.#authService.isLoggedInSignal.set(true);
         }),
@@ -117,7 +116,6 @@ export class UserService {
     const formData = new FormData();
     formData.append('file', file);
 
-    // responseType: 'text' pour indiquer que la réponse est une chaîne de caractères
     return this.#http.post(`${this.#apiUrl}/profile/profile-picture`, formData, {
       responseType: 'text',
       withCredentials: true,
@@ -132,7 +130,6 @@ export class UserService {
       })
       .pipe(
         tap(() => {
-          // Met à jour le signal user pour retirer la photo
           const currentUser = this.#authService.userSignal();
           if (currentUser) {
             this.#authService.userSignal.set({

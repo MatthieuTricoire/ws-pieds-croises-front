@@ -6,6 +6,5 @@ import { NewPasswordFormComponent } from '../../shared/components/forms/new-pass
   selector: 'app-new-password-page',
   imports: [TwoColumnsLayoutComponent, NewPasswordFormComponent],
   templateUrl: './new-password-page.component.html',
-  styleUrl: './new-password-page.component.css',
 })
 export class NewPasswordPageComponent {}

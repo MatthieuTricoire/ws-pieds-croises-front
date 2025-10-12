@@ -16,7 +16,6 @@ interface NewPasswordForm {
   selector: 'app-new-password-form',
   imports: [InputComponent, ReactiveFormsModule],
   templateUrl: './new-password-form.component.html',
-  styleUrl: './new-password-form.component.css',
 })
 export class NewPasswordFormComponent implements OnInit {
   resetPasswordToken?: string;

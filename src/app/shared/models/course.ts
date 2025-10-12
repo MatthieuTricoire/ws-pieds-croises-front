@@ -1,4 +1,4 @@
-type CourseStatus = 'OPEN' | 'FULL' | 'CANCELLED';
+export type CourseStatus = 'OPEN' | 'FULL' | 'CANCELLED';
 
 export interface Course {
   id: number;

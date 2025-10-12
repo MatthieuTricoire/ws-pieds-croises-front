@@ -6,6 +6,5 @@ import { TypographyComponent } from '../design-system/typography/typography.comp
   selector: 'app-header-home-page',
   imports: [RouterLink, TypographyComponent],
   templateUrl: './header-home-page.component.html',
-  styleUrl: './header-home-page.component.css',
 })
 export class HeaderHomePageComponent {}

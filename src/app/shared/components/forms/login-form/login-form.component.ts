@@ -16,7 +16,6 @@ interface LoginForm {
   selector: 'app-login-form',
   imports: [ReactiveFormsModule, LucideAngularModule, InputComponent, RouterLink],
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent {
   #fb = inject(FormBuilder);

@@ -1,4 +1,4 @@
-<div class="mb-4">
+<div class="flex flex-col gap-8 items-center justify-center">
   <button class="btn btn-primary" (click)="openCreateMessageModal()">
     <lucide-icon [img]="plusIcon" />
     Créer un message
@@ -22,7 +22,7 @@
   <tbody>
     @for (message of messages(); track message.id) {
       <tr>
-        <td class="flex justify-center">
+        <td class="align-middle">
           <div
             class="badge"
             [ngClass]="{
@@ -42,7 +42,7 @@
         <td>
           <input
             type="checkbox"
-            class="toggle toggle-success"
+            class="toggle toggle-success toggle-sm"
             [checked]="message.messageStatus === 'ACTIVE'"
             (change)="toggleMessageStatus(message, $event)"
           />

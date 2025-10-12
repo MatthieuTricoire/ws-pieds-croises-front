@@ -6,6 +6,5 @@ import { TypographyComponent } from '../../shared/components/design-system/typog
   selector: 'app-user-page',
   imports: [UsersTableComponent, TypographyComponent],
   templateUrl: './user-page.component.html',
-  styleUrl: './user-page.component.css',
 })
 export class UsersPageComponent {}
