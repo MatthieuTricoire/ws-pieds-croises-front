@@ -2,7 +2,7 @@
 FROM node:18 AS builder
 
 # Argument pour définir l'environnement (par défaut: production)
-ARG BUILD_CONFIG=preprod
+ARG BUILD_CONFIG=production
 
 WORKDIR /app
 COPY package*.json ./
