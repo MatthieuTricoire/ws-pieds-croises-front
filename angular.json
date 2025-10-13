@@ -107,6 +107,9 @@
             "production": {
               "buildTarget": "pieds-croises-front:build:production"
             },
+            "test": {
+              "buildTarget": "pieds-croises-front:build:test"
+            },
             "development": {
               "buildTarget": "pieds-croises-front:build:development"
             }
