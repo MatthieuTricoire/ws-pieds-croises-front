@@ -36,7 +36,7 @@ export class UserSubscriptionService {
     const courseDateParam = courseDate.toISOString().split('T')[0];
 
     return this.http
-      .get<number>(`http://localhost:8080/courses/user/${userId}/weekly-count`, {
+      .get<number>(`${this.apiUrl}/courses/user/${userId}/weekly-count`, {
         params: {
           weekDate: courseDateParam,
         },
