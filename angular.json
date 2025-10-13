@@ -28,7 +28,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -99,13 +99,16 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "prod"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "pieds-croises-front:build:production"
+            "prod": {
+              "buildTarget": "pieds-croises-front:build:prod"
+            },
+            "preprod": {
+              "buildTarget": "pieds-croises-front:build:preprod"
             },
             "test": {
               "buildTarget": "pieds-croises-front:build:test"
