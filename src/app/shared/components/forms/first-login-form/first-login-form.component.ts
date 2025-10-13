@@ -46,7 +46,8 @@ export class FirstLoginFormComponent implements OnInit {
             this.#toastService.show('info', 'Votre mot de passe a été mis à jour avec succès.', '');
           },
           error: (error) => {
-            this.#toastService.show('error', 'Une erreur est survenue.', '');
+            const errorMessage = error?.error || 'Une erreur est survenue.';
+            this.#toastService.show('error', errorMessage, '');
             console.log('Error:', error);
           },
         });
