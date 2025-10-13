@@ -1,0 +1,13 @@
+<header class="flex justify-between w-full md:hidden py-2 px-4">
+  <div class="flex gap-5">
+    <img alt="Kettlebells" class="w-[70px] object-contain" src="/kettlebells.svg" />
+    <div class="flex flex-col justify-center">
+      <app-typography tagType="span" [text]="userName" />
+      <p class="font-light text-sm">{{ boxName }}</p>
+    </div>
+  </div>
+
+  <button (click)="logOut()" (keydown.enter)="logOut()" tabindex="0" class="items-center p-2">
+    <lucide-icon class="h-[32px] w-[32px]" [img]="LogOut" />
+  </button>
+</header>

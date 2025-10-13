@@ -1,0 +1,18 @@
+<aside
+  class="w-[200px] h-[90px] flex flex-col items-center justify-between gap-8 bg-base-200 max-md:pt-2 max-md:pb-2 pt-6 pb-4 md:min-h-screen max-md:fixed bottom-0 max-md:w-full border-t md:border-t-0 border-base-300 z-50"
+>
+  <div class="flex flex-col items-center gap-8 w-full max-md:flex-row max-md:gap-0 max-md:h-full">
+    <img
+      alt="Logo Pieds-Croisés"
+      class="w-[125px] object-contain max-md:hidden"
+      src="/logoSmall.svg"
+    />
+    @if (isAdmin) {
+      <app-button-nav [buttons]="buttonsAdmin" class="w-full max-md:hidden" />
+    } @else {
+      <app-button-nav [buttons]="buttonsUser()" class="w-full h-auto max-md:h-full" />
+    }
+    <hr class="border w-[120px] max-md:hidden" />
+  </div>
+  <app-button-nav [buttons]="buttonsGestion" class="w-full max-md:hidden" />
+</aside>

@@ -1,0 +1,18 @@
+<div
+  class="min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1px_1fr] md:gap-32 md:content-center md:justify-center"
+>
+  <div class="flex justify-center items-center md:justify-self-end">
+    <img
+      alt="Logo Pieds-Croisés"
+      class="w-[300px] object-contain md:max-w-[500px]"
+      src="/logo.svg"
+    />
+  </div>
+  <div class="hidden md:block md:border-l md:border-white md:h-[400px] md:rounded-2xl"></div>
+
+  <div class="p-4 flex justify-center items-center md:justify-self-start md:p-0 gap-10 md:gap-0">
+    <div class="flex flex-col gap-8">
+      <ng-content />
+    </div>
+  </div>
+</div>

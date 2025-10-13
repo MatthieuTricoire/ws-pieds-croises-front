@@ -1,0 +1,43 @@
+.btn-disabled {
+  background-color: hsl(var(--color-base-200)) !important;
+  border-color: hsl(var(--color-base-300)) !important;
+  color: hsl(var(--color-base-content) / 0.3) !important;
+}
+
+.btn-disabled:hover {
+  transform: none !important;
+  background-color: hsl(var(--color-base-200)) !important;
+  border-color: hsl(var(--color-base-300)) !important;
+  color: hsl(var(--color-base-content) / 0.3) !important;
+}
+
+/* Animation pour les boutons sélectionnés */
+.btn-primary {
+  box-shadow: 0 0 0 2px hsl(var(--color-primary) / 0.2);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.3);
+}
+
+/* Assurer que les effets hover fonctionnent */
+.btn:not(.btn-disabled):hover {
+  transform: scale(1.1);
+}
+
+/* Animation pulse pour la sélection */
+@keyframes pulse-selection {
+  0% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.animate-select {
+  animation: pulse-selection 0.3s ease-in-out;
+}

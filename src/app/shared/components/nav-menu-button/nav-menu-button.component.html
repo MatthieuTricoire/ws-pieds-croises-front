@@ -1,0 +1,28 @@
+<div class="menu lg:menu-horizontal bg-base-200 p-0 rounded-box lg:mb-64 h-full">
+  <details class="h-full" [attr.open]="isOpen() ? true : null">
+    <summary
+      (click)="toggleDetails()"
+      class="flex flex-col justify-center items-center gap-2 [&::marker]:hidden cursor-pointer hover:text-primary h-full pr-4 pl-4 max-sm:pr-2 max-sm:pl-2"
+    >
+      <lucide-icon class="max-md:h-[32px] max-md:w-[32px] max-sm:h-[27px]" [img]="button().icon" />
+      <span class="max-md:text-xl font-semibold max-sm:text-sm">{{ button().label }}</span>
+    </summary>
+
+    <ul
+      class="max-md:absolute max-md:bottom-[90px] max-md:right-0 bg-base-200 pt-2 pb-2 rounded-t-md flex flex-col gap-2"
+    >
+      @for (btn of button().menuList; track btn) {
+        <li class="rounded-none">
+          <a
+            [routerLink]="btn.path"
+            class="hover:text-primary rounded-none"
+            (click)="closeDetails()"
+          >
+            <lucide-icon [img]="btn.icon" />
+            <span>{{ btn.label }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </details>
+</div>

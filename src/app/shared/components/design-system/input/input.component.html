@@ -1,0 +1,37 @@
+@if (label()) {
+  <label class="label mb-1.5" [attr.for]="name()">
+    {{ label() }}
+  </label>
+}
+<div class="relative">
+  <input
+    (blur)="onTouched()"
+    (input)="onInputChange($event)"
+    [class.input-error]="errorMessage"
+    [id]="name()"
+    [name]="name()"
+    [placeholder]="placeholder() ? placeholder() : ''"
+    [type]="type() === 'password' && showPassword ? 'text' : type()"
+    [value]="value"
+    class="input w-full"
+  />
+
+  @if (type() === 'password') {
+    <button
+      type="button"
+      class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+      (click)="togglePasswordVisibility()"
+    >
+      @if (showPassword) {
+        <lucide-angular [img]="LucideEyeOff" size="20px" />
+      } @else {
+        <lucide-angular [img]="LucideEye" size="20px" />
+      }
+    </button>
+  }
+</div>
+@if (errorMessage) {
+  <div class="validator-hint text-error">
+    {{ errorMessage }}
+  </div>
+}

@@ -1,0 +1,21 @@
+<div class="p-8 h-full">
+  <app-typography text="Abonnements" tagType="h1" className="text-center mb-16" />
+  <div class="flex flex-col gap-8 items-center justify-center">
+    <button (click)="onCreateSubscription()" class="btn btn-primary w-fit">
+      <lucide-icon [img]="Plus" />
+      Ajouter un abonnement
+    </button>
+
+    <div class="flex flex-wrap gap-4">
+      @for (subscription of subscriptionService.availableSubscriptions(); track subscription.id) {
+        <app-user-subscription-card
+          [subscription]="subscription"
+          mode="admin"
+          (editAction)="onEditSubscription($event)"
+          (deleteAction)="onDeleteSubscription($event)"
+        />
+      }
+    </div>
+  </div>
+</div>
+<app-subscription-form [subscriptionToEdit]="selectedSubscription()" />

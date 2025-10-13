@@ -1,0 +1,207 @@
+<div class="flex flex-col gap-8 items-center justify-center">
+  <div class="flex gap-8 items-end">
+    <div class="form-control w-full max-w-xs">
+      <span class="label">Rechercher un utilisateur</span>
+      <input
+        type="text"
+        placeholder="Nom, prénom, email ..."
+        class="input input-bordered w-full max-w-xs"
+        [value]="searchTerm()"
+        (input)="onSearchChange($event)"
+      />
+    </div>
+    <button class="btn btn-primary" (click)="openCreateUserModal()">
+      <lucide-icon [img]="plusIcon" [size]="20" />
+      Créer un utilisateur
+    </button>
+  </div>
+
+  <form [formGroup]="editForm" class="w-full">
+    <table class="table table-auto">
+      <thead>
+        <tr>
+          <th>
+            <span>Rôle</span>
+          </th>
+          <th><span>Nom</span></th>
+          <th>
+            <span>Prénom</span>
+          </th>
+          <th>
+            <span>Email</span>
+          </th>
+          <th>
+            <span>Téléphone</span>
+          </th>
+          <th class="text-center">Abonnement</th>
+          <th class="text-center">
+            <span>Actions</span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (user of users(); track user.id) {
+          <tr>
+            <td>
+              <div class="badge inline-block" [ngClass]="getRoleBadgeClass(user.roles)">
+                {{ getRoleLabel(user.roles) }}
+              </div>
+            </td>
+            <td>
+              @if (editingUserId() === user.id) {
+                <input
+                  type="text"
+                  class="input input-sm input-bordered w-full"
+                  formControlName="lastname"
+                  [class.input-error]="
+                    editForm.get('lastname')?.invalid && editForm.get('lastname')?.touched
+                  "
+                />
+              } @else {
+                {{ user.lastname }}
+              }
+            </td>
+            <td>
+              @if (editingUserId() === user.id) {
+                <input
+                  type="text"
+                  class="input input-sm input-bordered w-full"
+                  formControlName="firstname"
+                  [class.input-error]="
+                    editForm.get('firstname')?.invalid && editForm.get('firstname')?.touched
+                  "
+                />
+              } @else {
+                {{ user.firstname }}
+              }
+            </td>
+            <td>
+              @if (editingUserId() === user.id) {
+                <input
+                  type="email"
+                  class="input input-sm input-bordered w-full"
+                  formControlName="email"
+                  [class.input-error]="
+                    editForm.get('email')?.invalid && editForm.get('email')?.touched
+                  "
+                />
+              } @else {
+                {{ user.email }}
+              }
+            </td>
+            <td>
+              @if (editingUserId() === user.id) {
+                <input
+                  type="tel"
+                  class="input input-sm input-bordered w-full"
+                  formControlName="phone"
+                  [class.input-error]="
+                    editForm.get('phone')?.invalid && editForm.get('phone')?.touched
+                  "
+                />
+              } @else {
+                {{ user.phone }}
+              }
+            </td>
+            <td class="flex flex-col gap-1 align-middle items-center">
+              @if (user.roles.includes('ROLE_USER')) {
+                @let activeSubscription = getActiveSubscription(user);
+
+                @if (editingUserId() === user.id) {
+                  <!-- MODE ÉDITION : Select pour modifier l'abonnement -->
+                  <select
+                    class="select select-sm select-bordered w-full max-w-xs"
+                    (change)="changeUserSubscription(user, $any($event.target).value)"
+                  >
+                    <option value="">
+                      @if (activeSubscription) {
+                        {{ activeSubscription.subscription.name }} (actuel)
+                      } @else {
+                        Aucun abonnement
+                      }
+                    </option>
+                    @for (subscription of availableSubscriptions(); track subscription.id) {
+                      <option
+                        [value]="subscription.id"
+                        [selected]="activeSubscription?.subscription?.id === subscription.id"
+                      >
+                        {{ subscription.name }}
+                      </option>
+                    }
+                    @if (activeSubscription) {
+                      <option value="none">❌ Supprimer l'abonnement</option>
+                    }
+                  </select>
+                } @else {
+                  <!-- MODE LECTURE : Affichage simple -->
+                  @if (activeSubscription) {
+                    <div class="text-sm font-medium">
+                      {{ activeSubscription.subscription.name }}
+                    </div>
+                  }
+                  <div
+                    class="badge badge-sm"
+                    [ngClass]="getSubscriptionStatusBadge(activeSubscription)"
+                  >
+                    {{ getSubscriptionStatusText(activeSubscription) }}
+                  </div>
+                }
+              }
+            </td>
+            <td>
+              <div class="flex gap-2 justify-center items-center">
+                @if (editingUserId() === user.id) {
+                  <button
+                    class="btn btn-sm btn-success"
+                    title="Sauvegarder"
+                    (click)="saveEdit()"
+                    [disabled]="editForm.invalid"
+                  >
+                    <lucide-icon [img]="checkIcon" [size]="16" />
+                  </button>
+                  <button class="btn btn-sm btn-ghost" title="Annuler" (click)="cancelEdit()">
+                    <lucide-icon [img]="xIcon" [size]="16" />
+                  </button>
+                } @else {
+                  <!-- Boutons Edit/Delete -->
+                  <button
+                    class="btn btn-sm btn-soft btn-primary"
+                    title="Modifier"
+                    (click)="startEdit(user)"
+                  >
+                    <lucide-icon [img]="editIcon" [size]="16" />
+                  </button>
+                  <button
+                    class="btn btn-sm btn-soft btn-error"
+                    title="Supprimer l'utilisateur"
+                    (click)="confirmDeleteUser(user)"
+                  >
+                    <lucide-icon [img]="trashIcon" [size]="16" />
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="text-center py-8 text-gray-500">
+              @if (searchTerm()) {
+                <div class="flex flex-col items-center gap-2">
+                  <span>Aucun utilisateur trouvé pour "{{ searchTerm() }}"</span>
+                  <button class="btn btn-sm btn-ghost" (click)="searchTerm.set('')">
+                    Effacer la recherche
+                  </button>
+                </div>
+              } @else {
+                <span>Aucun utilisateur disponible</span>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<app-user-creation-form />

@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { ToastComponent } from './shared/components/design-system/toast/toast.component';
+import { BoxService } from './chore/services/box.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, LucideAngularModule, ToastComponent],
 })
-export class AppComponent {
-  title = 'pieds-croises-front';
+export class AppComponent implements OnInit {
+  #boxService = inject(BoxService);
+
+  ngOnInit() {
+    this.#boxService.fetchBoxInfo();
+  }
 }

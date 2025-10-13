@@ -1,0 +1,27 @@
+<div class="card card-xl w-full sm:w-96 bg-base-200">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <fieldset class="fieldset">
+        <app-input [label]="'Email'" [name]="'email'" formControlName="email" />
+        <app-input
+          [label]="'Mot de passe'"
+          [name]="'password'"
+          [type]="'password'"
+          formControlName="password"
+        />
+      </fieldset>
+      <div class="card-actions text-center px-8 mt-4">
+        <button
+          [class.btn-disabled]="loginForm.invalid"
+          class="btn btn-primary w-full"
+          type="submit"
+        >
+          Se connecter
+        </button>
+        <div class="text-xs flex flex-col justify-center items-center w-full gap-1 mt-4">
+          <a class="link w-full" routerLink="/ask-reset-password">Mot de passe oublié</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

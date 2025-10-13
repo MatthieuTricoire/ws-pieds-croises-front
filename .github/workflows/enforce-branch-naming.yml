@@ -1,0 +1,16 @@
+name: Enforce branch naming
+
+on:
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  check-branch-naming:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        if: github.head_ref && !startsWith(github.head_ref, 'feature/') && !startsWith(github.head_ref, 'fix/') && !startsWith(github.head_ref, 'hotfix/')
+        run: |
+          echo "Branch name '${{ github.head_ref }}' does not follow the naming convention."
+          echo "Please use one of the following prefixes: feature/, fix/, hotfix/"
+          exit 1
