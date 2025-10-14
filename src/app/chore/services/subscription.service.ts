@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Subscription, UserSubscription } from '../../shared/models/user-subscription';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
-  private readonly baseUrl = 'http://localhost:8080';
+  readonly apiUrl = environment.apiUrl;
   #http = inject(HttpClient);
   #auth = inject(AuthService);
 
@@ -18,7 +19,7 @@ export class SubscriptionService {
     if (!user) throw new Error('Utilisateur non connecté');
 
     this.#http
-      .get<UserSubscription>(`${this.baseUrl}/user-subscriptions/user/${user.id}`, {
+      .get<UserSubscription>(`${this.apiUrl}/user-subscriptions/user/${user.id}`, {
         params: { status: 'ACTIVE' },
         withCredentials: true,
       })
@@ -27,7 +28,7 @@ export class SubscriptionService {
 
   getAllSubscriptions(): Observable<Subscription[]> {
     return this.#http
-      .get<Subscription[]>(`${this.baseUrl}/subscriptions`, {
+      .get<Subscription[]>(`${this.apiUrl}/subscriptions`, {
         withCredentials: true,
       })
       .pipe(
@@ -43,7 +44,7 @@ export class SubscriptionService {
 
     return this.#http
       .post<UserSubscription>(
-        `${this.baseUrl}/user-subscriptions`,
+        `${this.apiUrl}/user-subscriptions`,
         { userId: user.id, subscriptionId },
         { withCredentials: true },
       )
@@ -60,7 +61,7 @@ export class SubscriptionService {
     subscriptionId: number,
   ): Observable<UserSubscription> {
     return this.#http.post<UserSubscription>(
-      `${this.baseUrl}/user-subscriptions`,
+      `${this.apiUrl}/user-subscriptions`,
       { userId, subscriptionId },
       { withCredentials: true },
     );
@@ -68,7 +69,7 @@ export class SubscriptionService {
 
   deleteUserSubscription(userSubscriptionId: number): Observable<void> {
     return this.#http
-      .delete<void>(`${this.baseUrl}/user-subscriptions/${userSubscriptionId}`, {
+      .delete<void>(`${this.apiUrl}/user-subscriptions/${userSubscriptionId}`, {
         withCredentials: true,
       })
       .pipe(
@@ -80,7 +81,7 @@ export class SubscriptionService {
 
   createSubscription(subscription: Partial<Subscription>): Observable<Subscription> {
     return this.#http
-      .post<Subscription>(`${this.baseUrl}/subscriptions`, subscription, {
+      .post<Subscription>(`${this.apiUrl}/subscriptions`, subscription, {
         withCredentials: true,
       })
       .pipe(
@@ -100,7 +101,7 @@ export class SubscriptionService {
     subscriptionData: Partial<Subscription>,
   ): Observable<Subscription> {
     return this.#http
-      .put<Subscription>(`${this.baseUrl}/subscriptions/${subscriptionId}`, subscriptionData, {
+      .put<Subscription>(`${this.apiUrl}/subscriptions/${subscriptionId}`, subscriptionData, {
         withCredentials: true,
       })
       .pipe(
@@ -119,7 +120,7 @@ export class SubscriptionService {
   }
   deleteSubscription(subscriptionId: number): Observable<void> {
     return this.#http
-      .delete<void>(`${this.baseUrl}/subscriptions/${subscriptionId}`, { withCredentials: true })
+      .delete<void>(`${this.apiUrl}/subscriptions/${subscriptionId}`, { withCredentials: true })
       .pipe(
         tap(() => {
           const currentSubscriptions = this.availableSubscriptions();

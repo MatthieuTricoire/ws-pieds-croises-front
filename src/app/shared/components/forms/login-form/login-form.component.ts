@@ -42,11 +42,8 @@ export class LoginFormComponent {
               'Erreur de connexion',
             );
           } else {
-            this.#toastService.show(
-              'error',
-              "Une erreur inattendue s'est produite. Veuillez réessayer.",
-              'Erreur de connexion',
-            );
+            const errorMessage = error?.error || 'Une erreur est survenue.';
+            this.#toastService.show('error', errorMessage, '');
           }
         },
       });
