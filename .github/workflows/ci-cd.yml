@@ -1,18 +1,17 @@
 # name: CI/CD Angular
-
- on:
-   push:
-     branches:
-       - main
-       - preprod
-       - dev
-       - feature/**
-       - fix/**
-   pull_request:
-     branches:
-       - main
-       - preprod
-       - dev
+on:
+  push:
+    branches:
+      - main
+      - preprod
+      - dev
+      - feature/**
+      - fix/**
+  pull_request:
+    branches:
+      - main
+      - preprod
+      - dev
 
 jobs:
   build-and-test:
@@ -32,8 +31,8 @@ jobs:
         run: npm ci
 
       - name: 🧪 Lancer les tests
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
 
-       run: npm run test -- --watch=false --browsers=ChromeHeadless
 
 #   deploy:
 #     name: 🚀 Déploiement sur le VPS
