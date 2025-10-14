@@ -42,8 +42,7 @@ export class LoginFormComponent {
               'Erreur de connexion',
             );
           } else {
-            const errorMessage = error?.error || 'Une erreur est survenue.';
-            this.#toastService.show('error', errorMessage, '');
+            this.#toastService.show('error', 'Une erreur est survenue.', '');
           }
         },
       });
