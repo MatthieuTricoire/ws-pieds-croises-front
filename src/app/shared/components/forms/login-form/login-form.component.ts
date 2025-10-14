@@ -35,7 +35,7 @@ export class LoginFormComponent {
           this.#toastService.show('success', 'Connexion réussi!', '');
         },
         error: (error) => {
-          if (error.status === 401) {
+          if (error.status >= 400 && error.status < 500) {
             this.#toastService.show(
               'error',
               'Email ou mot de passe incorrect.',
