@@ -23,6 +23,7 @@ describe('CourseCardComponent (minimal)', () => {
     usersId: [],
     coachName: 'Coach Test',
     coachId: 1,
+    userCoursesInfo: [],
   };
 
   const mockAuthService = {

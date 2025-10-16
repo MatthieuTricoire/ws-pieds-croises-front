@@ -1,5 +1,10 @@
 export type CourseStatus = 'OPEN' | 'FULL' | 'CANCELLED';
 
+export interface UserCourseInfo {
+  userId: number;
+  status: 'REGISTERED' | 'WAITING_LIST';
+}
+
 export interface Course {
   id: number;
   title: string;
@@ -8,7 +13,8 @@ export interface Course {
   duration: number;
   personLimit: number;
   status: CourseStatus;
-  usersId: number[];
   coachName: string;
   coachId: number;
+  userCoursesInfo: UserCourseInfo[];
+  usersId: number[];
 }
