@@ -91,11 +91,7 @@ describe('LoginFormComponent', () => {
       fixture.detectChanges();
       component.onSubmit();
       tick();
-      expect(toastServiceSpy.show).toHaveBeenCalledWith(
-        'error',
-        "Une erreur inattendue s'est produite. Veuillez réessayer.",
-        'Erreur de connexion',
-      );
+      expect(toastServiceSpy.show).toHaveBeenCalledWith('error', 'Une erreur est survenue.', '');
     }));
   });
 });
