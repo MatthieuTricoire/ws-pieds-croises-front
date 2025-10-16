@@ -8,7 +8,7 @@
       src="/logoSmall.svg"
     />
     @if (isAdmin) {
-      <app-button-nav [buttons]="buttonsAdmin" class="w-full max-md:hidden" />
+      <app-button-nav [buttons]="buttonsAdmin" class="w-full h-auto max-md:h-full" />
     } @else {
       <app-button-nav [buttons]="buttonsUser()" class="w-full h-auto max-md:h-full" />
     }
