@@ -3,7 +3,6 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { adminGuard, authGuard } from './chore/guards/auth.guard';
 import { FullLayoutComponent } from './shared/components/layouts/full-layout/full-layout.component';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
-import { TestComponent } from './pages/test/test.component';
 import { FirstLoginComponent } from './pages/first-login-page/first-login-page.component';
 import { AskResetPasswordPageComponent } from './pages/ask-reset-password-page/ask-reset-password-page.component';
 import { NewPasswordPageComponent } from './pages/new-password-page/new-password-page.component';
@@ -20,21 +19,20 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: HomePageComponent, canActivate: [authGuard] },
-      { path: 'dashboard', component: TestComponent, canActivate: [authGuard] },
-      { path: 'planification', component: TestComponent, canActivate: [authGuard] },
-      { path: 'stats', component: TestComponent, canActivate: [authGuard] },
+      { path: 'stats', component: HomePageComponent, canActivate: [authGuard] },
       { path: 'planning', component: CourseReservationPageComponent, canActivate: [authGuard] },
-      { path: 'gestion', component: TestComponent, canActivate: [authGuard] },
       { path: 'profile', component: ProfilePageComponent, canActivate: [authGuard] },
-      { path: 'test', component: TestComponent, canActivate: [authGuard] },
 
       {
         path: 'admin',
         canActivate: [adminGuard],
         children: [
+          { path: 'dashboard', component: HomePageComponent, canActivate: [authGuard] },
+          { path: 'planification', component: HomePageComponent, canActivate: [authGuard] },
           { path: 'utilisateurs', component: UsersPageComponent, canActivate: [authGuard] },
           { path: 'abonnements', component: SubscriptionsPageComponent, canActivate: [authGuard] },
           { path: 'communication', component: MessagesPageComponent, canActivate: [authGuard] },
+          { path: 'gestion', component: HomePageComponent, canActivate: [authGuard] },
         ],
       },
     ],
