@@ -42,15 +42,13 @@ jobs:
       - name: 🎭 Installer Playwright et navigateurs
         run: npx playwright install --with-deps
 
-      - name: 🚀 Démarrer le serveur Angular
-        run: |
-          npm run start &
-          npx wait-on http://localhost:4200
+      - name: 🚀 Démarrer le serveur et lancer les tests E2E
+        run: npx start-server-and-test "npm run start" http://localhost:4200 "npx playwright test"
         env:
           CI: true
 
-      - name: 🔍 Tests End-to-End (Playwright)
-        run: npx playwright test
+#      - name: 🔍 Tests End-to-End (Playwright)
+#        run: npx playwright test
 
       - name: 📊 Upload du rapport Playwright
         if: always()

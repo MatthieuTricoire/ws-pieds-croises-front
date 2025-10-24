@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
@@ -7,4 +7,10 @@ export default defineConfig({
     baseURL: 'http://localhost:4200',
     headless: !!process.env['CI'],
   },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
 });
