@@ -69,7 +69,7 @@ describe('LoginFormComponent', () => {
       component.onSubmit();
       tick();
       expect(authServiceSpy.login).toHaveBeenCalledWith('jean@example.com', 'azerty123');
-      expect(toastServiceSpy.show).toHaveBeenCalledWith('success', 'Connexion réussi!', '');
+      expect(toastServiceSpy.show).toHaveBeenCalledWith('success', 'Connexion réussie !', '');
     }));
     it('should show error toast on 401 error', fakeAsync(() => {
       component.loginForm.controls['email'].setValue('jean@example.com');

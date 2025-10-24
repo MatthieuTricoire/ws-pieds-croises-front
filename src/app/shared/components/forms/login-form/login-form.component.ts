@@ -32,7 +32,7 @@ export class LoginFormComponent {
 
       this.#authService.login(email, password).subscribe({
         next: () => {
-          this.#toastService.show('success', 'Connexion réussi!', '');
+          this.#toastService.show('success', 'Connexion réussie !', '');
         },
         error: (error) => {
           if (error.status >= 400 && error.status < 500) {

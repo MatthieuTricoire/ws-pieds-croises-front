@@ -78,6 +78,19 @@ export class WeekSelectorService {
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   });
 
+  constructor() {
+    const today = this.getTodayWithoutTime();
+
+    // On prend les dates de la semaine courante au moment du chargement
+    const dates = this.getWeekDates('current');
+
+    const todayIndex = dates.findIndex((d) => d.toDateString() === today.toDateString());
+
+    if (todayIndex !== -1) {
+      this.selectedDayIndex.set(todayIndex);
+    }
+  }
+
   // Methods
   selectWeekType(weekType: WeekType): void {
     if (weekType !== this.selectedWeekType()) {

@@ -28,8 +28,8 @@ export class CoursesService {
       );
   }
 
-  registerToCourse(courseId: number): Observable<void> {
-    return this.http.put<void>(
+  registerToCourse(courseId: number): Observable<Course> {
+    return this.http.put<Course>(
       `${this.apiUrl}/userCourses/${courseId}/register`,
       {},
       {
@@ -42,17 +42,6 @@ export class CoursesService {
     return this.http.delete<void>(`${this.apiUrl}/userCourses/${courseId}/unsubscribe`, {
       withCredentials: true,
     });
-  }
-
-  // TODO la waiting list est gérée côté back (sur la méthode addUserToCourse), il faudrait revoir la liste d'attente côté front
-  joinWaitingList(courseId: number): Observable<void> {
-    return this.http.put<void>(
-      `${this.apiUrl}/${courseId}/waiting-list`,
-      {},
-      {
-        withCredentials: true,
-      },
-    );
   }
 
   getCourseById(courseId: number): Observable<Course> {
