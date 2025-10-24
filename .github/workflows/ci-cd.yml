@@ -42,8 +42,11 @@ jobs:
       - name: 🎭 Installer Playwright et navigateurs
         run: npx playwright install --with-deps
 
-      - name: 🚀 Démarrer le serveur et lancer les tests E2E
-        run: npx start-server-and-test "npm run start" http://localhost:4200 "npx playwright test"
+      - name: 🚀 lancer les tests E2E
+        run:
+          npx http-server ./dist/pieds-croises-front -p 4200 &
+          npx wait-on http://localhost:4200
+          npx playwright test
         env:
           CI: true
 
