@@ -67,7 +67,9 @@ export class CourseCardComponent {
 
   startDate = computed(() => new Date(this.course().startDatetime));
   endDate = computed(() => new Date(this.startDate().getTime() + this.course().duration * 60000));
-  occupiedSlots = computed(() => this.course().usersId.length);
+  occupiedSlots = computed(
+    () => this.course().userCoursesInfo.filter((uc) => uc.status === 'REGISTERED').length,
+  );
   totalSlots = computed(() => this.course().personLimit);
   isCourseFull = computed(() => this.occupiedSlots() >= this.totalSlots());
   isCourseAvailable = computed(
