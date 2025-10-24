@@ -33,6 +33,30 @@ jobs:
       - name: 🧪 Lancer les tests
         run: npm run test -- --watch=false --browsers=ChromeHeadless
 
+        # 6️⃣ Installation de Playwright et des navigateurs
+      - name: 🎭 Installer Playwright et navigateurs
+        run: npx playwright install --with-deps
+
+      # 7️⃣ Lancer le serveur Angular
+      - name: 🚀 Démarrer le serveur Angular
+        run: |
+          npm run start &
+          npx wait-on http://localhost:4200
+        env:
+          CI: true
+
+      # 8️⃣ Exécuter les tests End-to-End
+      - name: 🔍 Tests End-to-End (Playwright)
+        run: npx playwright test
+
+      # 9️⃣ Publier le rapport Playwright (HTML)
+      - name: 📊 Upload du rapport Playwright
+        if: always() # même si un test échoue
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
 
 #   deploy:
 #     name: 🚀 Déploiement sur le VPS
