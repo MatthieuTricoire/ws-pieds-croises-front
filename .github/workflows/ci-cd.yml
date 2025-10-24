@@ -1,5 +1,5 @@
 # name: CI/CD Angular
-name: 🧪 CI - Build, Unit & E2E Tests
+name: CI - Build & Tests
 
 on:
   push:
@@ -16,35 +16,9 @@ on:
       - dev
 
 jobs:
-  build-and-unit-test:
-    name: 🧩 Build and Unit tests
+  build-and-test:
+    name: 🔧 Build + Tests unitaires + E2E
     runs-on: ubuntu-latest
-
-    steps:
-      - name: 📥 Checkout du code
-        uses: actions/checkout@v3
-
-      - name: ⚙️ Installer Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: 📦 Installer les dépendances
-        run: npm ci
-
-      - name: 🧪 Lancer les tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
-
-      - name: 📤 Sauvegarder le build pour le job E2E
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-  e2e-tests:
-    name: 🎭 Playwright E2E Tests
-    runs-on: ubuntu-latest
-    needs: build-and-unit-test # job précédent (récupère le build)
 
     steps:
       - name: 📥 Checkout du code
@@ -59,21 +33,23 @@ jobs:
       - name: 📦 Installer les dépendances
         run: npm ci
 
-      - name: 📥 Télécharger le build Angular
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
+      - name: 🏗️ Build du projet Angular
+        run: npm run build --if-present
+
+      - name: 🧪 Tests unitaires
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
 
       - name: 🎭 Installer Playwright et navigateurs
         run: npx playwright install --with-deps
 
-      - name: 🚀 Servir l'application Angular (build statique)
+      - name: 🚀 Démarrer le serveur Angular
         run: |
-          npx http-server ./dist/pieds-croises-front -p 4200 &
+          npm run start &
           npx wait-on http://localhost:4200
+        env:
+          CI: true
 
-      - name: 🧪 Lancer les tests E2E Playwright
+      - name: 🔍 Tests End-to-End (Playwright)
         run: npx playwright test
 
       - name: 📊 Upload du rapport Playwright
@@ -82,6 +58,7 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
+
 
 
 #   deploy:
