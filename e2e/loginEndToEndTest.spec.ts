@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Scénario utilisateur - connexion et accueil', () => {
   test('connexion et affichage de la page d’accueil', async ({ page }) => {
-    // 🧠 Active les mocks uniquement si on est en CI
     if (process.env['CI']) {
       await page.route('**/api/auth/login', async (route) => {
         await route.fulfill({
@@ -20,7 +19,7 @@ test.describe('Scénario utilisateur - connexion et accueil', () => {
     await page.goto('/login');
 
     // 3️⃣ Remplir le formulaire et soumettre
-    await page.fill('input[name="email"]', 'jean.dupont@gmail.com');
+    await page.fill('input[name="email"]', 'jean.dupont@example.com');
     await page.fill('input[name="password"]', 'user123');
     await page.click('button[type="submit"]');
 
