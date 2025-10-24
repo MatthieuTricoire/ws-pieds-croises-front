@@ -5,6 +5,6 @@ export default defineConfig({
   testMatch: ['**/*.spec.ts'],
   use: {
     baseURL: 'http://localhost:4200',
-    headless: false,
+    headless: !!process.env['CI'],
   },
 });
