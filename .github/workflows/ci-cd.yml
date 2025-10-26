@@ -43,12 +43,9 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: 🚀 Démarrer le serveur et lancer les tests E2E
-        run: npx start-server-and-test "npm run start" http://localhost:4200 "npx playwright test"
+        run: npx start-server-and-test "npm run start" http://localhost:4200 "npx playwright test --reporter=html"
         env:
           CI: true
-
-#      - name: 🔍 Tests End-to-End (Playwright)
-#        run: npx playwright test
 
       - name: 📊 Upload du rapport Playwright
         if: always()
