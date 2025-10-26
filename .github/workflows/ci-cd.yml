@@ -39,6 +39,26 @@ jobs:
       - name: 🧪 Tests unitaires
         run: npm run test -- --watch=false --browsers=ChromeHeadless
 
+      - name: 🎭 Installer Playwright et navigateurs
+        run: npx playwright install --with-deps
+
+      - name: 🚀 Démarrer le serveur et lancer les tests E2E
+        run: npx start-server-and-test "npm run start" http://localhost:4200 "npx playwright test"
+        env:
+          CI: true
+
+#      - name: 🔍 Tests End-to-End (Playwright)
+#        run: npx playwright test
+
+      - name: 📊 Upload du rapport Playwright
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+
+
 #   deploy:
 #     name: 🚀 Déploiement sur le VPS
 #     needs: build-and-test
