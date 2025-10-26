@@ -5,7 +5,6 @@ export default defineConfig({
   testMatch: ['**/*.spec.ts'],
   use: {
     baseURL: 'http://localhost:4200',
-    headless: !!process.env['CI'],
   },
   projects: [
     {
