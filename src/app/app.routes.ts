@@ -12,6 +12,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { UsersPageComponent } from './pages/user-page/user-page.component';
 import { MessagesPageComponent } from './pages/messages-page/messages-page.component';
 import { SubscriptionsPageComponent } from './pages/subscriptions-page/subscriptions-page.component';
+import { PlanningCoursesPageComponent } from './pages/planning-courses-page/planning-courses-page.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,7 @@ export const routes: Routes = [
         canActivate: [adminGuard],
         children: [
           { path: 'dashboard', component: HomePageComponent, canActivate: [authGuard] },
-          { path: 'planification', component: HomePageComponent, canActivate: [authGuard] },
+          { path: 'planning', component: PlanningCoursesPageComponent, canActivate: [authGuard] },
           { path: 'utilisateurs', component: UsersPageComponent, canActivate: [authGuard] },
           { path: 'abonnements', component: SubscriptionsPageComponent, canActivate: [authGuard] },
           { path: 'communication', component: MessagesPageComponent, canActivate: [authGuard] },

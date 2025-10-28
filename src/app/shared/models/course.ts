@@ -18,3 +18,12 @@ export interface Course {
   userCoursesInfo: UserCourseInfo[];
   usersId: number[];
 }
+
+export interface CreateCourse {
+  title: string;
+  description: string;
+  startDatetime: string;
+  duration: number;
+  personLimit: number;
+  coachId: number;
+}

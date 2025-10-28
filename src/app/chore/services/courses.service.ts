@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { Course } from '../../shared/models/course';
+import { map, Observable, Subject, tap } from 'rxjs';
+import { Course, CreateCourse } from '../../shared/models/course';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -10,6 +10,25 @@ import { environment } from '../../../environments/environment';
 export class CoursesService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
+
+  private coursesUpdated$ = new Subject<void>();
+  onCourseUpdated = this.coursesUpdated$.asObservable();
+
+  createCourse(courseData: CreateCourse): Observable<Course> {
+    return this.http
+      .post<Course>(`${this.apiUrl}/courses`, courseData, { withCredentials: true })
+      .pipe(tap(() => this.coursesUpdated$.next()));
+  }
+
+  getAllCourses(): Observable<Course[]> {
+    return this.http.get<Course[]>(`${this.apiUrl}/courses`, { withCredentials: true });
+  }
+
+  deleteCourse(courseId: number): Observable<void> {
+    return this.http
+      .delete<void>(`${this.apiUrl}/courses/${courseId}`, { withCredentials: true })
+      .pipe(tap(() => this.coursesUpdated$.next()));
+  }
 
   getCoursesByDay(date: Date): Observable<Course[]> {
     const formattedDate = date.toISOString().split('T')[0];
