@@ -32,18 +32,17 @@ export class LoginFormComponent {
 
       this.#authService.login(email, password).subscribe({
         next: () => {
-          this.#toastService.show('success', 'Connexion réussi!', '');
+          this.#toastService.show('success', 'Connexion réussie !', '');
         },
         error: (error) => {
-          if (error.status === 401) {
+          if (error.status >= 400 && error.status < 500) {
             this.#toastService.show(
               'error',
               'Email ou mot de passe incorrect.',
               'Erreur de connexion',
             );
           } else {
-            const errorMessage = error?.error || 'Une erreur est survenue.';
-            this.#toastService.show('error', errorMessage, '');
+            this.#toastService.show('error', 'Une erreur est survenue.', '');
           }
         },
       });

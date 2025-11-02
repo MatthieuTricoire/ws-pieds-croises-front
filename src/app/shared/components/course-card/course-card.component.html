@@ -1,9 +1,11 @@
-
 <div class="indicator w-full">
   @if (isUserRegistered()) {
     <div class="indicator-item top-0 right-10 badge badge-success">Inscris</div>
   }
-  @if (isCourseFull() && !isUserRegistered()) {
+  @if (isUserInWaitingList() && !isUserRegistered()) {
+    <div class="indicator-item top-0 right-10 badge badge-warning">Liste d'attente</div>
+  }
+  @if (isCourseFull() && !isUserRegistered() && !isUserInWaitingList()) {
     <div class="indicator-item top-0 right-10 badge badge-error">Complet</div>
   }
   <div
@@ -16,7 +18,7 @@
         <div>{{ getStartTime() }}</div>
         <div>{{ getEndTime() }}</div>
       </div>
-      <div class="text-center font-medium text-lg">{{ course().description }}</div>
+      <div class="text-center font-medium text-lg">{{ course().title }}</div>
       <div
         class="flex items-center text-sm shrink-0"
         [ngClass]="occupiedSlots() === totalSlots() ? 'text-error' : ''"

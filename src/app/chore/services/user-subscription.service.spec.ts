@@ -11,7 +11,7 @@ describe('UserSubscriptionService', () => {
   let service: UserSubscriptionService;
   let httpMock: HttpTestingController;
   const apiUrl = 'http://localhost:8080/user-subscriptions';
-  const coursesApiUrl = 'http://localhost:8080/courses';
+  const userCoursesApiUrl = 'http://localhost:8080/userCourses';
 
   // Mock data pour les tests
   const mockSubscription: Subscription = {
@@ -195,7 +195,7 @@ describe('UserSubscriptionService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=${expectedDateParam}`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=${expectedDateParam}`,
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.withCredentials).toBeTrue();
@@ -214,7 +214,7 @@ describe('UserSubscriptionService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
       );
       req.flush('Error', { status: 500, statusText: 'Server Error' });
     });
@@ -226,7 +226,7 @@ describe('UserSubscriptionService', () => {
       service.getWeeklyRegistrationsCount(userId, courseDate).subscribe();
 
       const req = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-12-25`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-12-25`,
       );
       expect(req.request.params.get('weekDate')).toBe('2024-12-25');
       req.flush(1);
@@ -269,7 +269,7 @@ describe('UserSubscriptionService', () => {
 
       // Mock getWeeklyRegistrationsCount
       const countReq = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
       );
       countReq.flush(weeklyCount);
     });
@@ -296,7 +296,7 @@ describe('UserSubscriptionService', () => {
       subscriptionReq.flush([mockActiveUserSubscription]);
 
       const countReq = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
       );
       countReq.flush(weeklyCount);
     });
@@ -322,7 +322,7 @@ describe('UserSubscriptionService', () => {
       subscriptionReq.flush([mockActiveUserSubscription]);
 
       const countReq = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
       );
       countReq.flush(weeklyCount);
 
@@ -351,7 +351,7 @@ describe('UserSubscriptionService', () => {
       subscriptionReq.flush([mockExpiredUserSubscription]);
 
       const countReq = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
       );
       countReq.flush(weeklyCount);
     });
@@ -385,7 +385,7 @@ describe('UserSubscriptionService', () => {
       subscriptionReq.flush([unlimitedSubscription]);
 
       const countReq = httpMock.expectOne(
-        `${coursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
+        `${userCoursesApiUrl}/user/${userId}/weekly-count?weekDate=2024-06-15`,
       );
       countReq.flush(weeklyCount);
     });

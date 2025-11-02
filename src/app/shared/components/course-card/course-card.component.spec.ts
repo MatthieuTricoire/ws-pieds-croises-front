@@ -23,6 +23,7 @@ describe('CourseCardComponent (minimal)', () => {
     usersId: [],
     coachName: 'Coach Test',
     coachId: 1,
+    userCoursesInfo: [],
   };
 
   const mockAuthService = {
@@ -32,12 +33,10 @@ describe('CourseCardComponent (minimal)', () => {
   const mockCoursesService = jasmine.createSpyObj<CoursesService>('CoursesService', [
     'registerToCourse',
     'unregisterFromCourse',
-    'joinWaitingList',
     'getCourseById',
   ]);
-  mockCoursesService.registerToCourse.and.returnValue(of(void 0));
+  mockCoursesService.registerToCourse.and.returnValue(of(mockCourse));
   mockCoursesService.unregisterFromCourse.and.returnValue(of(void 0));
-  mockCoursesService.joinWaitingList.and.returnValue(of(void 0));
   mockCoursesService.getCourseById.and.returnValue(of(mockCourse));
 
   const mockUserSubscriptionService = jasmine.createSpyObj<UserSubscriptionService>(
