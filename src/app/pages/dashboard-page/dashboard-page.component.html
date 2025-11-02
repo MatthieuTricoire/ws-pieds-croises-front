@@ -19,7 +19,7 @@
     />
     <app-stat-card
       title="Taux d'occupation"
-      [value]="staticStats?.averageCourseOccupancyRate!.toFixed(2).toString() ?? '0'"
+      [value]="Math.ceil(staticStats?.averageCourseOccupancyRate ?? 0).toString()"
       description="Taux d'occupation moyen des cours"
     />
   </div>

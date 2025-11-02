@@ -15,4 +15,6 @@ export class DashboardPageComponent implements OnInit {
   ngOnInit() {
     this.#dashboardService.getStats().subscribe();
   }
+
+  protected readonly Math = Math;
 }
