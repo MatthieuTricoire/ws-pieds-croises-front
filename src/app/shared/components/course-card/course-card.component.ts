@@ -67,7 +67,9 @@ export class CourseCardComponent {
 
   startDate = computed(() => new Date(this.course().startDatetime));
   endDate = computed(() => new Date(this.startDate().getTime() + this.course().duration * 60000));
-  occupiedSlots = computed(() => this.course().usersId.length);
+  occupiedSlots = computed(
+    () => this.course().userCoursesInfo.filter((uc) => uc.status === 'REGISTERED').length,
+  );
   totalSlots = computed(() => this.course().personLimit);
   isCourseFull = computed(() => this.occupiedSlots() >= this.totalSlots());
   isCourseAvailable = computed(
@@ -87,7 +89,18 @@ export class CourseCardComponent {
   isUserRegistered = computed(() => {
     const user = this.currentUser();
     if (!user) return false;
-    return this.course().usersId.includes(user.id);
+
+    const uc = this.course().userCoursesInfo.find((u) => u.userId === user.id);
+
+    return uc?.status === 'REGISTERED';
+  });
+  isUserInWaitingList = computed(() => {
+    const user = this.currentUser();
+    if (!user) return false;
+
+    // on lit userCoursesInfo dans le course() actuel
+    const uc = this.course().userCoursesInfo.find((u) => u.userId === user.id);
+    return uc?.status === 'WAITING_LIST';
   });
   buttonConfig: Signal<ButtonConfig> = computed(() => {
     const loading = this.isLoading();
@@ -126,7 +139,7 @@ export class CourseCardComponent {
       };
     }
 
-    if (this.isUserRegistered()) {
+    if (this.isUserRegistered() || this.isUserInWaitingList()) {
       return {
         text: this.MESSAGES.UNREGISTER,
         variant: 'btn-error',
@@ -137,8 +150,8 @@ export class CourseCardComponent {
 
     if (this.isCourseFull()) {
       return {
-        text: 'Complet',
-        variant: 'btn-disabled',
+        text: this.MESSAGES.WAITING_LIST,
+        variant: 'btn-warning',
         icon: CircleAlert,
         disabled: false,
       };
@@ -182,10 +195,8 @@ export class CourseCardComponent {
 
     const courseId = this.course().id;
 
-    if (this.isUserRegistered()) {
+    if (this.isUserRegistered() || this.isUserInWaitingList()) {
       this.unregisterFromCourse(courseId);
-    } else if (this.isCourseFull()) {
-      this.joinWaitingList(courseId);
     } else {
       this.registerToCourse(courseId);
     }
@@ -200,10 +211,23 @@ export class CourseCardComponent {
 
     this.userSubscriptionService.canRegisterToCourse(user.id, courseDate).subscribe({
       next: (validation) => {
-        if (!validation.canRegister) {
+        // Interdiction stricte si abonnement invalide OU si limite atteinte et cours NON PLEIN
+        if (!validation.canRegister && !this.isCourseFull()) {
           this.toastService.show(
             'error',
             validation.reason || 'Inscription impossible',
+            undefined,
+            AlertTriangle,
+          );
+          this.isLoading.set(false);
+          return;
+        }
+
+        // cours plein + limite atteinte => interdiction
+        if (!validation.canRegister && this.isCourseFull()) {
+          this.toastService.show(
+            'warning',
+            "Impossible de rejoindre la liste d'attente — limite d'abonnement atteinte",
             undefined,
             AlertTriangle,
           );
@@ -223,10 +247,16 @@ export class CourseCardComponent {
             finalize(() => this.isLoading.set(false)),
           )
           .subscribe({
-            next: (result) => {
-              if (result !== null) {
-                this.refreshCourse();
+            next: (result: Course | null) => {
+              if (!result) return;
+              const user = this.currentUser();
+              const uc = result.userCoursesInfo.find((u) => u.userId === user?.id);
+
+              if (uc?.status === 'WAITING_LIST') {
+                this.toastService.show('success', "Ajouté à la liste d'attente !");
               }
+
+              this.refreshCourse();
             },
           });
       },
@@ -257,54 +287,6 @@ export class CourseCardComponent {
           }
         },
       });
-  }
-
-  private joinWaitingList(courseId: number): void {
-    const user = this.currentUser();
-    if (!user) return;
-
-    this.isLoading.set(true);
-    const courseDate = new Date(this.course().startDatetime);
-
-    this.userSubscriptionService.canRegisterToCourse(user.id, courseDate).subscribe({
-      next: (validation) => {
-        if (!validation.canRegister) {
-          this.toastService.show(
-            'warning',
-            validation.reason || "Inscription à la liste d'attente impossible",
-            undefined,
-            AlertTriangle,
-          );
-          this.isLoading.set(false);
-          return;
-        }
-
-        this.coursesService
-          .joinWaitingList(courseId)
-          .pipe(
-            catchError((error) => {
-              console.error("Erreur liste d'attente:", error);
-              const message = error.error?.message || "Erreur lors de l'ajout à la liste d'attente";
-              this.toastService.show('error', message);
-              return of(null);
-            }),
-            finalize(() => this.isLoading.set(false)),
-          )
-          .subscribe({
-            next: (result) => {
-              if (result !== null) {
-                this.toastService.show('success', "Ajouté à la liste d'attente !");
-                this.refreshCourse();
-              }
-            },
-          });
-      },
-      error: (error) => {
-        console.error('Erreur validation abonnement:', error);
-        this.toastService.show('error', 'Erreur lors de la vérification de votre abonnement');
-        this.isLoading.set(false);
-      },
-    });
   }
 
   private refreshCourse(): void {

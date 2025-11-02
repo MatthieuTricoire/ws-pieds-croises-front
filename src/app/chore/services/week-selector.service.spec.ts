@@ -16,7 +16,12 @@ describe('WeekSelectorService', () => {
 
     it('should initialize with default values', () => {
       expect(service.selectedWeekType()).toBe('current');
-      expect(service.selectedDayIndex()).toBeNull();
+
+      // Auto-select today on init
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const found = service.days().find((d) => d.date.toDateString() === today.toDateString());
+      expect(service.selectedDayIndex()).toBe(found?.index ?? null);
     });
 
     it('should have 7 days with correct structure', () => {
@@ -62,6 +67,8 @@ describe('WeekSelectorService', () => {
     });
 
     it('should clear selected day when switching weeks', () => {
+      service.clearSelectedDay();
+
       const days = service.days();
       const availableDay = days.find((d) => !d.isDisabled);
 
@@ -90,6 +97,9 @@ describe('WeekSelectorService', () => {
 
   describe('Day Selection Logic', () => {
     it('should toggle day selection correctly', () => {
+      // Ensure a clean start (auto-selected on init)
+      service.clearSelectedDay();
+
       const days = service.days();
       const availableDay = days.find((d) => !d.isDisabled);
 
@@ -105,6 +115,9 @@ describe('WeekSelectorService', () => {
     });
 
     it('should not select disabled days', () => {
+      // Ensure no pre-selection interferes
+      service.clearSelectedDay();
+
       const days = service.days();
       const disabledDay = days.find((d) => d.isDisabled);
 
@@ -115,6 +128,9 @@ describe('WeekSelectorService', () => {
     });
 
     it('should clear selected day manually', () => {
+      // Ensure a predictable start
+      service.clearSelectedDay();
+
       const days = service.days();
       const availableDay = days.find((d) => !d.isDisabled);
 
@@ -130,10 +146,15 @@ describe('WeekSelectorService', () => {
 
   describe('Computed Values', () => {
     it('should return null for selectedDay when no day is selected', () => {
+      // Move to next week where selection is cleared by design
+      service.selectWeekType('next');
       expect(service.selectedDay()).toBeNull();
     });
 
     it('should return correct selectedDay when day is selected', () => {
+      // Start from a clean state
+      service.clearSelectedDay();
+
       const days = service.days();
       const availableDay = days.find((d) => !d.isDisabled);
 
@@ -148,11 +169,16 @@ describe('WeekSelectorService', () => {
     });
 
     it('should show default message when no day is selected', () => {
+      // Ensure no selection by switching week
+      service.selectWeekType('next');
       const formatted = service.selectedDayFormatted();
       expect(formatted).toBe('Aucun jour sélectionné');
     });
 
     it('should format selected day correctly when day is selected', () => {
+      // Start from a clean state
+      service.clearSelectedDay();
+
       const days = service.days();
       const availableDay = days.find((d) => !d.isDisabled);
 
@@ -187,7 +213,10 @@ describe('WeekSelectorService', () => {
         const currentDay = days[i];
         const dayDiff = currentDay.date.getTime() - prevDay.date.getTime();
 
-        expect(dayDiff).toBe(24 * 60 * 60 * 1000);
+        // Be robust to DST transitions: accept 23h..25h in ms
+        const HOURS = 60 * 60 * 1000;
+        expect(dayDiff).toBeGreaterThanOrEqual(23 * HOURS);
+        expect(dayDiff).toBeLessThanOrEqual(25 * HOURS);
       }
     });
 
@@ -241,6 +270,9 @@ describe('WeekSelectorService', () => {
     });
 
     it('should update isSelected property when day is toggled', () => {
+      // Ensure no pre-selected day interferes with the assertion
+      service.clearSelectedDay();
+
       const initialDays = service.days();
       const availableDay = initialDays.find((d) => !d.isDisabled);
 
