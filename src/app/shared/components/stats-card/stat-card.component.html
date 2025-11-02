@@ -1,0 +1,7 @@
+<div class="p-4 rounded-md bg-primary flex flex-col items-center gap-4 size-[200px]">
+  <div>{{ title() }}</div>
+  <div class="text-5xl font-extrabold">
+    {{ value() }} {{ title() === 'Revenue' ? '€' : title() === "Taux d'occupation" ? '%' : '' }}
+  </div>
+  <div class="text-sm text-center">{{ description() }}</div>
+</div>
