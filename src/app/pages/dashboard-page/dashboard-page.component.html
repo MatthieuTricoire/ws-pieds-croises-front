@@ -4,22 +4,22 @@
   <div class="flex w-full items-center justify-center gap-4 flex-wrap">
     <app-stat-card
       title="Utilisateurs"
-      [value]="staticStats?.totalUsers!.toString() ?? 0"
+      [value]="staticStats?.totalUsers!.toString() ?? '0'"
       description="Nombre d'utilisateurs global"
     />
     <app-stat-card
       title="Utilisateurs actifs"
-      [value]="staticStats?.activeUsers!.toString() ?? 0"
+      [value]="staticStats?.activeUsers!.toString() ?? '0'"
       description="Nombre d'utilisateurs avec un abonnement en cours"
     />
     <app-stat-card
       title="Revenue"
-      [value]="staticStats?.monthlyRevenue!.toString() ?? 0"
+      [value]="staticStats?.monthlyRevenue!.toString() ?? '0'"
       description="Revenu généré mensuellement"
     />
     <app-stat-card
       title="Taux d'occupation"
-      [value]="staticStats?.averageCourseOccupancyRate!.toString() ?? 0"
+      [value]="staticStats?.averageCourseOccupancyRate!.toFixed(2).toString() ?? '0'"
       description="Taux d'occupation moyen des cours"
     />
   </div>
