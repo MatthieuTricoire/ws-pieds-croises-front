@@ -29,7 +29,7 @@ export class SidebarComponent {
   readonly isAdmin = this.#authService.isAdminSignal();
 
   readonly buttonsAdmin: ButtonNav[] = [
-    { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { label: 'Planification', path: '/admin/planning', icon: Compass },
     { label: 'Communication', path: 'admin/communication', icon: MessageCircle },
     { label: 'Utilisateurs', path: 'admin/utilisateurs', icon: Users },

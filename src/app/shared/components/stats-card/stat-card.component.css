@@ -1,0 +1,26 @@
+/* Styles minimaux pour la stat card basée sur DaisyUI */
+.stat {
+  /* couche visuelle légère ; DaisyUI/tailwind devrait déjà fournir la plupart */
+}
+
+.stat .avatar > div {
+  /* forcer la couleur d'icône via currentColor et garder un fond léger */
+  color: inherit;
+  background-color: rgba(0,0,0,0.03);
+}
+
+.stat .stat-value {
+  line-height: 1;
+}
+
+.stat-desc {
+  /* bien visible */
+  visibility: visible;
+}
+
+/* petites adaptations responsive */
+@media (max-width: 640px) {
+  .stat { padding: 0.75rem; }
+  .stat .stat-value { font-size: 1.125rem; }
+}
+
