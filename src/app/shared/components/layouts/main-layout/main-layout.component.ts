@@ -10,13 +10,15 @@ import { MobileHeaderComponent } from '../../mobile-header/mobile-header.compone
   template: `
     <div class="flex min-h-screen overflow-x-hidden">
       <app-sidebar class="bg-base-200 md:border-r border-base-300" />
-      <div class="flex flex-col w-full min-h-screen max-md:pb-[90px]">
-        <app-mobile-header />
-        <main class="w-full md:pl-[200px] px-4 max-md:pt-0 sm:px-6 flex-1 py-6 box-border">
-          <div class="container mx-auto">
-            <router-outlet></router-outlet>
-          </div>
-        </main>
+      <div class="flex flex-col w-full max-md:pb-[90px] ">
+        <div class="min-h-screen md:min-h-0 md:h-full">
+          <app-mobile-header />
+          <main class="w-full md:pl-[200px] px-4 max-md:pt-0 sm:px-6 flex-1 py-6 box-border">
+            <div class="container mx-auto">
+              <router-outlet></router-outlet>
+            </div>
+          </main>
+        </div>
         <app-footer />
       </div>
     </div>
