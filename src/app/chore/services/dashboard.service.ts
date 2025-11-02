@@ -22,7 +22,7 @@ export class DashboardService {
   loading = this.#loading.asReadonly();
 
   // getStats gère maintenant l'ensemble du workflow : chargement, mise à jour des signals, gestion d'erreur
-  getStats(): Observable<Stat> {
+  getStats(): Observable<Stat | null> {
     this.#loading.set(true);
     this.#error.set(null);
     return this.#http.get<Stat>(`${this.#apiUrl}/stats`, { withCredentials: true }).pipe(
@@ -34,7 +34,7 @@ export class DashboardService {
         console.error('Error loading stats:', err);
         this.#error.set('Error during stats loading');
         this.#loading.set(false);
-        return of('' as unknown as Stat);
+        return of(null);
       }),
     );
   }

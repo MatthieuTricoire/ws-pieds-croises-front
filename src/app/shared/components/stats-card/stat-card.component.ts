@@ -6,10 +6,9 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './stat-card.component.html',
-  styleUrls: ['./stat-card.component.css'],
 })
 export class StatCardComponent {
   title = input('');
   description = input('');
-  value = input(0);
+  value = input('');
 }
