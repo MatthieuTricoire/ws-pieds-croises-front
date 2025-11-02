@@ -19,6 +19,7 @@ describe('CoursesService', () => {
     usersId: [],
     coachName: 'Coach',
     coachId: 1,
+    userCoursesInfo: [],
   } as Course;
 
   beforeEach(() => {
@@ -71,7 +72,7 @@ describe('CoursesService', () => {
     service.registerToCourse(id).subscribe({
       next: () => {
         expect(httpSpy.put).toHaveBeenCalledWith(
-          `http://localhost:8080/courses/${id}/register`,
+          `http://localhost:8080/userCourses/${id}/register`,
           {},
           jasmine.objectContaining({ withCredentials: true }),
         );
@@ -88,24 +89,7 @@ describe('CoursesService', () => {
     service.unregisterFromCourse(id).subscribe({
       next: () => {
         expect(httpSpy.delete).toHaveBeenCalledWith(
-          `http://localhost:8080/courses/${id}/unsubscribe`,
-          jasmine.objectContaining({ withCredentials: true }),
-        );
-        done();
-      },
-      error: (err) => done.fail(err),
-    });
-  });
-
-  it('joinWaitingList calls PUT waiting-list with empty body and withCredentials', (done) => {
-    httpSpy.put = jasmine.createSpy().and.returnValue(of(void 0));
-    const id = 4;
-
-    service.joinWaitingList(id).subscribe({
-      next: () => {
-        expect(httpSpy.put).toHaveBeenCalledWith(
-          `http://localhost:8080/courses/${id}/waiting-list`,
-          {},
+          `http://localhost:8080/userCourses/${id}/unsubscribe`,
           jasmine.objectContaining({ withCredentials: true }),
         );
         done();

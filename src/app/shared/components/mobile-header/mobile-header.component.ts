@@ -14,7 +14,7 @@ export class MobileHeaderComponent {
   #boxService = inject(BoxService);
 
   userName = `${this.#authService.userSignal()?.firstname} ${this.#authService.userSignal()?.lastname}`;
-  boxName = this.#boxService.boxSignal()?.name;
+  boxName = `${this.#boxService.boxSignal()?.name}`;
 
   logOut() {
     this.#authService.logout().subscribe();

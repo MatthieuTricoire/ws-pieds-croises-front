@@ -1,0 +1,126 @@
+<div class="flex justify-center">
+  <button class="btn btn-primary" (click)="openCreateCourseModal()">
+    <lucide-icon [img]="plusIcon" [size]="20" />
+    Créer un cours
+  </button>
+</div>
+
+<div class="mt-16">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Cours programmés</h2>
+    <span class="text-sm text-gray-500"> {{ filteredCourses().length }} cours à venir </span>
+  </div>
+
+  <!-- Filtres -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <!-- Recherche -->
+    <div class="form-control">
+      <input
+        type="text"
+        placeholder="Rechercher un cours..."
+        class="input input-bordered"
+        (input)="onSearchChange($event)"
+        [value]="searchTerm()"
+      />
+    </div>
+
+    <!-- Filtre coach -->
+    <div class="form-control">
+      <select
+        class="select select-bordered"
+        (change)="onCoachFilterChange($event)"
+        [value]="selectedCoach()"
+      >
+        <option value="">Tous les coaches</option>
+        @for (coach of availableCoaches(); track coach) {
+          <option [value]="coach">{{ coach }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Filtre statut -->
+    <div class="form-control">
+      <select
+        class="select select-bordered"
+        (change)="onStatusFilterChange($event)"
+        [value]="selectedStatus()"
+      >
+        <option value="">Tous les statuts</option>
+        <option value="OPEN">Ouvert</option>
+        <option value="FULL">Complet</option>
+        <option value="CANCELLED">Annulé</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Liste des cours -->
+  @if (isLoading()) {
+    <div class="flex justify-center p-8">
+      <span class="loading loading-spinner loading-lg"></span>
+    </div>
+  } @else if (filteredCourses().length === 0) {
+    <div class="text-center p-8">
+      <p class="text-gray-500">Aucun cours programmé</p>
+    </div>
+  } @else {
+    <div class="flex flex-wrap gap-4">
+      @for (course of filteredCourses(); track course.id) {
+        <div class="card bg-base-100 shadow-sm border relative">
+          <div class="card-title justify-center text-primary">{{ course.title }}</div>
+          <div class="card-body">
+            <div class="flex justify-between items-start">
+              <div class="flex-1 flex flex-col gap-2">
+                <p class="text-gray-600 text-sm mb-2">{{ course.description }}</p>
+                <p class="flex items-center gap-2">
+                  <lucide-icon [img]="calendarIcon" size="20" />
+                  {{ formatDateTime(course.startDatetime) }}
+                </p>
+                <div class="flex gap-4">
+                  <p class="flex items-center gap-2">
+                    <lucide-icon [img]="userIcon" size="20" />
+                    {{ course.coachName }}
+                  </p>
+
+                  <p class="flex items-center gap-2">
+                    <lucide-icon [img]="clockIcon" size="20" />
+                    {{ course.duration }} min
+                  </p>
+                </div>
+                <p class="flex items-center gap-2">
+                  <lucide-icon [img]="usersIcon" size="20" />
+                  {{ course.userCoursesInfo.length || 0 }}/{{ course.personLimit }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions justify-end p-2">
+            <div class="mr-auto">
+              <span class="badge" [ngClass]="getStatusBadgeClass(course.status)">
+                {{
+                  course.status === 'OPEN'
+                    ? 'Ouvert'
+                    : course.status === 'FULL'
+                      ? 'Complet'
+                      : course.status === 'CANCELLED'
+                        ? 'Annulé'
+                        : course.status
+                }}
+              </span>
+            </div>
+
+            <button class="btn btn-sm btn-soft btn-primary" title="Modifier">
+              <lucide-icon [img]="editIcon" [size]="16" />
+            </button>
+            <button
+              class="btn btn-sm btn-soft btn-error"
+              title="Supprimer le cours"
+              (click)="confirmDeleteCourse(course)"
+            >
+              <lucide-icon [img]="trashIcon" [size]="16" />
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

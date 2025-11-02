@@ -1,37 +1,61 @@
 # name: CI/CD Angular
-#
-# on:
-#   push:
-#     branches:
-#       - main
-#       - dev
-#       - feature/**
-#       - fix/**
-#   pull_request:
-#     branches:
-#       - main
-#       - dev
-#
-# jobs:
-#   build-and-test:
-#     name: 🔧 Build and test
-#     runs-on: ubuntu-latest
-#
-#     steps:
-#       - name: 📥 Checkout du code
-#         uses: actions/checkout@v3
-#
-#       - name: ⚙️ Installer Node.js
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: 18
-#
-#       - name: 📦 Installer les dépendances
-#         run: npm ci
-#
-#   #      - name: 🧪 Lancer les tests
-#   #        run: npm run test -- --watch=false --browsers=ChromeHeadless
-#
+name: CI - Build & Tests
+
+on:
+  push:
+    branches:
+      - main
+      - preprod
+      - dev
+      - feature/**
+      - fix/**
+  pull_request:
+    branches:
+      - main
+      - preprod
+      - dev
+
+jobs:
+  build-and-test:
+    name: 🔧 Build + Tests unitaires + E2E
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Installer les dépendances
+        run: npm ci
+
+      - name: 🏗️ Build du projet Angular
+        run: npm run build --if-present
+
+      - name: 🧪 Tests unitaires
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+      - name: 🎭 Installer Playwright et navigateurs
+        run: npx playwright install --with-deps
+
+      - name: 🚀 Démarrer le serveur et lancer les tests E2E
+        run: npx start-server-and-test "npm run start" http://localhost:4200 "npx playwright test --reporter=html"
+        env:
+          CI: true
+
+      - name: 📊 Upload du rapport Playwright
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+
+
 #   deploy:
 #     name: 🚀 Déploiement sur le VPS
 #     needs: build-and-test

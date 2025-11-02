@@ -143,4 +143,10 @@ export class UserService {
         }),
       );
   }
+
+  getCoaches(): Observable<AuthUser[]> {
+    return this.loadAllUsers().pipe(
+      map((users) => users.filter((user) => user.roles.includes('ROLE_COACH'))),
+    );
+  }
 }

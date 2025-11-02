@@ -12,8 +12,6 @@ export class AuthService {
   userSignal = signal<AuthUser | null>(null);
   isLoggedInSignal = signal<boolean>(false);
   isAdminSignal = computed(() => this.userSignal()?.roles.includes('ROLE_ADMIN') ?? false);
-  isCoachSignal = computed(() => this.userSignal()?.roles.includes('ROLE_COACH') ?? false);
-  userUpdateSignal = signal<AuthUser | null>(null);
 
   #router: Router = inject(Router);
   #http = inject(HttpClient);
@@ -139,7 +137,9 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<AuthUser> {
-    return this.#http.get<AuthUser>(`${this.apiUrl}/auth/me`, { withCredentials: true });
+    return this.#http.get<AuthUser>(`${this.apiUrl}/auth/me`, {
+      withCredentials: true,
+    });
   }
 
   loadCurrentUser(): Observable<AuthUser> {

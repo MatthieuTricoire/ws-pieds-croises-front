@@ -51,6 +51,7 @@ describe('UserService', () => {
     usersId: [1, 2],
     coachName: 'Coach Anna',
     coachId: 5,
+    userCoursesInfo: [],
   };
 
   beforeEach(() => {

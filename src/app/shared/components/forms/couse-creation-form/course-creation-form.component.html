@@ -1,0 +1,186 @@
+<dialog id="create-course-modal" class="modal">
+  <div class="modal-box w-11/12 max-w-lg">
+    <h3 class="font-bold text-lg mb-4">Créer un nouveau cours</h3>
+
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+      <!-- Titre -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="title-input">
+          <span class="label-text">Titre du cours *</span>
+        </label>
+        <input
+          id="title-input"
+          type="text"
+          formControlName="title"
+          class="input input-bordered w-full"
+          [class.input-error]="courseForm.get('title')?.invalid && courseForm.get('title')?.touched"
+          placeholder="Ex: CrossFit débutant"
+        />
+        @if (courseForm.get('title')?.invalid && courseForm.get('title')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">
+              @if (courseForm.get('title')?.errors?.['required']) {
+                Le titre est requis
+              }
+              @if (courseForm.get('title')?.errors?.['minlength']) {
+                Le titre doit contenir au moins 2 caractères
+              }
+              @if (courseForm.get('title')?.errors?.['maxlength']) {
+                Le titre ne peut pas dépasser 100 caractères
+              }
+            </span>
+          </div>
+        }
+      </div>
+
+      <!-- Description -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="description-input">
+          <span class="label-text">Description *</span>
+        </label>
+        <textarea
+          id="description-input"
+          formControlName="description"
+          class="textarea textarea-bordered w-full"
+          [class.textarea-error]="
+            courseForm.get('description')?.invalid && courseForm.get('description')?.touched
+          "
+          placeholder="Description du cours..."
+          rows="3"
+        ></textarea>
+        @if (courseForm.get('description')?.invalid && courseForm.get('description')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">La description est requise</span>
+          </div>
+        }
+      </div>
+
+      <!-- Coach -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="coach-select">
+          <span class="label-text">Coach *</span>
+        </label>
+        <select
+          id="coach-select"
+          formControlName="coachId"
+          class="select select-bordered w-full"
+          [class.select-error]="
+            courseForm.get('coachId')?.invalid && courseForm.get('coachId')?.touched
+          "
+        >
+          <option value="">Choisir un coach</option>
+          @for (coach of coaches(); track coach.id) {
+            <option [value]="coach.id">{{ coach.firstname }} {{ coach.lastname }}</option>
+          }
+        </select>
+        @if (courseForm.get('coachId')?.invalid && courseForm.get('coachId')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">Veuillez sélectionner un coach</span>
+          </div>
+        }
+      </div>
+
+      <!-- Date et heure -->
+      <div class="form-control w-full mb-4">
+        <label class="label" for="datetime-input">
+          <span class="label-text">Date et heure *</span>
+        </label>
+        <input
+          id="datetime-input"
+          type="datetime-local"
+          formControlName="startDatetime"
+          class="input input-bordered w-full"
+          [class.input-error]="
+            courseForm.get('startDatetime')?.invalid && courseForm.get('startDatetime')?.touched
+          "
+        />
+        @if (courseForm.get('startDatetime')?.invalid && courseForm.get('startDatetime')?.touched) {
+          <div class="label">
+            <span class="label-text-alt text-error">
+              @if (courseForm.get('startDatetime')?.errors?.['required']) {
+                La date et l'heure sont requises
+              }
+              @if (courseForm.get('startDatetime')?.errors?.['pastDate']) {
+                La date doit être dans le futur
+              }
+            </span>
+          </div>
+        }
+      </div>
+
+      <!-- Durée et Nombre max -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <!-- Durée -->
+        <div class="form-control">
+          <label class="label" for="duration-input">
+            <span class="label-text">Durée (min) *</span>
+          </label>
+          <input
+            id="duration-input"
+            type="number"
+            formControlName="duration"
+            class="input input-bordered w-full"
+            [class.input-error]="
+              courseForm.get('duration')?.invalid && courseForm.get('duration')?.touched
+            "
+            placeholder="60"
+            min="15"
+            max="180"
+          />
+          @if (courseForm.get('duration')?.invalid && courseForm.get('duration')?.touched) {
+            <div class="label">
+              <span class="label-text-alt text-error">15-180 min</span>
+            </div>
+          }
+        </div>
+
+        <!-- Nombre max -->
+        <div class="form-control">
+          <label class="label" for="personLimit-input">
+            <span class="label-text">Places max *</span>
+          </label>
+          <input
+            id="personLimit-input"
+            type="number"
+            formControlName="personLimit"
+            class="input input-bordered w-full"
+            [class.input-error]="
+              courseForm.get('personLimit')?.invalid && courseForm.get('personLimit')?.touched
+            "
+            placeholder="12"
+            min="1"
+            max="30"
+          />
+          @if (courseForm.get('personLimit')?.invalid && courseForm.get('personLimit')?.touched) {
+            <div class="label">
+              <span class="label-text-alt text-error">1-30 pers.</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" (click)="closeModal()" [disabled]="isLoading()">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="courseForm.invalid || isLoading()"
+          [class.loading]="isLoading()"
+        >
+          @if (isLoading()) {
+            Création...
+          } @else {
+            Créer le cours
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button type="button" (click)="closeModal()">Fermer</button>
+  </form>
+</dialog>

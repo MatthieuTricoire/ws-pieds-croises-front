@@ -8,7 +8,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class UserSubscriptionService {
-  private apiUrl = environment.apiUrl + '/subscriptions';
+  private apiUrl = environment.apiUrl;
+  private userSubscriptionsUrl = this.apiUrl + '/user-subscriptions';
+  private userCoursesUrl = this.apiUrl + '/userCourses';
   private http = inject(HttpClient);
 
   getUserActiveSubscription(userId: number): Observable<UserSubscription | null> {
@@ -27,7 +29,7 @@ export class UserSubscriptionService {
   }
 
   getUserSubscriptions(userId: number): Observable<UserSubscription[]> {
-    return this.http.get<UserSubscription[]>(`${this.apiUrl}/user/${userId}`, {
+    return this.http.get<UserSubscription[]>(`${this.userSubscriptionsUrl}/user/${userId}`, {
       withCredentials: true,
     });
   }
@@ -36,7 +38,7 @@ export class UserSubscriptionService {
     const courseDateParam = courseDate.toISOString().split('T')[0];
 
     return this.http
-      .get<number>(`${this.apiUrl}/courses/user/${userId}/weekly-count`, {
+      .get<number>(`${this.userCoursesUrl}/user/${userId}/weekly-count`, {
         params: {
           weekDate: courseDateParam,
         },
