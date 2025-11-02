@@ -33,7 +33,6 @@ export class UsersTableComponent implements OnInit {
   editForm = new FormGroup({
     firstname: new FormControl<string>('', [Validators.required, Validators.minLength(1)]),
     lastname: new FormControl<string>('', [Validators.required, Validators.minLength(1)]),
-    email: new FormControl<string>('', [Validators.required, Validators.email]),
     phone: new FormControl<string>('', [Validators.required, Validators.minLength(1)]),
   });
 
@@ -130,7 +129,6 @@ export class UsersTableComponent implements OnInit {
     this.editForm.patchValue({
       firstname: user.firstname,
       lastname: user.lastname,
-      email: user.email,
       phone: user.phone,
     });
   }
