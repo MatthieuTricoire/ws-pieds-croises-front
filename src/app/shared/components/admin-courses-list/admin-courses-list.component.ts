@@ -161,7 +161,7 @@ export class AdminCoursesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  openCreateUserModal() {
+  openCreateCourseModal() {
     this.#modalService.show('create-course-modal');
   }
 }
