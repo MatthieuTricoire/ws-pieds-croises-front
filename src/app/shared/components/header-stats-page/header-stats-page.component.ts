@@ -5,6 +5,5 @@ import { TypographyComponent } from '../design-system/typography/typography.comp
   selector: 'app-header-stats-page',
   imports: [TypographyComponent],
   templateUrl: './header-stats-page.component.html',
-  styleUrl: './header-stats-page.component.css',
 })
 export class HeaderStatsPageComponent {}
