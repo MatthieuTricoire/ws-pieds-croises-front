@@ -14,6 +14,7 @@ import { MessagesPageComponent } from './pages/messages-page/messages-page.compo
 import { SubscriptionsPageComponent } from './pages/subscriptions-page/subscriptions-page.component';
 import { PlanningCoursesPageComponent } from './pages/planning-courses-page/planning-courses-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { StatisticsPageComponent } from './pages/statistics-page/statistics-page.component';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: HomePageComponent, canActivate: [authGuard] },
-      { path: 'stats', component: HomePageComponent, canActivate: [authGuard] },
+      { path: 'stats', component: StatisticsPageComponent, canActivate: [authGuard] },
       { path: 'planning', component: CourseReservationPageComponent, canActivate: [authGuard] },
       { path: 'profile', component: ProfilePageComponent, canActivate: [authGuard] },
 

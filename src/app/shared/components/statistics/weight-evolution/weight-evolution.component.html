@@ -1,0 +1,16 @@
+<div class="flex justify-between gap-5 mb-10">
+  <app-typography text="Évolution du poids" tagType="h2" />
+  <button (click)="onCreateWeightHistory()" class="btn btn-primary w-fit">
+    <lucide-icon [img]="plusIcon" />Ajouter
+  </button>
+</div>
+<app-stats-card>
+  <canvas
+    baseChart
+    [data]="lineChartData()"
+    [options]="lineChartOptions"
+    [type]="lineChartType"
+    class="w-full h-64"
+  >
+  </canvas>
+</app-stats-card>

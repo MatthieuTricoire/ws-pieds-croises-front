@@ -1,0 +1,26 @@
+<div class="flex justify-between gap-5 mb-10">
+  <app-typography text="Tes records en un clin d'oeil" tagType="h2" />
+  <button class="btn btn-primary w-fit"><lucide-icon [img]="plusIcon" />Ajouter</button>
+</div>
+<section class="grid grid-cols-2 gap-17 max-[890px]:grid-cols-1 max-[890px]:gap-8 max-[890px]:m-4">
+  @for (chart of exerciseCharts(); track $index) {
+    <app-stats-card>
+      <div class="flex justify-between flex-wrap gap-5 mb-5 mx-5">
+        <app-typography [text]="chart.exerciseName" tagType="h3" />
+        <button class="btn btn-primary w-fit">
+          <lucide-icon [img]="plusIcon" />Nouvelle performance
+        </button>
+      </div>
+      <div class="w-full h-64">
+        <canvas
+          baseChart
+          [data]="chart.chartData"
+          [options]="lineChartOptions"
+          [type]="lineChartType"
+          class="w-full h-full"
+        >
+        </canvas>
+      </div>
+    </app-stats-card>
+  }
+</section>

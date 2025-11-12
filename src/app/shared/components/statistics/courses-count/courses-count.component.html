@@ -1,0 +1,11 @@
+<app-typography text="Chaque séance compte" tagType="h2" className="mb-10" />
+<app-stats-card>
+  <canvas
+    baseChart
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [type]="barChartType"
+    class="w-full h-64"
+  >
+  </canvas>
+</app-stats-card>
